@@ -1,0 +1,557 @@
+{
+  "personal": {
+    "name": "Samir Randeriya",
+    "firstName": "Samir",
+    "lastName": "Randeriya",
+    "initials": "SR",
+    "title": "Senior Lead Software Engineer",
+    "roles": [
+      "Senior Lead Software Engineer",
+      "Full Stack Developer",
+      "Laravel Developer",
+      "React.js Developer",
+      "Vue.js Developer",
+      "API Architect",
+      "Frontend Developer",
+      "Backend Developer"
+    ],
+    "bio": "Hi! I'm **Samir Randeriya**, a passionate **Senior Lead Software Engineer** with over 4 years of experience building scalable web applications and robust backend systems. I specialize in **Laravel**, **PHP**, **Vue.js**, **React.js**, **Nuxt.js**, and modern web technologies, turning complex ideas into elegant, functional solutions. I have extensive experience with **RESTful APIs**, **database design**, and **cloud infrastructure**. My journey is driven by continuous learning, contributing to open-source projects, and staying current with emerging technologies to deliver exceptional digital experiences.",
+    "email": "sam.randeriya121@gmail.com",
+    "phone": "+91 909 9940 0550",
+    "location": "Surat, Gujarat, India",
+    "linkedin": "linkedin.com/in/samir-randeriya-578a17185/",
+    "github": "https://github.com/samir-randeriya",
+    "twitter": "https://x.com/s_randeriya",
+    "resumeUrl": "/resume.pdf"
+  },
+  "hero": {
+    "greeting": "Hi, I'm",
+    "rolePrefix": "I'm a ",
+    "description": {
+      "primary": "Transforming ideas into **high-performance applications** that scale from startup to enterprise",
+      "secondary": "Senior Lead Engineer crafting **secure, scalable solutions** with Laravel, React & modern tech stack."
+    },
+    "techStack": ["PHP", "Laravel", "Vue.js", "React.js", "Nuxt.js", "Quasar", "Tailwind CSS", "Git"],
+    "buttons": [
+      {
+        "text": "View My Work", 
+        "icon": "🚀",
+        "action": "scrollToProjects",
+        "type": "primary"
+      },
+      {
+        "text": "Download Resume",
+        "icon": "📄", 
+        "action": "downloadResume",
+        "type": "secondary"
+      },
+      {
+        "text": "Let's Talk",
+        "icon": "💬",
+        "action": "scrollToContact", 
+        "type": "secondary"
+      }
+    ]
+  },
+  "about": {
+    "title": "Meet the Developer Behind the Code",
+    "subtitle": "I'm a proactive Lead Software Engineer passionate about building scalable, secure, and efficient web applications that solve real-world problems.",
+    "skills": [
+      { "name": "Frontend Development", "percentage": 95, "color": "blue" },
+      { "name": "Backend Development", "percentage": 90, "color": "purple" },
+      { "name": "Database Design", "percentage": 85, "color": "green" },
+      { "name": "DevOps & Deployment", "percentage": 80, "color": "orange" }
+    ],
+    "personalStats": [
+      { "number": "4+", "label": "Years Experience", "color": "from-blue-500 to-purple-500" },
+      { "number": "15+", "label": "Major Projects Led", "color": "from-purple-500 to-pink-500" },
+      { "number": "20+", "label": "Technologies Used", "color": "from-pink-500 to-red-500" },
+      { "number": "100%", "label": "Code Passion", "color": "from-red-500 to-orange-500" }
+    ],
+    "qualities": [
+      {
+        "icon": "🛠️",
+        "title": "Technical Leader",
+        "description": "Led cross-functional teams and improved project delivery through strategic planning and mentorship."
+      },
+      {
+        "icon": "🚀",
+        "title": "Performance Optimizer",
+        "description": "Boosted app performance by 40%, enabling 3x user traffic without service degradation."
+      },
+      {
+        "icon": "🔐",
+        "title": "Security Focused",
+        "description": "Delivered secure systems by leading audits, applying best practices, and implementing threat detection."
+      },
+      {
+        "icon": "🧠",
+        "title": "Continuous Learner",
+        "description": "Always exploring new tech stacks and trends to deliver future-ready digital experiences."
+      }
+    ],
+    "cta": {
+      "title": "Ready to Build Something Amazing?",
+      "description": "Let's connect and create software solutions that are secure, scalable, and impactful.",
+      "buttons": [
+        { "text": "Start a Conversation", "href": "#contact", "type": "primary" },
+        { "text": "View My Work", "href": "#projects", "type": "secondary" }
+      ]
+    }
+  },
+  "skills": {
+    "title": "My Technical Expertise",
+    "subtitle": "Technologies and tools I use to build secure, scalable, and high-performance web applications.",
+    "categories": [
+      {
+        "title": "Frontend Development",
+        "icon": "🎨",
+        "description": "Building responsive, user-friendly interfaces with modern frameworks",
+        "skills": ["Vue.js", "React.js", "Nuxt.js", "Livewire", "Tailwind CSS", "Bootstrap", "TypeScript", "Quasar"],
+        "gradient": "from-blue-500 to-cyan-500",
+        "delay": 0
+      },
+      {
+        "title": "Backend Development",
+        "icon": "⚙️",
+        "description": "Creating secure and performant server-side applications and APIs",
+        "skills": ["PHP", "Laravel", "Laravel Nova", "Backpack", "CodeIgniter", "Symfony", "RESTful APIs", "GraphQL"],
+        "gradient": "from-green-500 to-emerald-500",
+        "delay": 0.1
+      },
+      {
+        "title": "Database & Storage",
+        "icon": "🗄️",
+        "description": "Managing structured and unstructured data efficiently",
+        "skills": ["PostgreSQL", "MySQL", "MongoDB", "Firebase", "Redis", "MSSQL", "SQLite"],
+        "gradient": "from-purple-500 to-pink-500",
+        "delay": 0.2
+      },
+      {
+        "title": "DevOps & Cloud",
+        "icon": "☁️",
+        "description": "Deploying and scaling apps with CI/CD and cloud infrastructure",
+        "skills": ["Azure DevOps", "Bitbucket", "GitLab CI/CD", "GitHub Actions", "Docker"],
+        "gradient": "from-orange-500 to-red-500",
+        "delay": 0.3
+      },
+      {
+        "title": "Tools & Workflow",
+        "icon": "🛠️",
+        "description": "Productivity tools and collaboration platforms for efficient development",
+        "skills": ["Git", "VS Code", "Postman", "Jira", "Trello", "Slack", "Asana", "Monday.com"],
+        "gradient": "from-indigo-500 to-blue-500",
+        "delay": 0.4
+      },
+      {
+        "title": "Testing & Quality",
+        "icon": "🧪",
+        "description": "Ensuring performance, security, and usability across applications",
+        "skills": ["Manual Testing", "Automated Testing", "Security Testing", "Performance Testing", "Usability Testing"],
+        "gradient": "from-yellow-500 to-orange-500",
+        "delay": 0.5
+        }
+    ],
+    "proficiencyLevels": [
+      { "name": "Expert", "percentage": 95, "color": "from-green-400 to-emerald-600", "count": 6 },
+      { "name": "Advanced", "percentage": 85, "color": "from-blue-400 to-cyan-600", "count": 10 },
+      { "name": "Intermediate", "percentage": 70, "color": "from-yellow-400 to-orange-600", "count": 7 },
+      { "name": "Learning", "percentage": 40, "color": "from-purple-400 to-pink-600", "count": 4 }
+    ],
+    "currentlyLearning": [
+        "AI/ML Integration",
+        "Web3 Security",
+        "Serverless Architecture",
+        "Advanced Laravel Packages",
+        "Multi-tenant Architecture",
+        "DevSecOps"
+    ],
+    "cta": {
+        "title": "Let's Build Future-Ready Solutions",
+        "description": "If you're looking to work with someone who combines experience with modern tools to create impactful digital products—I'm your developer.",
+       "buttons": [
+        { "text": "View My Projects", "href": "#projects", "type": "primary" },
+        { "text": "Let's Collaborate", "href": "#contact", "type": "secondary" }
+      ]
+    }
+  },
+  "projects": {
+    "title": "Featured Projects",
+    "subtitle": "Real-world applications built with performance, scalability, and security in mind.",
+    "projects": [
+      {
+        "id": "01",
+        "title": "Dynamic File Management System",
+        "category": "Full Stack Development",
+        "description": "I developed a file management system with a user-friendly frontend and robust backend, featuring authentication, file uploads, previews, search, multi-file deletion, pagination, and performance optimization across devices.",
+        "image": "📁",
+        "color": "from-blue-600 to-indigo-600",
+        "technologies": ["Laravel", "RESTful API", "React", "Authentication", "File Handling"],
+        "metrics": [
+            { "label": "Role", "value": "Full Stack" },
+            { "label": "Published", "value": "Jan 2025" },
+            { "label": "Platform", "value": "Web" }
+        ],
+        "liveUrl": "",
+        "githubUrl": "https://github.com/samir-randeriya/file-management",
+        "featured": true
+      },
+      {
+        "id": "02",
+        "title": "Asset Management",
+        "category": "Full Stack Laravel Development",
+        "description": "A comprehensive asset management system that helps organizations track equipment and inventory vital to their day-to-day operations.",
+        "image": "📦",
+        "color": "from-purple-500 to-pink-500", 
+        "technologies": ["Laravel", "Tailwind CSS", "MySQL", "Admin Panel", "User Experience"],
+        "metrics": [
+            { "label": "Role", "value": "Full Stack" },
+            { "label": "Published", "value": "Aug 2024" },
+            { "label": "Platform", "value": "Web" }
+        ],
+        "liveUrl": "",
+        "githubUrl": "http://github.com/samir-randeriya/laravel-asset-management",
+        "featured": true
+      },
+      {
+        "id": "03",
+        "title": "MealVista – Recipe Search App",
+        "category": "Frontend Development",
+        "description": "A responsive Vue.js-based food recipe app that lets users search meals, view ingredients, watch cooking videos, and explore detailed recipes with a clean, interactive UI.",
+        "image": "🍳",
+        "color": "from-amber-500 to-orange-500",
+        "technologies": ["Vue.js", "Tailwind CSS", "API Integration", "Vercel"],
+        "metrics": [
+          { "label": "Published", "value": "2025" },
+          { "label": "Role", "value": "Frontend" },
+          { "label": "Platform", "value": "Web" }
+        ],
+        "liveUrl": "https://samir-frontend-developer.vercel.app/",
+        "githubUrl": "https://github.com/samir-randeriya/MealVista-A-Modern-Recipe-Search-App",
+        "featured": false
+      },
+      {
+        "id": "04",
+        "title": "E-commerce Platform",
+        "category": "Full-Stack Development",
+        "description": "A complete e-commerce platform with user and admin panels featuring product catalog, cart, checkout, order tracking, and comprehensive admin dashboard for product, category, coupon and user management.",
+        "image": "🛍️",
+        "color": "from-orange-500 to-red-500", 
+        "technologies": ["Laravel", "Bootstrap", "jQuery", "PHP", "MySQL"],
+        "metrics": [
+          { "label": "Role", "value": "Full-Stack" },
+          { "label": "Published", "value": "2024" },
+          { "label": "Features", "value": "10+" }
+        ],
+        "liveUrl": "https://demo-ai-content.com",
+        "githubUrl": "https://github.com/username/ai-content",
+        "featured": false
+      }
+    ],
+    "cta": {
+      "title": "Like What You See?",
+      "description": "Let’s build your next secure, scalable, and impactful project together.",
+      "buttons": [
+        { "text": "Start a Project", "action": "scrollToContact", "type": "primary" },
+        { "text": "View All Work", "action": "openGithub", "type": "secondary" }
+      ]
+    }
+  },
+  "experience": {
+    "title": "Professional Experience",
+    "subtitle": "Real-world impact delivering secure, scalable, and user-centric software solutions across industries.",
+    "experiences": [
+      {
+        "id": 1,
+        "title": "Senior Lead Software Engineer",
+        "company": "Logix Built Solution LTD",
+        "period": "2021 - Present",
+        "location": "Surat, Gujarat, India",
+        "type": "Full-time",
+        "icon": "💼",
+        "description": "Leading frontend development for enterprise-level applications with React.js and TypeScript. Spearheading UI/UX improvements and mentoring junior developers. ", 
+        "achievements": [
+          "Resolved complex technical issues, improving system stability and reducing bug-related delays across multiple development cycles.",
+          "Optimized codebase, resulting in a 40% improvement in application performance and supporting a 3x increase in user traffic without degradation.",
+          "Mentored 5 junior developers, leading to a 30% improvement in their code quality and faster onboarding into production-level tasks.",
+          "Led the delivery of 5+ high-impact projects, aligning cross-functional teams and maintaining 100% adherence to deadlines and quality benchmarks"
+        ],
+        "technologies": ["Laravel", "Laravel Nova", "Livewire", "Alpine.js", "RESTful APIs", "PostgreSQL", "Docker", "AWS", "CI/CD"],
+        "gradient": "from-blue-500 to-cyan-500"
+      },
+      {
+        "id": 2,
+        "title": "Full Stack Developer",
+        "company": "SK AI Technologies and Solutions",
+        "period": "May 2021 - August 2021",
+        "location": "Remote",
+        "type": "Internship",
+        "icon": "🌱",
+        "description": "Developed and maintained web applications using MERN stack. Collaborated with product team to implement new features and optimize existing functionality.",
+        "achievements": [
+          "Developed 10+ responsive landing pages for client projects",
+          "Contributed to company's component library documentation",
+          "Participated in daily standups and sprint planning sessions"
+        ],
+        "technologies": ["PHP", "MySQL", "HTML", "CSS", "JavaScript", "Bootstrap", "JQuery", "Git", "Laravel"],
+        "gradient": "from-green-500 to-emerald-500"
+      },
+      {
+        "id": 3,
+        "title": "Web Developer",
+        "company": "Olcademy",
+        "period": "April 2020 - July 2020",
+        "location": "Remote",
+        "type": "Internship",
+        "icon": "🚀",
+        "description": "Developed and maintained web applications using MERN stack. Collaborated with product team to implement new features and optimize existing functionality. ",
+        "achievements": [
+          "Collaborated with 4+ cross-functional teams to integrate APIs and services across multiple components, improving overall system interoperability by 30%.",
+          "Reviewed and resolved 100+ customer-reported bugs, improving system stability and customer satisfaction by 20%.",
+          "Participated in 50+ code reviews, identifying critical issues and contributing to a 15% reduction in post-deployment defects."
+        ],
+        "technologies": ["PHP", "MySQL", "HTML", "CSS", "JavaScript", "Bootstrap", "JQuery", "Git"],
+        "gradient": "from-purple-500 to-pink-500"
+      }
+    ],
+    "cta": {
+      "title": "Ready for the Next Chapter?",
+      "description": "Let’s collaborate to build secure, scalable apps that solve real problems. I bring code quality, experience, and ownership to the table.",
+      "buttonText": "Let's Connect"
+    }
+  },
+  "education": {
+    "title": "Education",
+    "subtitle": "My educational journey in computer science and continuous learning",
+    "education": [
+      {
+        "degree": "Master of Computer Applications",
+        "institution": "Dr.Vishwanath Karad MIT WORLD PEACE UNIVERSITY`",
+        "period": "2019 - 2022",
+        "gpa": "9.0/10",
+        "achievements": [],
+        "coursework": ["Data Structures", "Algorithms", "Database Systems", "Web Development", "Software Engineering", "Operating Systems", "Computer Networks", "Computer Architecture", "Data Science", "Cloud Computing", "DevOps", "Cybersecurity", "Web3", "Web3 Security", "Serverless Architecture", "Advanced Laravel Packages", "DevSecOps"]
+      },
+      {
+        "degree": "Bachelor of Computer Applications",
+        "institution": "SDJ International College",
+        "period": "2016 - 2019",
+        "gpa": "7.8/10",
+        "achievements": [],
+        "coursework": ["HTML", "PHP", "C++", "Web Development", "Java", "Operating Systems", "Computer Networks", "Data Science", "Cloud Computing", "DevOps"]
+      }
+    ],
+    "certifications": [
+      { "name": "Introduction to Structured Query Language (SQL)", "issuer": "Coursera", "year": "June 2020" },
+      { "name": "Building Web Applications in PHP", "issuer": "Coursera", "year": "May 2020" },
+      { "name": "Javascript Basic to Advanced", "issuer": "Udemy", "year": "January 2021" },
+      { "name": "The complete ReactJs Course - Basic to Advanced", "issuer": "Udemy", "year": "March 2021" }
+    ]
+  },
+  "contact": {
+    "title": "Get In Touch",
+    "subtitle": "Have a project in mind or want to collaborate? I'd love to hear from you. Let's discuss how we can work together to bring your ideas to life.",
+    "availability": {
+      "status": "Available for Projects",
+      "description": "Open for freelance and full-time projects. Let's collaborate to build something impactful!"
+    },
+    "contactInfo": [
+      {
+        "icon": "📧",
+        "label": "Email",
+        "value": "sam.randeriya121@gmail.com",
+        "link": "mailto:sam.randeriya121@gmail.com",
+        "color": "from-red-500 to-pink-500",
+        "bgColor": "bg-red-50 dark:bg-red-900/20"
+      },
+      {
+        "icon": "📱",
+        "label": "Phone",
+        "value": "+91 909 9940 0550",
+        "link": "tel:+9190999400550",
+        "color": "from-green-500 to-emerald-500",
+        "bgColor": "bg-green-50 dark:bg-green-900/20"
+      },
+      {
+        "icon": "📍",
+        "label": "Location",
+        "value": "Surat, Gujarat, India",
+        "link": "https://maps.google.com/?q=Surat,Gujarat,India",
+        "color": "from-blue-500 to-cyan-500",
+        "bgColor": "bg-blue-50 dark:bg-blue-900/20"
+      },
+      {
+        "icon": "💼",
+        "label": "LinkedIn",
+        "value": "linkedin.com/in/samir-randeriya-578a17185/",
+        "link": "https://www.linkedin.com/in/samir-randeriya-578a17185/",
+        "color": "from-purple-500 to-violet-500",
+        "bgColor": "bg-purple-50 dark:bg-purple-900/20"
+      }
+    ],
+    "form": {
+      "title": "Send Message",
+      "successMessage": "Message sent successfully! I'll get back to you soon.",
+      "fields": [
+        { "name": "name", "label": "Your Name", "type": "text", "required": true },
+        { "name": "email", "label": "Email Address", "type": "email", "required": true },
+        { "name": "subject", "label": "Subject", "type": "text", "required": true },
+        { "name": "message", "label": "Message", "type": "textarea", "required": true, "rows": 4 }
+      ],
+      "submitText": "Send Message",
+      "submittingText": "Sending..."
+    }
+  },
+  "reviews": {
+    "title": "Client Reviews & Testimonials",
+    "subtitle": "Here's what my clients say about working with me",
+    "stats": [
+      { "number": "50+", "label": "Projects Completed" },
+      { "number": "100%", "label": "Client Satisfaction" },
+      { "number": "4.9/5", "label": "Average Rating" },
+      { "number": "24h", "label": "Average Response Time" }
+    ],
+    "reviews": [
+      {
+        "name": "Sarah Johnson",
+        "role": "Product Manager",
+        "company": "TechStart Inc.",
+        "avatar": "👩‍💼",
+        "rating": 5,
+        "feedback": "Exceptional work! The developer delivered a high-quality React application that exceeded our expectations. Great communication throughout the project and delivered on time.",
+        "project": "E-commerce Dashboard",
+        "date": "March 2024"
+      },
+      {
+        "name": "Michael Chen",
+        "role": "Startup Founder",
+        "company": "InnovateCorp",
+        "avatar": "👨‍💻",
+        "rating": 5,
+        "feedback": "Outstanding frontend developer with excellent problem-solving skills. Built our entire web platform from scratch with modern technologies. Highly recommended!",
+        "project": "Web Platform Development",
+        "date": "February 2024"
+      },
+      {
+        "name": "Emily Rodriguez",
+        "role": "Marketing Director",
+        "company": "Digital Solutions Ltd.",
+        "avatar": "👩‍🎨",
+        "rating": 5,
+        "feedback": "Perfect blend of technical expertise and creativity. The responsive design looks amazing on all devices and the performance is fantastic. Will definitely work together again.",
+        "project": "Company Website Redesign",
+        "date": "January 2024"
+      },
+      {
+        "name": "David Thompson",
+        "role": "CTO",
+        "company": "FinanceFlow",
+        "avatar": "👨‍💼",
+        "rating": 5,
+        "feedback": "Delivered a complex financial dashboard with excellent code quality. Great attention to detail and security best practices. Professional and reliable.",
+        "project": "Financial Dashboard",
+        "date": "December 2023"
+      },
+      {
+        "name": "Lisa Park",
+        "role": "Agency Owner",
+        "company": "Creative Minds Agency",
+        "avatar": "👩‍🚀",
+        "rating": 5,
+        "feedback": "Incredible work on our client projects. Fast turnaround, pixel-perfect implementations, and excellent communication. Our go-to developer for React projects.",
+        "project": "Multiple Client Projects",
+        "date": "November 2023"
+      },
+      {
+        "name": "James Wilson",
+        "role": "E-commerce Manager",
+        "company": "RetailPlus",
+        "avatar": "👨‍🏭",
+        "rating": 5,
+        "feedback": "Built our entire e-commerce platform with shopping cart, payment integration, and admin panel. Exceeded expectations in terms of quality and performance.",
+        "project": "E-commerce Platform",
+        "date": "October 2023"
+      }
+    ],
+    "cta": {
+      "title": "Ready to Start Your Project?",
+      "description": "Join the growing list of satisfied clients. Let's discuss your project requirements and create something amazing together.",
+      "buttons": [
+        { "text": "Get Started", "action": "scrollToContact", "type": "primary" },
+        { "text": "View Portfolio", "href": "#projects", "type": "secondary" }
+      ]
+    }
+  },
+  "navigation": {
+    "brand": {
+      "initials": "SR",
+      "name": "Samir Randeriya",
+      "title": "Senior Lead Software Engineer"
+    },
+    "menuItems": [
+      { "name": "Home", "href": "#home" },
+      { "name": "About", "href": "#about" },
+      { "name": "Skills", "href": "#skills" },
+      { "name": "Projects", "href": "#projects" },
+      { "name": "Experience", "href": "#experience" },
+      { "name": "Contact", "href": "#contact" }
+    ],
+    "cta": {
+      "text": "Hire Me",
+      "action": "scrollToContact"
+    }
+  },
+  "footer": {
+    "brand": {
+      "name": "Samir Randeriya",
+      "description": "Passionate Senior Lead Software Engineer creating beautiful, functional, and user-friendly applications using modern technologies and best practices."
+    },
+    "socialLinks": [
+      {
+        "name": "GitHub",
+        "icon": "📚",
+        "url": "https://github.com/samir-randeriya"
+      },
+      {
+        "name": "LinkedIn",
+        "icon": "💼",
+        "url": "https://www.linkedin.com/in/samir-randeriya-578a17185/"
+      },
+      {
+        "name": "Twitter",
+        "icon": "🐦",
+        "url": "https://x.com/s_randeriya"
+      },
+      {
+        "name": "Email",
+        "icon": "📧",
+        "url": "mailto:sam.randeriya121@gmail.com"
+      }
+    ],
+    "quickLinks": [
+      { "name": "Home", "href": "#home" },
+      { "name": "About", "href": "#about" },
+      { "name": "Skills", "href": "#skills" },
+      { "name": "Projects", "href": "#projects" },
+      { "name": "Contact", "href": "#contact" }
+    ],
+    "contactInfo": [
+      {
+        "icon": "📧",
+        "value": "sam.randeriya121@gmail.com"
+      },
+      {
+        "icon": "📱",
+        "value": "+91 909 9940 0550"
+      },
+      {
+        "icon": "📍",
+        "value": "Surat, Gujarat, India"
+      }
+    ],
+    "legalLinks": [
+      { "name": "Privacy Policy", "href": "/privacy" }
+    ],
+    "copyright": "Samir Randeriya. All rights reserved."
+  }
+} 
