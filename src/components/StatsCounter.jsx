@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect, useRef, useMemo } from 'react';
 import { 
   FadeSlideUp, 
   StaggerContainer, 
@@ -10,9 +10,9 @@ export default function StatsCounter() {
   const [isVisible, setIsVisible] = useState(false);
   const sectionRef = useRef(null);
 
-  const stats = [
+  const stats = useMemo(() => [
     {
-      number: 50,
+      number: 20,
       suffix: '+',
       label: 'Projects Completed',
       description: 'Full-stack applications, websites, and mobile apps delivered',
@@ -28,7 +28,7 @@ export default function StatsCounter() {
       gradient: 'from-green-500 to-emerald-500'
     },
     {
-      number: 3,
+      number: 4,
       suffix: '+',
       label: 'Years of Experience',
       description: 'Building scalable web applications and digital solutions',
@@ -43,7 +43,7 @@ export default function StatsCounter() {
       icon: '✨',
       gradient: 'from-orange-500 to-red-500'
     }
-  ];
+  ], []);
 
   // Individual counter states for each stat
   const [count0, setCount0] = useState(0);
@@ -51,11 +51,12 @@ export default function StatsCounter() {
   const [count2, setCount2] = useState(0);
   const [count3, setCount3] = useState(0);
 
-  const setters = [setCount0, setCount1, setCount2, setCount3];
+  const setters = useMemo(() => [setCount0, setCount1, setCount2, setCount3], []);
   const counts = [count0, count1, count2, count3];
 
   // Intersection Observer to trigger animation
   useEffect(() => {
+    const currentRef = sectionRef.current;
     const observer = new IntersectionObserver(
       ([entry]) => {
         if (entry.isIntersecting) {
@@ -65,13 +66,13 @@ export default function StatsCounter() {
       { threshold: 0.1 }
     );
 
-    if (sectionRef.current) {
-      observer.observe(sectionRef.current);
+    if (currentRef) {
+      observer.observe(currentRef);
     }
 
     return () => {
-      if (sectionRef.current) {
-        observer.unobserve(sectionRef.current);
+      if (currentRef) {
+        observer.unobserve(currentRef);
       }
     };
   }, []);
@@ -79,6 +80,8 @@ export default function StatsCounter() {
   // Animate counters when visible
   useEffect(() => {
     if (!isVisible) return;
+
+    const timers = [];
 
     stats.forEach((stat, index) => {
       const setter = setters[index];
@@ -96,9 +99,13 @@ export default function StatsCounter() {
         }
       }, 16);
 
-      return () => clearInterval(timer);
+      timers.push(timer);
     });
-  }, [isVisible]);
+
+    return () => {
+      timers.forEach(timer => clearInterval(timer));
+    };
+  }, [isVisible, setters, stats]);
 
   return (
     <section 
@@ -185,7 +192,7 @@ export default function StatsCounter() {
               {/* Mini Achievement List */}
               <div className="flex flex-wrap justify-center gap-4 mt-6">
                 {[
-                  '🏆 Top 5% Developer on Upwork',
+                  '⭐ Completed Project with 5-Star Rating',
                   '⭐ 100% Client Satisfaction Rate',
                   '🎯 Zero-Bug Production Deployments',
                   '🚀 Performance Optimization Specialist'

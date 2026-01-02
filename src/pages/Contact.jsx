@@ -1,11 +1,9 @@
 import { useState, useCallback } from 'react';
 import { 
-  FadeSlideUp, 
   SlideFromEdge, 
   StaggerContainer, 
   StaggerItem, 
-  SectionHeader,
-  ScaleIn
+  SectionHeader
 } from '../components/ScrollAnimations';
 import { motion } from 'framer-motion';
 import portfolioData from '../data/portfolioContent.json';

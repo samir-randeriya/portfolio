@@ -212,7 +212,7 @@ export default function Home() {
               <button
                 key={index}
                 onClick={buttonActions[button.action]}
-                className={`group relative px-10 py-4 rounded-full font-bold text-lg hover:scale-105 transition-all duration-300 overflow-hidden ${
+                className={`group relative px-10 py-4 rounded-full font-bold text-lg hover:scale-105 transition-all duration-300 overflow-hidden cursor-pointer ${
                   button.type === 'primary'
                     ? 'bg-gradient-to-r from-blue-600 via-purple-600 to-pink-600 text-white hover:shadow-2xl hover:shadow-blue-500/30'
                     : 'border-2 border-white/30 text-white hover:bg-gradient-to-r hover:from-white/10 hover:to-white/5 hover:border-white/50 hover:shadow-lg hover:shadow-white/20 backdrop-blur-lg'

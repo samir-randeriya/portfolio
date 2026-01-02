@@ -250,8 +250,6 @@ export default function SocialSidebar() {
         </motion.div>
       </div>
 
-
-
       {/* Mobile Slide-in Drawer (< 768px) */}
       <div className="md:hidden">
         {/* Toggle Button */}
@@ -260,7 +258,7 @@ export default function SocialSidebar() {
           animate={{ opacity: 1, scale: 1 }}
           transition={{ duration: 0.4, delay: 1.5 }}
           onClick={toggleDrawer}
-          className="fixed bottom-4 right-4 z-50 w-12 h-12 bg-gradient-to-br from-purple-500 to-indigo-500 text-white rounded-full shadow-xl flex items-center justify-center transition-all duration-300 hover:scale-110 active:scale-95"
+          className="fixed bottom-6 right-6 z-50 w-14 h-14 bg-gradient-to-br from-purple-500 to-indigo-500 text-white rounded-full shadow-xl flex items-center justify-center transition-all duration-300 hover:scale-110 active:scale-95"
           aria-label={isDrawerOpen ? "Close social menu" : "Open social menu"}
         >
           <div className="absolute inset-0 bg-white/10 backdrop-blur-sm rounded-full" />
@@ -270,9 +268,9 @@ export default function SocialSidebar() {
             className="relative z-10"
           >
             {isDrawerOpen ? (
-              <FaTimes className="w-5 h-5" />
+              <FaTimes className="w-6 h-6" />
             ) : (
-              <FaShareAlt className="w-5 h-5" />
+              <FaShareAlt className="w-6 h-6" />
             )}
           </motion.div>
         </motion.button>
@@ -286,9 +284,9 @@ export default function SocialSidebar() {
             opacity: isDrawerOpen ? 1 : 0
           }}
           transition={{ duration: 0.3, ease: "easeInOut" }}
-          className="fixed right-0 bottom-16 w-44 z-40"
+          className="fixed right-0 bottom-20 w-52 z-40"
         >
-          <div className="flex flex-col gap-4 items-center py-6 px-4 bg-white/10 dark:bg-zinc-900/80 backdrop-blur-md rounded-l-xl shadow-xl border-l border-t border-b border-white/20 dark:border-zinc-700/50">
+          <div className="flex flex-col gap-3 items-center py-6 px-5 bg-white/95 dark:bg-gray-900/95 backdrop-blur-lg rounded-l-2xl shadow-2xl border-l border-t border-b border-gray-200/50 dark:border-gray-700/50">
             {socialLinks.map((social, index) => {
               const IconComponent = social.icon;
               
@@ -300,26 +298,40 @@ export default function SocialSidebar() {
                   rel="noopener noreferrer"
                   aria-label={`Visit ${social.name} profile`}
                   title={social.name}
-                  initial={{ opacity: 0, y: 20 }}
+                  initial={{ opacity: 0, x: 20 }}
                   animate={{ 
                     opacity: isDrawerOpen ? 1 : 0, 
-                    y: isDrawerOpen ? 0 : 20 
+                    x: isDrawerOpen ? 0 : 20 
                   }}
                   transition={{ 
                     duration: 0.3, 
-                    delay: isDrawerOpen ? index * 0.05 : 0,
+                    delay: isDrawerOpen ? index * 0.08 : 0,
                     ease: "easeOut"
                   }}
-                  className="relative flex items-center justify-center w-9 h-9 rounded-full transition-all duration-300 hover:scale-110 hover:bg-white/20 active:scale-95 text-white"
-                  onMouseEnter={() => setHoveredIndex(index)}
-                  onMouseLeave={() => setHoveredIndex(null)}
+                  className="relative flex items-center justify-center w-12 h-12 bg-gray-100/80 dark:bg-gray-800/80 hover:bg-gray-200/80 dark:hover:bg-gray-700/80 rounded-xl transition-all duration-300 hover:scale-110 active:scale-95 group overflow-hidden"
+                  onTouchStart={() => setHoveredIndex(index)}
+                  onTouchEnd={() => setHoveredIndex(null)}
                   onClick={() => setIsDrawerOpen(false)}
                 >
+                  {/* Gradient background on hover/touch */}
+                  <motion.div
+                    className={`absolute inset-0 bg-gradient-to-br ${social.bgGradient} opacity-0 group-hover:opacity-90 group-active:opacity-90 transition-opacity duration-300 rounded-xl`}
+                    animate={hoveredIndex === index ? { opacity: 0.9 } : { opacity: 0 }}
+                  />
+                  
+                  {/* Icon */}
                   <IconComponent 
-                    className="w-5 h-5 transition-colors duration-300"
+                    className="w-6 h-6 text-gray-600 dark:text-gray-300 group-hover:text-white group-active:text-white transition-colors duration-300 relative z-10"
                     style={{
-                      color: hoveredIndex === index ? social.hoverColor : undefined
+                      color: hoveredIndex === index ? '#fff' : undefined
                     }}
+                  />
+                  
+                  {/* Subtle glow effect */}
+                  <motion.div
+                    className="absolute inset-0 opacity-0 group-hover:opacity-20 group-active:opacity-20 transition-opacity duration-300 rounded-xl blur-sm"
+                    style={{ backgroundColor: social.hoverColor }}
+                    animate={hoveredIndex === index ? { opacity: 0.2 } : { opacity: 0 }}
                   />
                 </motion.a>
               );
@@ -329,16 +341,16 @@ export default function SocialSidebar() {
 
         {/* Backdrop overlay */}
         {isDrawerOpen && (
-                     <motion.div
-             initial={{ opacity: 0 }}
-             animate={{ opacity: 1 }}
-             exit={{ opacity: 0 }}
-             transition={{ duration: 0.3 }}
-             className="fixed inset-0 bg-black/20 z-30"
-             onClick={() => setIsDrawerOpen(false)}
-           />
-         )}
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.3 }}
+            className="fixed inset-0 bg-black/20 backdrop-blur-sm z-30"
+            onClick={() => setIsDrawerOpen(false)}
+          />
+        )}
       </div>
     </>
   );
-} 
+}

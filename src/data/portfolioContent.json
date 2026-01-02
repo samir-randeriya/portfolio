@@ -66,7 +66,7 @@
       { "number": "4+", "label": "Years Experience", "color": "from-blue-500 to-purple-500" },
       { "number": "15+", "label": "Major Projects Led", "color": "from-purple-500 to-pink-500" },
       { "number": "20+", "label": "Technologies Used", "color": "from-pink-500 to-red-500" },
-      { "number": "100%", "label": "Code Passion", "color": "from-red-500 to-orange-500" }
+      { "number": "100%", "label": "Code Passion", "color": "from-green-500 to-emerald-500" }
     ],
     "qualities": [
       {
@@ -232,6 +232,40 @@
       },
       {
         "id": "04",
+        "title": "E-commerce Platform",
+        "category": "Full-Stack Development",
+        "description": "A complete e-commerce platform with user and admin panels featuring product catalog, cart, checkout, order tracking, and comprehensive admin dashboard for product, category, coupon and user management.",
+        "image": "🛍️",
+        "color": "from-orange-500 to-red-500", 
+        "technologies": ["Laravel", "Bootstrap", "jQuery", "PHP", "MySQL"],
+        "metrics": [
+          { "label": "Role", "value": "Full-Stack" },
+          { "label": "Published", "value": "2024" },
+          { "label": "Features", "value": "10+" }
+        ],
+        "liveUrl": "https://demo-ai-content.com",
+        "githubUrl": "https://github.com/username/ai-content",
+        "featured": false
+      },
+      {
+        "id": "05",
+        "title": "E-commerce Platform",
+        "category": "Full-Stack Development",
+        "description": "A complete e-commerce platform with user and admin panels featuring product catalog, cart, checkout, order tracking, and comprehensive admin dashboard for product, category, coupon and user management.",
+        "image": "🛍️",
+        "color": "from-orange-500 to-red-500", 
+        "technologies": ["Laravel", "Bootstrap", "jQuery", "PHP", "MySQL"],
+        "metrics": [
+          { "label": "Role", "value": "Full-Stack" },
+          { "label": "Published", "value": "2024" },
+          { "label": "Features", "value": "10+" }
+        ],
+        "liveUrl": "https://demo-ai-content.com",
+        "githubUrl": "https://github.com/username/ai-content",
+        "featured": false
+      },
+      {
+        "id": "06",
         "title": "E-commerce Platform",
         "category": "Full-Stack Development",
         "description": "A complete e-commerce platform with user and admin panels featuring product catalog, cart, checkout, order tracking, and comprehensive admin dashboard for product, category, coupon and user management.",

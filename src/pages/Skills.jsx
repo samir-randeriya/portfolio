@@ -1,5 +1,4 @@
 import { 
-  FadeSlideUp, 
   StaggerContainer, 
   StaggerItem, 
   AnimatedCard,
@@ -117,7 +116,7 @@ export default function Skills() {
         </ScaleIn>
 
         {/* Learning Goals */}
-        <ScaleIn delay={0.8}>
+        {/* <ScaleIn delay={0.8}>
           <div className="text-center bg-gradient-to-r from-gray-50 to-blue-50 dark:from-gray-800 dark:to-blue-900/20 rounded-3xl p-8 border border-gray-100 dark:border-gray-700">
             <div className="max-w-3xl mx-auto">
               <h3 className="text-2xl font-bold text-gray-800 dark:text-white mb-4">
@@ -140,7 +139,7 @@ export default function Skills() {
               </div>
             </div>
           </div>
-        </ScaleIn>
+        </ScaleIn> */}
 
         {/* CTA Section */}
         <ScaleIn delay={1.0} className="text-center mt-16">
