@@ -4,18 +4,21 @@
     "firstName": "Samir",
     "lastName": "Randeriya",
     "initials": "SR",
-    "title": "Senior Lead Software Engineer",
+    "title": "Laravel Backend Specialist",
     "roles": [
       "Senior Lead Software Engineer",
       "Full Stack Developer",
       "Laravel Developer",
       "React.js Developer",
       "Vue.js Developer",
+      "Laravel Backend Specialist",
+      "Full-Stack Engineer",
       "API Architect",
       "Frontend Developer",
-      "Backend Developer"
+      "Backend Developer",
+      "Scalable Systems Builder"
     ],
-    "bio": "Hi! I'm **Samir Randeriya**, a passionate **Senior Lead Software Engineer** with over 4 years of experience building scalable web applications and robust backend systems. I specialize in **Laravel**, **PHP**, **Vue.js**, **React.js**, **Nuxt.js**, and modern web technologies, turning complex ideas into elegant, functional solutions. I have extensive experience with **RESTful APIs**, **database design**, and **cloud infrastructure**. My journey is driven by continuous learning, contributing to open-source projects, and staying current with emerging technologies to deliver exceptional digital experiences.",
+    "bio": "Four years ago, I wrote my first Laravel API endpoint that crashed spectacularly. Today, I architect backend systems that handle thousands of users without breaking a sweat. **The difference?** I learned that great software isn't just about writing code—it's about **solving real problems** for real people. I've spent **4+ years** turning chaotic requirements into **clean, scalable systems** that businesses actually depend on. What drives me? **That moment when a client says their platform finally handles the growth they've been chasing.** I don't just build features—I build the **reliable foundation** that lets startups scale and enterprises move faster. When I'm not deep in Laravel backends or architecting APIs, I'm learning what's next, because standing still isn't an option in this field.",
     "email": "sam.randeriya121@gmail.com",
     "phone": "+91 909 9940 0550",
     "location": "Surat, Gujarat, India",
@@ -28,8 +31,8 @@
     "greeting": "Hi, I'm",
     "rolePrefix": "I'm a ",
     "description": {
-      "primary": "Transforming ideas into **high-performance applications** that scale from startup to enterprise",
-      "secondary": "Senior Lead Engineer crafting **secure, scalable solutions** with Laravel, React & modern tech stack."
+      "primary": "I help **startups and enterprises** ship **secure, scalable web applications** faster—without compromising quality or performance",
+      "secondary": "Specializing in **Laravel backend systems** and **modern full-stack solutions** that handle real growth, real users, and real business impact."
     },
     "techStack": ["PHP", "Laravel", "Vue.js", "React.js", "Nuxt.js", "Quasar", "Tailwind CSS", "Git"],
     "buttons": [
@@ -54,8 +57,8 @@
     ]
   },
   "about": {
-    "title": "Meet the Developer Behind the Code",
-    "subtitle": "I'm a proactive Lead Software Engineer passionate about building scalable, secure, and efficient web applications that solve real-world problems.",
+    "title": "From Crashing Code to Leading Teams",
+    "subtitle": "The story of how 4+ years of building, breaking, and fixing systems taught me what truly matters: reliable software that drives real business impact.",
     "skills": [
       { "name": "Frontend Development", "percentage": 95, "color": "blue" },
       { "name": "Backend Development", "percentage": 90, "color": "purple" },
@@ -71,28 +74,28 @@
     "qualities": [
       {
         "icon": "🛠️",
-        "title": "Technical Leader",
-        "description": "Led cross-functional teams and improved project delivery through strategic planning and mentorship."
+        "title": "I Lead by Building",
+        "description": "Mentored few junior developers while shipping production code. Leadership isn't titles—it's showing up and solving problems together. With over 4+ years of experience, I've learned that the best way to lead is by building and being a part of the team."
       },
       {
         "icon": "🚀",
-        "title": "Performance Optimizer",
-        "description": "Boosted app performance by 40%, enabling 3x user traffic without service degradation."
+        "title": "I Obsess Over Performance",
+        "description": "A 40% speed boost meant 3x the users could scale seamlessly. Every millisecond matters when growth is on the line."
       },
       {
         "icon": "🔐",
-        "title": "Security Focused",
-        "description": "Delivered secure systems by leading audits, applying best practices, and implementing threat detection."
+        "title": "I Build Secure by Default",
+        "description": "Security isn't a feature—it's the foundation. From audits to threat detection, I make sure systems can be trusted."
       },
       {
         "icon": "🧠",
-        "title": "Continuous Learner",
-        "description": "Always exploring new tech stacks and trends to deliver future-ready digital experiences."
+        "title": "I Never Stop Learning",
+        "description": "The best code I'll write is tomorrow's. Staying curious keeps my solutions ahead of the curve."
       }
     ],
     "cta": {
-      "title": "Ready to Build Something Amazing?",
-      "description": "Let's connect and create software solutions that are secure, scalable, and impactful.",
+      "title": "Let's Build Something That Matters",
+      "description": "Whether you're scaling a startup or modernizing enterprise systems, I bring 4+ years of battle-tested experience to make it happen.",
       "buttons": [
         { "text": "Start a Conversation", "href": "#contact", "type": "primary" },
         { "text": "View My Work", "href": "#projects", "type": "secondary" }
@@ -176,14 +179,14 @@
     }
   },
   "projects": {
-    "title": "Featured Projects",
-    "subtitle": "Real-world applications built with performance, scalability, and security in mind.",
+    "title": "Projects That Solve Real Problems",
+    "subtitle": "From concept to deployment—here's how I've helped businesses ship better software faster.",
     "projects": [
       {
         "id": "01",
         "title": "Dynamic File Management System",
         "category": "Full Stack Development",
-        "description": "I developed a file management system with a user-friendly frontend and robust backend, featuring authentication, file uploads, previews, search, multi-file deletion, pagination, and performance optimization across devices.",
+        "description": "**Challenge:** Built a centralized file management system to replace scattered file storage across multiple platforms. **Solution:** Architected a full-stack application with Laravel REST APIs and React frontend, implementing secure authentication, real-time search, multi-file operations, and responsive design. **Impact:** Delivered a production-ready system with optimized performance across devices and streamlined file workflows.",
         "image": "📁",
         "color": "from-blue-600 to-indigo-600",
         "technologies": ["Laravel", "RESTful API", "React", "Authentication", "File Handling"],
@@ -200,7 +203,7 @@
         "id": "02",
         "title": "Asset Management",
         "category": "Full Stack Laravel Development",
-        "description": "A comprehensive asset management system that helps organizations track equipment and inventory vital to their day-to-day operations.",
+        "description": "**Challenge:** Organizations struggled to track equipment and inventory across departments, leading to lost assets and inefficient resource allocation. **Solution:** Built a full-stack Laravel application with real-time tracking, role-based access control, and an intuitive admin panel using Tailwind CSS. **Impact:** Created a scalable system enabling organizations to monitor assets, reduce losses, and make data-driven resource decisions.",
         "image": "📦",
         "color": "from-purple-500 to-pink-500", 
         "technologies": ["Laravel", "Tailwind CSS", "MySQL", "Admin Panel", "User Experience"],
@@ -217,7 +220,7 @@
         "id": "03",
         "title": "MealVista – Recipe Search App",
         "category": "Frontend Development",
-        "description": "A responsive Vue.js-based food recipe app that lets users search meals, view ingredients, watch cooking videos, and explore detailed recipes with a clean, interactive UI.",
+        "description": "**Challenge:** Home cooks needed a fast, intuitive way to discover recipes with ingredients and cooking instructions. **Solution:** Developed a responsive Vue.js application integrating third-party recipe APIs, featuring real-time search, video tutorials, and clean UI with Tailwind CSS. **Impact:** Delivered a production-ready app with seamless mobile experience, deployed on Vercel with optimized performance.",
         "image": "🍳",
         "color": "from-amber-500 to-orange-500",
         "technologies": ["Vue.js", "Tailwind CSS", "API Integration", "Vercel"],
@@ -234,7 +237,7 @@
         "id": "04",
         "title": "E-commerce Platform",
         "category": "Full-Stack Development",
-        "description": "A complete e-commerce platform with user and admin panels featuring product catalog, cart, checkout, order tracking, and comprehensive admin dashboard for product, category, coupon and user management.",
+        "description": "**Challenge:** Small businesses needed an affordable, feature-complete online store to compete in digital commerce. **Solution:** Built a full-stack e-commerce platform with Laravel backend, featuring product catalog, cart system, secure checkout, order tracking, and comprehensive admin dashboard for inventory, coupons, and user management. **Impact:** Delivered a scalable solution with 10+ core features, enabling businesses to launch online stores without expensive enterprise platforms.",
         "image": "🛍️",
         "color": "from-orange-500 to-red-500", 
         "technologies": ["Laravel", "Bootstrap", "jQuery", "PHP", "MySQL"],
@@ -243,48 +246,14 @@
           { "label": "Published", "value": "2024" },
           { "label": "Features", "value": "10+" }
         ],
-        "liveUrl": "https://demo-ai-content.com",
-        "githubUrl": "https://github.com/username/ai-content",
-        "featured": false
-      },
-      {
-        "id": "05",
-        "title": "E-commerce Platform",
-        "category": "Full-Stack Development",
-        "description": "A complete e-commerce platform with user and admin panels featuring product catalog, cart, checkout, order tracking, and comprehensive admin dashboard for product, category, coupon and user management.",
-        "image": "🛍️",
-        "color": "from-orange-500 to-red-500", 
-        "technologies": ["Laravel", "Bootstrap", "jQuery", "PHP", "MySQL"],
-        "metrics": [
-          { "label": "Role", "value": "Full-Stack" },
-          { "label": "Published", "value": "2024" },
-          { "label": "Features", "value": "10+" }
-        ],
-        "liveUrl": "https://demo-ai-content.com",
-        "githubUrl": "https://github.com/username/ai-content",
-        "featured": false
-      },
-      {
-        "id": "06",
-        "title": "E-commerce Platform",
-        "category": "Full-Stack Development",
-        "description": "A complete e-commerce platform with user and admin panels featuring product catalog, cart, checkout, order tracking, and comprehensive admin dashboard for product, category, coupon and user management.",
-        "image": "🛍️",
-        "color": "from-orange-500 to-red-500", 
-        "technologies": ["Laravel", "Bootstrap", "jQuery", "PHP", "MySQL"],
-        "metrics": [
-          { "label": "Role", "value": "Full-Stack" },
-          { "label": "Published", "value": "2024" },
-          { "label": "Features", "value": "10+" }
-        ],
-        "liveUrl": "https://demo-ai-content.com",
-        "githubUrl": "https://github.com/username/ai-content",
+        "liveUrl": "",
+        "githubUrl": "",
         "featured": false
       }
     ],
     "cta": {
-      "title": "Like What You See?",
-      "description": "Let’s build your next secure, scalable, and impactful project together.",
+      "title": "Ready to Turn Your Idea Into Reality?",
+      "description": "Whether you need a Laravel backend, a full-stack solution, or help scaling your existing platform—let's talk.",
       "buttons": [
         { "text": "Start a Project", "action": "scrollToContact", "type": "primary" },
         { "text": "View All Work", "action": "openGithub", "type": "secondary" }
@@ -527,6 +496,7 @@
       { "name": "About", "href": "#about" },
       { "name": "Skills", "href": "#skills" },
       { "name": "Projects", "href": "#projects" },
+      { "name": "Proof", "href": "#proof" },
       { "name": "Experience", "href": "#experience" },
       { "name": "Contact", "href": "#contact" }
     ],
@@ -565,8 +535,8 @@
     "quickLinks": [
       { "name": "Home", "href": "#home" },
       { "name": "About", "href": "#about" },
-      { "name": "Skills", "href": "#skills" },
       { "name": "Projects", "href": "#projects" },
+      { "name": "Proof", "href": "#proof" },
       { "name": "Contact", "href": "#contact" }
     ],
     "contactInfo": [

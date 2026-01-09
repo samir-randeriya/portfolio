@@ -6,6 +6,7 @@ import {
   SectionHeader
 } from '../components/ScrollAnimations';
 import { motion } from 'framer-motion';
+import emailjs from '@emailjs/browser';
 import portfolioData from '../data/portfolioContent.json';
 
 // Animation variants - moved outside component to prevent re-creation
@@ -40,9 +41,16 @@ export default function Contact() {
 
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [showSuccess, setShowSuccess] = useState(false);
+  const [showError, setShowError] = useState(false);
+  const [errorMessage, setErrorMessage] = useState('');
 
   // Get data from portfolioContent.json
   const { contact } = portfolioData;
+
+  // EmailJS Configuration (using environment variables for security)
+  const EMAILJS_SERVICE_ID = process.env.REACT_APP_EMAILJS_SERVICE_ID || 'YOUR_SERVICE_ID';
+  const EMAILJS_TEMPLATE_ID = process.env.REACT_APP_EMAILJS_TEMPLATE_ID || 'YOUR_TEMPLATE_ID';
+  const EMAILJS_PUBLIC_KEY = process.env.REACT_APP_EMAILJS_PUBLIC_KEY || 'YOUR_PUBLIC_KEY';
 
   const handleChange = useCallback((e) => {
     const { name, value } = e.target;
@@ -55,17 +63,50 @@ export default function Contact() {
   const handleSubmit = useCallback(async (e) => {
     e.preventDefault();
     setIsSubmitting(true);
+    setShowError(false);
     
-    // Simulate form submission
-    setTimeout(() => {
+    // Prepare template parameters for EmailJS
+    const templateParams = {
+      from_name: formData.name,
+      from_email: formData.email,
+      subject: formData.subject,
+      message: formData.message,
+      to_name: 'Samir Randeriya', // Your name
+    };
+
+    try {
+      // Send email using EmailJS
+      const response = await emailjs.send(
+        EMAILJS_SERVICE_ID,
+        EMAILJS_TEMPLATE_ID,
+        templateParams,
+        EMAILJS_PUBLIC_KEY
+      );
+
+      console.log('Email sent successfully:', response.status, response.text);
+      
+      // Show success message
       setShowSuccess(true);
+      
+      // Reset form
       setFormData({ name: '', email: '', subject: '', message: '' });
-      setIsSubmitting(false);
       
       // Hide success message after 5 seconds
       setTimeout(() => setShowSuccess(false), 5000);
-    }, 2000);
-  }, []);
+      
+    } catch (error) {
+      console.error('Email sending failed:', error);
+      
+      // Show error message
+      setErrorMessage(error.text || 'Failed to send message. Please try again or contact me directly.');
+      setShowError(true);
+      
+      // Hide error message after 7 seconds
+      setTimeout(() => setShowError(false), 7000);
+    } finally {
+      setIsSubmitting(false);
+    }
+  }, [formData, EMAILJS_SERVICE_ID, EMAILJS_TEMPLATE_ID, EMAILJS_PUBLIC_KEY]);
 
   const FloatingLabelInput = ({ label, type = "text", name, value, onChange, required = false, rows = null }) => {
     const Element = rows ? 'textarea' : 'input';
@@ -106,13 +147,33 @@ export default function Contact() {
           initial={{ opacity: 0, y: -50, scale: 0.9 }}
           animate={{ opacity: 1, y: 0, scale: 1 }}
           exit={{ opacity: 0, y: -50, scale: 0.9 }}
-          className="fixed top-8 right-8 z-50 bg-green-500 text-white px-6 py-4 rounded-xl shadow-lg backdrop-blur-sm"
+          className="fixed top-8 right-8 z-50 bg-green-500 text-white px-6 py-4 rounded-xl shadow-lg backdrop-blur-sm max-w-md"
         >
           <div className="flex items-center">
-            <svg className="w-6 h-6 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <svg className="w-6 h-6 mr-3 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
             </svg>
-            {contact.form.successMessage}
+            <span>{contact.form.successMessage}</span>
+          </div>
+        </motion.div>
+      )}
+
+      {/* Error Toast */}
+      {showError && (
+        <motion.div
+          initial={{ opacity: 0, y: -50, scale: 0.9 }}
+          animate={{ opacity: 1, y: 0, scale: 1 }}
+          exit={{ opacity: 0, y: -50, scale: 0.9 }}
+          className="fixed top-8 right-8 z-50 bg-red-500 text-white px-6 py-4 rounded-xl shadow-lg backdrop-blur-sm max-w-md"
+        >
+          <div className="flex items-start">
+            <svg className="w-6 h-6 mr-3 flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+            </svg>
+            <div>
+              <div className="font-semibold mb-1">Failed to Send</div>
+              <div className="text-sm text-red-100">{errorMessage}</div>
+            </div>
           </div>
         </motion.div>
       )}

@@ -94,7 +94,12 @@ export default function Home() {
   };
 
   const downloadResume = () => {
-    window.open(personal.resumeUrl, '_blank');
+    const link = document.createElement('a');
+    link.href = personal.resumeUrl;
+    link.download = 'Samir_Randeriya_Resume.pdf';
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
   };
 
   // Button action handlers
