@@ -1,0 +1,643 @@
+/**
+ * AI Page Styles - Production-Grade Layout Architecture
+ * 
+ * ARCHITECTURE:
+ * 1. Page Shell: Fixed viewport container (100vh/dvh)
+ * 2. Background Layer: Absolute positioned decorative elements
+ * 3. Header: Fixed navbar at top
+ * 4. Chat Container: Flex layout managing messages + input
+ * 5. Messages Scroll: Only scrollable area
+ * 6. Input Fixed: Pinned at bottom
+ * 
+ * Key Principles:
+ * - Proper flexbox constraints
+ * - Body scroll locked
+ * - Mobile-responsive with keyboard handling
+ * - Clean visual hierarchy
+ */
+
+/* Import Inter font */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+
+/* CSS Variables - Design tokens */
+:root {
+  /* Core palette */
+  --background: 220 20% 97%;
+  --foreground: 222 47% 11%;
+  
+  --card: 0 0% 100%;
+  --card-foreground: 222 47% 11%;
+  
+  --primary: 222 47% 15%;
+  --primary-foreground: 210 40% 98%;
+  
+  --secondary: 220 14% 96%;
+  --secondary-foreground: 222 47% 11%;
+  
+  --muted: 220 14% 96%;
+  --muted-foreground: 220 9% 46%;
+  
+  --accent: 173 58% 39%;
+  --accent-foreground: 0 0% 100%;
+  
+  --border: 220 13% 91%;
+  --input: 220 13% 91%;
+  
+  /* Custom AI interface tokens */
+  --gradient-start: 220 25% 96%;
+  --gradient-end: 210 20% 99%;
+  
+  --message-user: 222 47% 15%;
+  --message-user-foreground: 0 0% 100%;
+  --message-assistant: 0 0% 100%;
+  --message-assistant-foreground: 222 47% 11%;
+  
+  --input-background: 0 0% 100%;
+  --input-border: 220 13% 88%;
+  --input-focus: 222 47% 15%;
+  
+  --shadow-soft: 0 4px 20px -4px hsl(220 25% 10% / 0.08);
+  --shadow-medium: 0 8px 30px -8px hsl(220 25% 10% / 0.12);
+}
+
+/* Dark mode variables */
+.dark {
+  --background: 222 47% 6%;
+  --foreground: 210 40% 98%;
+  
+  --card: 222 47% 8%;
+  --card-foreground: 210 40% 98%;
+  
+  --primary: 210 40% 98%;
+  --primary-foreground: 222 47% 11%;
+  
+  --secondary: 217 33% 17%;
+  --secondary-foreground: 210 40% 98%;
+  
+  --muted: 217 33% 17%;
+  --muted-foreground: 215 20% 65%;
+  
+  --accent: 173 58% 45%;
+  --accent-foreground: 222 47% 11%;
+  
+  --border: 217 33% 17%;
+  --input: 217 33% 17%;
+  
+  --gradient-start: 222 47% 5%;
+  --gradient-end: 222 47% 8%;
+  
+  --message-user: 173 58% 39%;
+  --message-user-foreground: 0 0% 100%;
+  --message-assistant: 222 47% 10%;
+  --message-assistant-foreground: 210 40% 98%;
+  
+  --input-background: 222 47% 10%;
+  --input-border: 217 33% 20%;
+  --input-focus: 173 58% 45%;
+  
+  --shadow-soft: 0 4px 20px -4px hsl(0 0% 0% / 0.3);
+  --shadow-medium: 0 8px 30px -8px hsl(0 0% 0% / 0.4);
+}
+
+/* Global styles */
+* {
+  border-color: hsl(var(--border));
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background: hsl(var(--background));
+  color: hsl(var(--foreground));
+  font-family: 'Inter', system-ui, -apple-system, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* ============================================================================
+   CHAT PAGE LAYOUT ARCHITECTURE
+   ============================================================================ */
+
+/**
+ * LAYOUT HIERARCHY:
+ * 
+ * .ai-page-shell (100vh fixed container)
+ *   └─ Navbar (fixed height at top)
+ *   └─ .ai-main-content (remaining space, flex center)
+ *       └─ .ai-chat-surface (visible chat container)
+ *           ├─ .ai-message-area (flex: 1, overflow-y: auto) ← ONLY SCROLL
+ *           └─ .ai-input-area (fixed at bottom)
+ */
+
+/**
+ * Page Shell - Viewport container
+ * No page scroll, fixed 100vh
+ */
+.ai-page-shell {
+  position: fixed;
+  inset: 0;
+  width: 100%;
+  height: 100vh;
+  height: 100dvh; /* Mobile keyboard safe */
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  isolation: isolate;
+}
+
+/**
+ * Background Layer - Decorative
+ * Behind all content, non-interactive
+ */
+.ai-background-layer {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  background: linear-gradient(
+    135deg,
+    hsl(220, 50%, 12%) 0%,
+    hsl(270, 40%, 15%) 50%,
+    hsl(220, 50%, 12%) 100%
+  );
+  pointer-events: none;
+}
+
+/**
+ * Main Content Area
+ * Takes space below navbar, centers chat surface
+ */
+.ai-main-content {
+  flex: 1;
+  min-height: 0; /* Critical for flex scrolling */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1rem;
+  position: relative;
+  z-index: 1;
+  /* Account for navbar height */
+  margin-top: 4rem; /* 64px navbar on mobile */
+}
+
+@media (min-width: 1024px) {
+  .ai-main-content {
+    margin-top: 5rem; /* 80px navbar on desktop */
+  }
+}
+
+/**
+ * Chat Surface - The visible chat container
+ * This is the bounded box that contains all chat UI
+ * Like ChatGPT's chat window
+ */
+.ai-chat-surface {
+  width: 100%;
+  max-width: 1000px;
+  height: 100%;
+  max-height: 900px;
+  display: flex;
+  flex-direction: column;
+  backdrop-filter: blur(20px);
+  overflow: hidden; /* Contain children */
+  position: relative;
+}
+
+/**
+ * Message Area - Scrollable message list
+ * ONLY scrollable area in entire page
+ */
+.ai-message-area {
+  flex: 1;
+  min-height: 0; /* Critical for flex scrolling */
+  overflow-y: auto;
+  overflow-x: hidden;
+  position: relative;
+  
+  /* Custom scrollbar */
+  scrollbar-width: thin;
+  scrollbar-color: hsl(var(--muted-foreground) / 0.3) transparent;
+}
+
+.ai-message-area::-webkit-scrollbar {
+  width: 6px;
+}
+
+.ai-message-area::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.ai-message-area::-webkit-scrollbar-thumb {
+  background: hsl(var(--muted-foreground) / 0.3);
+  border-radius: 3px;
+}
+
+.ai-message-area::-webkit-scrollbar-thumb:hover {
+  background: hsl(var(--muted-foreground) / 0.5);
+}
+
+/**
+ * Input Area - Fixed at bottom of chat surface
+ * Does not scroll with messages
+ */
+.ai-input-area {
+  flex-shrink: 0;
+  position: relative;
+  border-top: 1px solid hsl(var(--border) / 0.3);
+}
+
+/* Mobile adjustments */
+@media (max-width: 640px) {
+  .ai-main-content {
+    padding: 0.5rem;
+  }
+  
+  .ai-chat-surface {
+    border-radius: 16px;
+    max-height: none; /* Full height on mobile */
+  }
+  
+  .ai-message-area::-webkit-scrollbar {
+    width: 4px;
+  }
+}
+
+/* Tablet adjustments */
+@media (min-width: 641px) and (max-width: 1023px) {
+  .ai-chat-surface {
+    max-width: 900px;
+  }
+}
+
+/* Desktop optimization */
+@media (min-width: 1024px) {
+  .ai-main-content {
+    padding: 1.5rem;
+  }
+}
+
+/* ============================================================================
+   END LAYOUT ARCHITECTURE
+   ============================================================================ */
+
+/* ============================================================================
+   MESSAGE LIST CONTENT
+   ============================================================================ */
+
+/**
+ * Message List Content
+ * Lives inside .ai-message-area (scrollable parent)
+ * Provides padding and layout for messages
+ */
+.message-list-content {
+  padding: 2rem 1.5rem;
+  min-height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Mobile: Tighter padding */
+@media (max-width: 640px) {
+  .message-list-content {
+    padding: 1.5rem 1rem;
+  }
+}
+
+/* Desktop: More breathing room */
+@media (min-width: 1024px) {
+  .message-list-content {
+    padding: 2.5rem 2rem;
+  }
+}
+
+/* ============================================================================
+   END MESSAGE LIST CONTENT
+   ============================================================================ */
+
+/* AI Page background gradient */
+.ai-gradient-bg {
+  background: linear-gradient(
+    180deg,
+    hsl(var(--gradient-start)) 0%,
+    hsl(var(--gradient-end)) 100%
+  );
+}
+
+/* Utility classes from Tailwind */
+.max-w-conversation {
+  max-width: 900px;
+}
+
+.bg-background\/80 {
+  background-color: hsl(var(--background) / 0.8);
+}
+
+.backdrop-blur-md {
+  backdrop-filter: blur(12px);
+}
+
+.border-border\/50 {
+  border-color: hsl(var(--border) / 0.5);
+}
+
+.bg-primary {
+  background-color: hsl(var(--primary));
+}
+
+.text-primary-foreground {
+  color: hsl(var(--primary-foreground));
+}
+
+.text-muted-foreground {
+  color: hsl(var(--muted-foreground));
+}
+
+.text-muted-foreground\/50 {
+  color: hsl(var(--muted-foreground) / 0.5);
+}
+
+.text-muted-foreground\/60 {
+  color: hsl(var(--muted-foreground) / 0.6);
+}
+
+.bg-secondary {
+  background-color: hsl(var(--secondary));
+}
+
+.bg-secondary\/80 {
+  background-color: hsl(var(--secondary) / 0.8);
+}
+
+.text-accent {
+  color: hsl(var(--accent));
+}
+
+/* Message card styles */
+.message-card-assistant {
+  background: hsl(var(--message-assistant));
+  color: hsl(var(--message-assistant-foreground));
+  box-shadow: var(--shadow-soft);
+}
+
+.message-card-user {
+  background: hsl(var(--message-user));
+  color: hsl(var(--message-user-foreground));
+}
+
+/* ============================================================================
+   INPUT BAR
+   ============================================================================ */
+
+/**
+ * Input Bar Container
+ * Lives inside .ai-input-area (fixed at bottom of chat surface)
+ * No background needed - chat surface provides it
+ */
+.input-bar-container {
+  position: relative;
+  padding: 1.25rem 1.5rem;
+}
+
+.input-bar-wrapper {
+  max-width: 100%;
+  margin: 0 auto;
+  width: 100%;
+}
+
+/* Mobile: Compact padding */
+@media (max-width: 640px) {
+  .input-bar-container {
+    padding: 1rem;
+  }
+}
+
+/* Desktop: More space */
+@media (min-width: 1024px) {
+  .input-bar-container {
+    padding: 1.5rem 2rem;
+  }
+}
+
+/* Input pill styles */
+.input-pill {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  background: hsl(var(--input-background));
+  border: 1px solid hsl(var(--input-border));
+  border-radius: 24px;
+  padding: 8px 20px;
+  box-shadow: var(--shadow-medium);
+  transition: all 0.2s ease;
+  min-height: 56px;
+}
+
+.input-pill:focus-within {
+  border-color: hsl(var(--input-focus));
+  box-shadow: var(--shadow-medium), 0 0 0 3px hsl(var(--input-focus) / 0.1);
+}
+
+/* Textarea */
+.input-textarea {
+  flex: 1;
+  background: transparent;
+  border: none;
+  outline: none;
+  resize: none;
+  font-size: 15px;
+  line-height: 1.5;
+  color: hsl(var(--foreground));
+  min-height: 24px;
+  max-height: 150px;
+  font-family: inherit;
+  overflow-y: hidden; /* Hide scrollbar by default */
+  scrollbar-width: none; /* Firefox: hide scrollbar */
+  -ms-overflow-style: none; /* IE/Edge: hide scrollbar */
+  padding: 8px 0;
+  margin: 0;
+  align-self: center;
+  box-sizing: border-box;
+  height: auto;
+}
+
+/* Show scrollbar only when content overflows (multiple lines) */
+.input-textarea.scrollable {
+  overflow-y: auto;
+  scrollbar-width: thin; /* Firefox: show thin scrollbar */
+  scrollbar-color: hsl(var(--muted-foreground) / 0.3) transparent;
+}
+
+.input-textarea.scrollable::-webkit-scrollbar {
+  width: 4px;
+}
+
+.input-textarea.scrollable::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.input-textarea.scrollable::-webkit-scrollbar-thumb {
+  background: hsl(var(--muted-foreground) / 0.3);
+  border-radius: 2px;
+}
+
+/* Hide scrollbar for single line (default state) */
+.input-textarea::-webkit-scrollbar {
+  display: none; /* Chrome/Safari: hide scrollbar */
+}
+
+.input-textarea::placeholder {
+  color: hsl(var(--muted-foreground) / 0.6);
+}
+
+.input-textarea:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+/* Send button */
+.send-button {
+  flex-shrink: 0;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: hsl(var(--primary));
+  color: hsl(var(--primary-foreground));
+  border: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s ease;
+  cursor: pointer;
+  margin: 0;
+  padding: 0;
+  vertical-align: middle;
+}
+
+.send-button:hover:not(:disabled) {
+  transform: scale(1.05);
+  box-shadow: var(--shadow-soft);
+}
+
+.send-button:active:not(:disabled) {
+  transform: scale(0.95);
+}
+
+.send-button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.send-button svg {
+  display: block;
+}
+
+/* Helper text */
+.input-helper-text {
+  text-align: center;
+  font-size: 12px;
+  color: hsl(var(--muted-foreground) / 0.5);
+  margin-top: 12px;
+  line-height: 1.5;
+}
+
+/* Typing dots animation */
+.typing-dot {
+  animation: typing-bounce 1.4s infinite ease-in-out both;
+}
+
+.typing-dot:nth-child(1) {
+  animation-delay: -0.32s;
+}
+
+.typing-dot:nth-child(2) {
+  animation-delay: -0.16s;
+}
+
+.typing-dot:nth-child(3) {
+  animation-delay: 0s;
+}
+
+@keyframes typing-bounce {
+  0%, 80%, 100% {
+    transform: translateY(0);
+  }
+  40% {
+    transform: translateY(-6px);
+  }
+}
+
+/* Animations */
+@keyframes fade-in-up {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fade-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+.animate-fade-in-up {
+  animation: fade-in-up 0.4s ease-out forwards;
+}
+
+.animate-fade-in {
+  animation: fade-in 0.3s ease-out forwards;
+}
+
+/* Custom scrollbar */
+.scrollbar-thin {
+  scrollbar-width: thin;
+  scrollbar-color: hsl(var(--muted-foreground) / 0.3) transparent;
+}
+
+.scrollbar-thin::-webkit-scrollbar {
+  width: 6px;
+}
+
+.scrollbar-thin::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.scrollbar-thin::-webkit-scrollbar-thumb {
+  background: hsl(var(--muted-foreground) / 0.3);
+  border-radius: 3px;
+}
+
+.scrollbar-thin::-webkit-scrollbar-thumb:hover {
+  background: hsl(var(--muted-foreground) / 0.5);
+}
+
+/* Responsive utilities */
+@media (max-width: 768px) {
+  .md\:max-w-\[70\%\] {
+    max-width: 70%;
+  }
+  
+  .md\:max-w-\[80\%\] {
+    max-width: 80%;
+  }
+}
+
+/* Reduced motion support */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+

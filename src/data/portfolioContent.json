@@ -498,6 +498,7 @@
       { "name": "Projects", "href": "#projects" },
       { "name": "Proof", "href": "#proof" },
       { "name": "Experience", "href": "#experience" },
+      { "name": "AI Chat", "href": "#chat" },
       { "name": "Contact", "href": "#contact" }
     ],
     "cta": {

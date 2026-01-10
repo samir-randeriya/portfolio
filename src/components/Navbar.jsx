@@ -1,11 +1,14 @@
 import { useState, useEffect } from 'react';
-import DarkModeToggle from './DarkModeToggle';
+import { useNavigate, useLocation } from 'react-router-dom';
+// import DarkModeToggle from './DarkModeToggle'; // Hidden - default dark mode
 import portfolioData from '../data/portfolioContent.json';
 
 export default function Navbar() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
   const [activeSection, setActiveSection] = useState('home');
+  const navigate = useNavigate();
+  const location = useLocation();
 
   // Get data from portfolioContent.json
   const { navigation } = portfolioData;
@@ -56,6 +59,26 @@ export default function Navbar() {
 
   const scrollToSection = (href) => {
     setIsMenuOpen(false);
+    
+    // Handle AI page navigation
+    if (href === '#chat') {
+      navigate('/ai');
+      return;
+    }
+    
+    // If we're on AI page, navigate home first
+    if (location.pathname === '/ai') {
+      navigate('/');
+      setTimeout(() => {
+        const sectionId = href.replace('#', '');
+        const element = document.querySelector(href);
+        if (element) {
+          element.scrollIntoView({ behavior: 'smooth' });
+        }
+      }, 100);
+      return;
+    }
+    
     const sectionId = href.replace('#', '');
     setActiveSection(sectionId);
     const element = document.querySelector(href);
@@ -87,7 +110,13 @@ export default function Navbar() {
           {/* Logo */}
           <div className="flex items-center">
             <button
-              onClick={() => scrollToSection('#home')}
+              onClick={() => {
+                if (location.pathname === '/ai') {
+                  navigate('/');
+                } else {
+                  scrollToSection('#home');
+                }
+              }}
               className="group flex items-center space-x-3 cursor-pointer focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 dark:focus:ring-offset-gray-900 rounded-xl"
               aria-label="Go to home section"
             >
@@ -118,7 +147,10 @@ export default function Navbar() {
           {/* Desktop Menu */}
           <div className="hidden lg:flex items-center space-x-1" role="menubar">
             {navigation.menuItems.map((item) => {
-              const isActive = activeSection === item.href.replace('#', '');
+              const isAIChat = item.href === '#chat';
+              const isAIPage = location.pathname === '/ai';
+              const isActive = isAIChat && isAIPage ? true : (!isAIPage && activeSection === item.href.replace('#', ''));
+              
               return (
                 <button
                   key={item.name}
@@ -126,23 +158,35 @@ export default function Navbar() {
                   role="menuitem"
                   aria-label={`Navigate to ${item.name} section`}
                   aria-current={isActive ? 'page' : undefined}
-                  className={`px-4 py-2 rounded-lg font-medium transition-all duration-300 hover:scale-105 relative focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 dark:focus:ring-offset-gray-900 ${
+                  className={`group relative px-5 py-2.5 rounded-lg font-medium text-sm transition-all duration-200 focus:outline-none ${
                     isActive
                       ? isScrolled
-                        ? 'text-blue-600 dark:text-blue-400 bg-blue-50 dark:bg-blue-900/20'
-                        : 'text-blue-200 bg-white/20'
+                        ? 'text-blue-600 dark:text-blue-400'
+                        : 'text-white'
                       : isScrolled
-                      ? 'text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800 hover:text-blue-600 dark:hover:text-blue-400'
-                      : 'text-white hover:bg-white/10 hover:text-blue-200'
+                      ? 'text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 focus:text-blue-600 dark:focus:text-blue-400'
+                      : 'text-white/90 hover:text-white focus:text-white'
                   }`}
                 >
                   {item.name}
+                  {/* Active indicator - bottom line */}
                   {isActive && (
                     <span 
-                      className={`absolute bottom-0 left-1/2 transform -translate-x-1/2 w-1/2 h-0.5 rounded-full ${
+                      className={`absolute bottom-0 left-1/2 transform -translate-x-1/2 w-12 h-1 rounded-full transition-all duration-300 ${
                         isScrolled 
                           ? 'bg-gradient-to-r from-blue-600 to-purple-600' 
-                          : 'bg-white'
+                          : 'bg-white shadow-lg'
+                      }`}
+                      aria-hidden="true"
+                    />
+                  )}
+                  {/* Hover/Focus indicator - bottom line (only when not active) */}
+                  {!isActive && (
+                    <span 
+                      className={`absolute bottom-0 left-1/2 transform -translate-x-1/2 w-0 h-1 rounded-full transition-all duration-300 group-hover:w-12 group-focus:w-12 ${
+                        isScrolled 
+                          ? 'bg-gradient-to-r from-blue-600 to-purple-600' 
+                          : 'bg-white shadow-lg'
                       }`}
                       aria-hidden="true"
                     />
@@ -151,9 +195,10 @@ export default function Navbar() {
               );
             })}
             
-            <div className="ml-4 pl-4 border-l border-gray-300/30">
+            {/* Dark mode toggle hidden - default dark mode */}
+            {/* <div className="ml-4 pl-4 border-l border-gray-300/30">
               <DarkModeToggle />
-            </div>
+            </div> */}
             
             {/* <button
               onClick={scrollToContact}
@@ -169,7 +214,8 @@ export default function Navbar() {
 
           {/* Mobile Menu Button */}
           <div className="lg:hidden flex items-center space-x-3">
-            <DarkModeToggle />
+            {/* Dark mode toggle hidden - default dark mode */}
+            {/* <DarkModeToggle /> */}
             <button
               onClick={() => setIsMenuOpen(!isMenuOpen)}
               className={`p-2 rounded-lg transition-colors duration-300 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 dark:focus:ring-offset-gray-900 ${
@@ -207,7 +253,10 @@ export default function Navbar() {
         <div className="bg-white/95 dark:bg-gray-900/95 backdrop-blur-lg shadow-lg">
           <nav className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 space-y-2">
             {navigation.menuItems.map((item) => {
-              const isActive = activeSection === item.href.replace('#', '');
+              const isAIChat = item.href === '#chat';
+              const isAIPage = location.pathname === '/ai';
+              const isActive = isAIChat && isAIPage ? true : (!isAIPage && activeSection === item.href.replace('#', ''));
+              
               return (
                 <button
                   key={item.name}
@@ -215,10 +264,10 @@ export default function Navbar() {
                   role="menuitem"
                   aria-label={`Navigate to ${item.name} section`}
                   aria-current={isActive ? 'page' : undefined}
-                  className={`block w-full text-left px-4 py-3 rounded-xl font-medium transition-all duration-200 relative focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 dark:focus:ring-offset-gray-900 ${
+                  className={`block w-full text-left px-5 py-3 rounded-xl font-medium text-sm transition-all duration-200 relative focus:outline-none ${
                     isActive
-                      ? 'bg-gradient-to-r from-blue-50 to-purple-50 dark:from-blue-900/20 dark:to-purple-900/20 text-blue-600 dark:text-blue-400 border-l-4 border-blue-600 dark:border-blue-400'
-                      : 'text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800 hover:text-blue-600 dark:hover:text-blue-400'
+                      ? 'bg-gradient-to-r from-blue-50 to-purple-50 dark:from-blue-900/30 dark:to-purple-900/30 text-blue-600 dark:text-blue-400 border-l-4 border-blue-600 dark:border-blue-400 shadow-sm'
+                      : 'text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800/50 hover:text-blue-600 dark:hover:text-blue-400 focus:bg-gray-100 dark:focus:bg-gray-800/50 focus:text-blue-600 dark:focus:text-blue-400'
                   }`}
                 >
                   {item.name}
