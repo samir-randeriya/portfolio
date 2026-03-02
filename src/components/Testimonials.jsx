@@ -41,11 +41,11 @@ function StarRating({ rating }) {
 }
 
 // ─── Quote SVG ────────────────────────────────────────────────────────────────
-const QuoteIcon = ({ color = '#38bdf8' }) => (
-  <svg viewBox="0 0 32 24" fill="currentColor" className="w-8 h-6" style={{ color }}>
-    <path d="M0 24V14.4C0 6.44 4.56 1.68 13.68 0l1.44 2.64C10.36 3.76 7.88 6.32 7.28 10H13V24H0zm18 0V14.4C18 6.44 22.56 1.68 31.68 0l1.32 2.64C28.36 3.76 25.88 6.32 25.28 10H31V24H18z" />
-  </svg>
-);
+// const QuoteIcon = ({ color = '#38bdf8' }) => (
+//   <svg viewBox="0 0 32 24" fill="currentColor" className="w-8 h-6" style={{ color }}>
+//     <path d="M0 24V14.4C0 6.44 4.56 1.68 13.68 0l1.44 2.64C10.36 3.76 7.88 6.32 7.28 10H13V24H0zm18 0V14.4C18 6.44 22.56 1.68 31.68 0l1.32 2.64C28.36 3.76 25.88 6.32 25.28 10H31V24H18z" />
+//   </svg>
+// );
 
 // ─── Testimonial Card ─────────────────────────────────────────────────────────
 const CARD_ACCENTS = ['#38bdf8', '#a78bfa', '#34d399', '#fb923c', '#f472b6', '#facc15'];
