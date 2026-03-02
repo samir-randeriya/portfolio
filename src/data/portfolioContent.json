@@ -892,7 +892,7 @@
     "subtitle": "Here's what my clients say about working with me",
     "stats": [
       {
-        "number": "50+",
+        "number": "30+",
         "label": "Projects Completed"
       },
       {
@@ -900,74 +900,24 @@
         "label": "Client Satisfaction"
       },
       {
-        "number": "4.9/5",
+        "number": "5.0/5",
         "label": "Average Rating"
       },
       {
-        "number": "24h",
+        "number": "24 Hours",
         "label": "Average Response Time"
       }
     ],
     "reviews": [
       {
-        "name": "Sarah Johnson",
-        "role": "Product Manager",
-        "company": "TechStart Inc.",
-        "avatar": "👩‍💼",
-        "rating": 5,
-        "feedback": "Exceptional work! The developer delivered a high-quality React application that exceeded our expectations. Great communication throughout the project and delivered on time.",
-        "project": "E-commerce Dashboard",
-        "date": "March 2024"
-      },
-      {
-        "name": "Michael Chen",
-        "role": "Startup Founder",
-        "company": "InnovateCorp",
-        "avatar": "👨‍💻",
-        "rating": 5,
-        "feedback": "Outstanding frontend developer with excellent problem-solving skills. Built our entire web platform from scratch with modern technologies. Highly recommended!",
-        "project": "Web Platform Development",
-        "date": "February 2024"
-      },
-      {
-        "name": "Emily Rodriguez",
-        "role": "Marketing Director",
-        "company": "Digital Solutions Ltd.",
-        "avatar": "👩‍🎨",
-        "rating": 5,
-        "feedback": "Perfect blend of technical expertise and creativity. The responsive design looks amazing on all devices and the performance is fantastic. Will definitely work together again.",
-        "project": "Company Website Redesign",
-        "date": "January 2024"
-      },
-      {
-        "name": "David Thompson",
-        "role": "CTO",
-        "company": "FinanceFlow",
+        "name": "Oliver May",
+        "role": "Upwork Client",
+        "company": "Upwork",
         "avatar": "👨‍💼",
         "rating": 5,
-        "feedback": "Delivered a complex financial dashboard with excellent code quality. Great attention to detail and security best practices. Professional and reliable.",
-        "project": "Financial Dashboard",
-        "date": "December 2023"
-      },
-      {
-        "name": "Lisa Park",
-        "role": "Agency Owner",
-        "company": "Creative Minds Agency",
-        "avatar": "👩‍🚀",
-        "rating": 5,
-        "feedback": "Incredible work on our client projects. Fast turnaround, pixel-perfect implementations, and excellent communication. Our go-to developer for React projects.",
-        "project": "Multiple Client Projects",
-        "date": "November 2023"
-      },
-      {
-        "name": "James Wilson",
-        "role": "E-commerce Manager",
-        "company": "RetailPlus",
-        "avatar": "👨‍🏭",
-        "rating": 5,
-        "feedback": "Built our entire e-commerce platform with shopping cart, payment integration, and admin panel. Exceeded expectations in terms of quality and performance.",
-        "project": "E-commerce Platform",
-        "date": "October 2023"
+        "feedback": "",
+        "project": "Vue Js expert",
+        "date": "June 2025"
       }
     ],
     "cta": {

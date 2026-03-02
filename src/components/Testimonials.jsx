@@ -1,5 +1,6 @@
 import { useState, useEffect, useRef } from 'react';
 import portfolioData from '../data/portfolioContent.json';
+import { SiUpwork } from 'react-icons/si';
 
 // ─── useInView hook ────────────────────────────────────────────────────────────
 function useInView(threshold = 0.1) {
@@ -77,12 +78,12 @@ function TestimonialCard({ testimonial, index, inView }) {
       />
 
       {/* Quote mark — decorative */}
-      <div
+      {/* <div
         className="absolute top-5 right-5 opacity-10 group-hover:opacity-20 transition-opacity duration-400"
         style={{ color: accent }}
       >
         <QuoteIcon color={accent} />
-      </div>
+      </div> */}
 
       <div className="relative z-10 p-7 flex flex-col h-full gap-5">
 
@@ -97,7 +98,8 @@ function TestimonialCard({ testimonial, index, inView }) {
             }}
           >
             {/* Use initials if avatar is emoji, otherwise render emoji */}
-            {testimonial.avatar}
+            {/* {testimonial.avatar} */}
+            <SiUpwork />
           </div>
 
           {/* Name / role */}
@@ -117,7 +119,7 @@ function TestimonialCard({ testimonial, index, inView }) {
           </div>
 
           {/* Project badge */}
-          <span
+          {/* <span
             className="flex-shrink-0 px-2.5 py-1 rounded-full text-xs font-semibold"
             style={{
               background: `${accent}18`,
@@ -126,16 +128,18 @@ function TestimonialCard({ testimonial, index, inView }) {
             }}
           >
             {testimonial.project}
-          </span>
+          </span> */}
         </div>
 
         {/* Stars */}
         <StarRating rating={testimonial.rating} />
 
         {/* Feedback */}
-        <blockquote className="text-slate-400 text-sm leading-relaxed flex-1">
-          "{testimonial.feedback}"
-        </blockquote>
+        {testimonial.feedback && (
+          <blockquote className="text-slate-400 text-sm leading-relaxed flex-1">
+            "{testimonial.feedback}"
+          </blockquote>
+        )}
 
         {/* Footer — date */}
         <p className="text-slate-600 text-xs mt-auto">{testimonial.date}</p>
