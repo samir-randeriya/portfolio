@@ -13,20 +13,30 @@ const About = lazy(() => import('./About'));
 const Skills = lazy(() => import('./Skills'));
 const Projects = lazy(() => import('./Projects'));
 const Process = lazy(() => import('./Process'));
-const ProofOfWork = lazy(() => import('./ProofOfWork'));
+// const ProofOfWork = lazy(() => import('./ProofOfWork'));
 const Experience = lazy(() => import('./Experience'));
 const Contact = lazy(() => import('./Contact'));
 
-// Section loading fallback
+// Section loading fallback - matches portfolio dark theme (seamless, no breakdown)
 const SectionFallback = () => (
-  <div className="py-20 bg-white dark:bg-gray-900">
-    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+  <div className="py-20 relative" style={{ background: '#060811' }}>
+    <div
+      className="absolute inset-0 pointer-events-none opacity-30"
+      style={{
+        backgroundImage: `
+          linear-gradient(rgba(255,255,255,0.03) 1px, transparent 1px),
+          linear-gradient(90deg, rgba(255,255,255,0.03) 1px, transparent 1px)
+        `,
+        backgroundSize: '60px 60px',
+      }}
+    />
+    <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
       <div className="animate-pulse space-y-8">
-        <div className="h-8 bg-gray-200 dark:bg-gray-800 rounded w-1/4 mx-auto"></div>
-        <div className="h-4 bg-gray-200 dark:bg-gray-800 rounded w-1/2 mx-auto"></div>
+        <div className="h-8 bg-white/10 rounded w-1/4 mx-auto" />
+        <div className="h-4 bg-white/5 rounded w-1/2 mx-auto" />
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mt-8">
           {[...Array(3)].map((_, i) => (
-            <div key={i} className="h-48 bg-gray-200 dark:bg-gray-800 rounded-xl"></div>
+            <div key={i} className="h-48 bg-white/5 rounded-xl" />
           ))}
         </div>
       </div>
@@ -82,9 +92,9 @@ const PortfolioHome = () => {
           <Process />
         </Suspense>
 
-        <Suspense fallback={<SectionFallback />}>
+        {/* <Suspense fallback={<SectionFallback />}>
           <ProofOfWork />
-        </Suspense>
+        </Suspense> */}
 
         <Suspense fallback={<SectionFallback />}>
           <Testimonials />

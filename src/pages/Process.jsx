@@ -1,318 +1,452 @@
-import { motion } from 'framer-motion';
-import { 
-  SectionHeader,
-  StaggerContainer,
-  StaggerItem
-} from '../components/ScrollAnimations';
+import { useState, useEffect, useRef } from 'react';
 
+function useInView(threshold = 0.1) {
+  const ref = useRef(null);
+  const [inView, setInView] = useState(false);
+  useEffect(() => {
+    const el = ref.current;
+    if (!el) return;
+    const observer = new IntersectionObserver(
+      ([entry]) => { if (entry.isIntersecting) setInView(true); },
+      { threshold }
+    );
+    observer.observe(el);
+    return () => observer.unobserve(el);
+  }, [threshold]);
+  return [ref, inView];
+}
+
+/* ─────────────────────────────────────────────
+   6 process steps
+───────────────────────────────────────────── */
+const STEPS = [
+  {
+    id: '01', title: 'Requirements', sub: 'Understand',
+    from: '#38bdf8', to: '#6366f1',
+    icon: <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={1.5} style={{width:22,height:22}}><path strokeLinecap="round" strokeLinejoin="round" d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607 10.607z"/></svg>,
+    points: ['Business goals & vision', 'Stakeholder interviews', 'Scope, timeline & budget'],
+  },
+  {
+    id: '02', title: 'Design & Plan', sub: 'Architecture',
+    from: '#a78bfa', to: '#f472b6',
+    icon: <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={1.5} style={{width:22,height:22}}><path strokeLinecap="round" strokeLinejoin="round" d="M9.53 16.122a3 3 0 00-5.78 1.128 2.25 2.25 0 01-2.4 2.245 4.5 4.5 0 008.4-2.245c0-.399-.078-.78-.22-1.128zm0 0a15.998 15.998 0 003.388-1.62m-5.043-.025a15.994 15.994 0 011.622-3.395m3.42 3.42a15.995 15.995 0 004.764-4.648l3.876-5.814a1.151 1.151 0 00-1.597-1.597L14.146 6.32a15.996 15.996 0 00-4.649 4.763m3.42 3.42a6.776 6.776 0 00-3.42-3.42"/></svg>,
+    points: ['System architecture', 'UI/UX wireframes', 'Tech stack selection'],
+  },
+  {
+    id: '03', title: 'DB & APIs', sub: 'Data Layer',
+    from: '#fb923c', to: '#f43f5e',
+    icon: <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={1.5} style={{width:22,height:22}}><path strokeLinecap="round" strokeLinejoin="round" d="M20.25 6.375c0 2.278-3.694 4.125-8.25 4.125S3.75 8.653 3.75 6.375m16.5 0c0-2.278-3.694-4.125-8.25-4.125S3.75 4.097 3.75 6.375m16.5 0v11.25c0 2.278-3.694 4.125-8.25 4.125s-8.25-1.847-8.25-4.125V6.375m16.5 2.625c0 2.278-3.694 4.125-8.25 4.125s-8.25-1.847-8.25-4.125m16.5 5.625c0 2.278-3.694 4.125-8.25 4.125s-8.25-1.847-8.25-4.125"/></svg>,
+    points: ['Database schema design', 'RESTful API design', 'API docs & contracts'],
+  },
+  {
+    id: '04', title: 'Build', sub: 'Development',
+    from: '#34d399', to: '#38bdf8',
+    icon: <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={1.5} style={{width:22,height:22}}><path strokeLinecap="round" strokeLinejoin="round" d="M17.25 6.75L22.5 12l-5.25 5.25m-10.5 0L1.5 12l5.25-5.25m7.5-3l-4.5 16.5"/></svg>,
+    points: ['Frontend development', 'Backend development', 'Code reviews & testing'],
+  },
+  {
+    id: '05', title: 'Optimise', sub: 'QA & Testing',
+    from: '#facc15', to: '#fb923c',
+    icon: <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={1.5} style={{width:22,height:22}}><path strokeLinecap="round" strokeLinejoin="round" d="M9 12.75L11.25 15 15 9.75M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>,
+    points: ['Performance testing', 'Security audits', 'Bug fixes & refinement'],
+  },
+  {
+    id: '06', title: 'Deploy', sub: 'Production',
+    from: '#818cf8', to: '#c4b5fd',
+    icon: <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={1.5} style={{width:22,height:22}}><path strokeLinecap="round" strokeLinejoin="round" d="M15.59 14.37a6 6 0 01-5.84 7.38v-4.8m5.84-2.58a14.98 14.98 0 006.16-12.12A14.98 14.98 0 009.631 8.41m5.96 5.96a14.926 14.926 0 01-5.841 2.58m-.119-8.54a6 6 0 00-7.381 5.84h4.8m2.581-5.84a14.927 14.927 0 00-2.58 5.84m2.699 2.7c-.103.021-.207.041-.311.06a15.09 15.09 0 01-2.448-2.448 14.9 14.9 0 01.06-.312m-2.24 2.39a4.493 4.493 0 00-1.757 4.306 4.493 4.493 0 004.306-1.758M16.5 9a1.5 1.5 0 11-3 0 1.5 1.5 0 013 0z"/></svg>,
+    points: ['CI/CD pipeline setup', 'Production deployment', 'Monitoring & support'],
+  },
+];
+
+/* ─────────────────────────────────────────────
+   Card
+───────────────────────────────────────────── */
+function Card({ step, inView, delay, hovered, onHover, onLeave }) {
+  const h = hovered;
+  return (
+    <div
+      onMouseEnter={onHover}
+      onMouseLeave={onLeave}
+      style={{
+        borderRadius: 16,
+        background: h ? `linear-gradient(145deg,${step.from}16,${step.to}08)` : 'rgba(255,255,255,0.03)',
+        border: `1px solid ${h ? step.from + '70' : 'rgba(255,255,255,0.09)'}`,
+        padding: '18px 16px 16px',
+        display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 10,
+        position: 'relative', overflow: 'hidden', cursor: 'default',
+        boxShadow: h ? `0 18px 48px rgba(0,0,0,0.5),0 0 32px ${step.from}22` : '0 2px 12px rgba(0,0,0,0.2)',
+        opacity: inView ? 1 : 0,
+        transform: inView ? (h ? 'translateY(-6px) scale(1.02)' : 'none') : 'translateY(28px) scale(0.97)',
+        transition: `opacity .6s ease ${delay}s, transform .55s cubic-bezier(.22,1,.36,1) ${delay}s, border-color .2s, background .2s, box-shadow .25s`,
+        height: '100%', boxSizing: 'border-box',
+      }}
+    >
+      {/* top gradient bar */}
+      <div style={{ position:'absolute', top:0, left:0, right:0, height:2, borderRadius:'16px 16px 0 0',
+        background:`linear-gradient(to right,${step.from},${step.to})`, opacity: h ? 1 : 0.35, transition:'opacity .2s' }}/>
+      {/* glow */}
+      <div style={{ position:'absolute', inset:0, pointerEvents:'none', borderRadius:16,
+        background:`radial-gradient(140px circle at 50% 0%,${step.from}16,transparent 70%)`,
+        opacity: h ? 1 : 0, transition:'opacity .35s' }}/>
+      {/* step id */}
+      <div style={{ position:'absolute', top:10, right:12, fontSize:10, fontWeight:800,
+        fontFamily:'Syne,sans-serif', opacity:.5,
+        background:`linear-gradient(135deg,${step.from},${step.to})`,
+        WebkitBackgroundClip:'text', WebkitTextFillColor:'transparent' }}>{step.id}</div>
+      {/* icon */}
+      <div style={{ width:46, height:46, borderRadius:12, flexShrink:0,
+        background:`linear-gradient(135deg,${step.from}22,${step.to}22)`,
+        border:`1px solid ${step.from}44`, color:step.from,
+        display:'flex', alignItems:'center', justifyContent:'center',
+        transform: h ? 'scale(1.1)' : 'scale(1)', transition:'transform .2s',
+        position:'relative', zIndex:1 }}>
+        {step.icon}
+      </div>
+      {/* title + subtitle */}
+      <div style={{ textAlign:'center', position:'relative', zIndex:1 }}>
+        <h3 style={{ fontSize:14, fontWeight:800, margin:'0 0 2px', fontFamily:'Syne,sans-serif', lineHeight:1.2,
+          background:`linear-gradient(135deg,${step.from},${step.to})`,
+          WebkitBackgroundClip:'text', WebkitTextFillColor:'transparent', backgroundClip:'text' }}>{step.title}</h3>
+        <p style={{ fontSize:10, color:'#6b7280', margin:0, fontWeight:500,
+          letterSpacing:'.4px', textTransform:'uppercase' }}>{step.sub}</p>
+      </div>
+      {/* divider */}
+      <div style={{ width:'100%', height:1, background:'rgba(255,255,255,0.06)', position:'relative', zIndex:1 }}/>
+      {/* bullets */}
+      <div style={{ width:'100%', display:'flex', flexDirection:'column', gap:5, position:'relative', zIndex:1 }}>
+        {step.points.map(p => (
+          <div key={p} style={{ display:'flex', alignItems:'flex-start', gap:6 }}>
+            <span style={{ color:step.from, fontSize:10, flexShrink:0, marginTop:2, fontWeight:700 }}>✓</span>
+            <span style={{ fontSize:11, color:'#4b5563', lineHeight:1.4 }}>{p}</span>
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+}
+
+/* ─────────────────────────────────────────────
+   Horizontal arrow (right or left)
+───────────────────────────────────────────── */
+function HArrow({ fromColor, toColor, dir, inView, delay }) {
+  const id = `ha${delay}${dir}`.replace(/\./g,'_');
+  return (
+    <div style={{ display:'flex', alignItems:'center', justifyContent:'center', height:'100%',
+      opacity: inView ? 1 : 0, transition:`opacity .5s ease ${delay}s` }}>
+      <svg width="52" height="22" viewBox="0 0 52 22" style={{ overflow:'visible' }}>
+        <defs>
+          <linearGradient id={id}
+            x1={dir==='right'?'0%':'100%'} y1="0%"
+            x2={dir==='right'?'100%':'0%'} y2="0%">
+            <stop offset="0%"   stopColor={fromColor} stopOpacity=".9"/>
+            <stop offset="100%" stopColor={toColor}   stopOpacity=".9"/>
+          </linearGradient>
+        </defs>
+        {dir === 'right' ? (
+          <>
+            <line x1="2"  y1="11" x2="40" y2="11" stroke={`url(#${id})`} strokeWidth="2.2" strokeLinecap="round"/>
+            <polyline points="32,4 46,11 32,18" fill="none" stroke={`url(#${id})`} strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"/>
+          </>
+        ) : (
+          <>
+            <line x1="50" y1="11" x2="12" y2="11" stroke={`url(#${id})`} strokeWidth="2.2" strokeLinecap="round"/>
+            <polyline points="20,4 6,11 20,18"  fill="none" stroke={`url(#${id})`} strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"/>
+          </>
+        )}
+      </svg>
+    </div>
+  );
+}
+
+/* ─────────────────────────────────────────────
+   Down-arrow connector (between rows, on the
+   RIGHT side — centre of the 3rd column)
+───────────────────────────────────────────── */
+function DownArrow({ fromColor, toColor, inView, delay }) {
+  return (
+    <div style={{ opacity: inView ? 1 : 0, transition:`opacity .5s ease ${delay}s`,
+      display:'flex', justifyContent:'center', alignItems:'center', height:'100%' }}>
+      <svg width="22" height="56" viewBox="0 0 22 56" style={{ overflow:'visible' }}>
+        <defs>
+          <linearGradient id="downArr" x1="0%" y1="0%" x2="0%" y2="100%">
+            <stop offset="0%"   stopColor={fromColor} stopOpacity=".9"/>
+            <stop offset="100%" stopColor={toColor}   stopOpacity=".9"/>
+          </linearGradient>
+        </defs>
+        <line x1="11" y1="2" x2="11" y2="42" stroke="url(#downArr)" strokeWidth="2.2" strokeLinecap="round"/>
+        <polyline points="3,34 11,46 19,34" fill="none" stroke={toColor} strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"/>
+      </svg>
+    </div>
+  );
+}
+
+/* ─────────────────────────────────────────────
+   Main component
+───────────────────────────────────────────── */
 export default function Process() {
-  const processSteps = [
-    {
-      id: 1,
-      title: "Understand",
-      icon: "🔍",
-      description: "Deep dive into your business goals, target audience, and technical requirements. I ask the right questions to align development with your vision.",
-      color: "from-blue-500 to-cyan-500",
-      bgColor: "bg-blue-50 dark:bg-blue-900/20",
-      borderColor: "border-blue-200 dark:border-blue-700",
-      iconBg: "bg-blue-100 dark:bg-blue-800/50",
-      deliverables: [
-        "Requirements analysis",
-        "Technical feasibility study",
-        "Project timeline & milestones"
-      ]
-    },
-    {
-      id: 2,
-      title: "Design",
-      icon: "🎨",
-      description: "Architect scalable solutions with clean system design. Database schemas, API structures, and user flows that prioritize performance and security.",
-      color: "from-purple-500 to-pink-500",
-      bgColor: "bg-purple-50 dark:bg-purple-900/20",
-      borderColor: "border-purple-200 dark:border-purple-700",
-      iconBg: "bg-purple-100 dark:bg-purple-800/50",
-      deliverables: [
-        "System architecture design",
-        "Database schema design",
-        "API documentation"
-      ]
-    },
-    {
-      id: 3,
-      title: "Build",
-      icon: "⚡",
-      description: "Write clean, maintainable code following best practices. Laravel backends, React frontends, and robust APIs built to scale with your business.",
-      color: "from-orange-500 to-red-500",
-      bgColor: "bg-orange-50 dark:bg-orange-900/20",
-      borderColor: "border-orange-200 dark:border-orange-700",
-      iconBg: "bg-orange-100 dark:bg-orange-800/50",
-      deliverables: [
-        "Feature development",
-        "Unit & integration tests",
-        "Code reviews & refactoring"
-      ]
-    },
-    {
-      id: 4,
-      title: "Deploy",
-      icon: "🚀",
-      description: "Ship to production with confidence. CI/CD pipelines, environment configurations, and monitoring to ensure smooth deployments and zero downtime.",
-      color: "from-green-500 to-emerald-500",
-      bgColor: "bg-green-50 dark:bg-green-900/20",
-      borderColor: "border-green-200 dark:border-green-700",
-      iconBg: "bg-green-100 dark:bg-green-800/50",
-      deliverables: [
-        "CI/CD pipeline setup",
-        "Production deployment",
-        "Performance monitoring"
-      ]
-    },
-    {
-      id: 5,
-      title: "Optimize",
-      icon: "📈",
-      description: "Continuous improvement through monitoring, feedback, and iterations. Performance tuning, security audits, and feature enhancements based on real usage.",
-      color: "from-indigo-500 to-blue-500",
-      bgColor: "bg-indigo-50 dark:bg-indigo-900/20",
-      borderColor: "border-indigo-200 dark:border-indigo-700",
-      iconBg: "bg-indigo-100 dark:bg-indigo-800/50",
-      deliverables: [
-        "Performance optimization",
-        "Security audits",
-        "User feedback integration"
-      ]
-    }
-  ];
+  const [headerRef, headerInView] = useInView(0.2);
+  const [roadRef,   roadInView]   = useInView(0.05);
+  const [ctaRef,    ctaInView]    = useInView(0.2);
+  const [hov, setHov] = useState(null);
 
-  const containerVariants = {
-    hidden: { opacity: 0 },
-    visible: {
-      opacity: 1,
-      transition: {
-        staggerChildren: 0.2
-      }
-    }
-  };
+  /*
+    CSS Grid layout — 5 columns × 4 rows:
+    Cols:  card  | arrow | card  | arrow | card
+    Width: 1fr     52px   1fr     52px    1fr
 
-  const itemVariants = {
-    hidden: { opacity: 0, y: 50 },
-    visible: {
-      opacity: 1,
-      y: 0,
-      transition: {
-        duration: 0.6,
-        ease: "easeOut"
-      }
-    }
-  };
+    Row 1 (h: auto)  — step 1, →, step 2, →, step 3     (cards)
+    Row 2 (h: 60px)  — empty, empty, empty, empty, DOWN  (down arrow in col 5)
+    Row 3 (h: auto)  — step 6, ←, step 5, ←, step 4    (cards; col 1=step6 aligns under col1=step1)
+  */
 
-  const arrowVariants = {
-    hidden: { opacity: 0, scale: 0 },
-    visible: {
-      opacity: 1,
-      scale: 1,
-      transition: {
-        duration: 0.4,
-        ease: "backOut"
-      }
-    }
-  };
+  const CARD_H = 200; // px — fixed card height so grid rows are even
 
   return (
-    <section id="process" className="py-20 bg-gradient-to-br from-gray-50 to-blue-50 dark:from-gray-900 dark:to-gray-800 relative overflow-hidden">
-      {/* Background Elements */}
-      <div className="absolute inset-0 bg-gradient-to-br from-white/30 to-transparent dark:from-transparent dark:to-gray-900/50" />
-      <div className="absolute top-0 left-0 w-96 h-96 bg-gradient-to-br from-blue-100 to-purple-100 dark:from-blue-900/10 dark:to-purple-900/10 rounded-full blur-3xl transform -translate-x-1/2 -translate-y-1/2" />
-      <div className="absolute bottom-0 right-0 w-96 h-96 bg-gradient-to-br from-pink-100 to-orange-100 dark:from-pink-900/10 dark:to-orange-900/10 rounded-full blur-3xl transform translate-x-1/2 translate-y-1/2" />
+    <>
+      <style>{`
+        @import url('https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500&display=swap');
+        #process * { font-family:'DM Sans',sans-serif; box-sizing:border-box; }
+        #process .syne { font-family:'Syne',sans-serif; }
+        .grid-subtle {
+          background-image:
+            linear-gradient(rgba(255,255,255,.018) 1px,transparent 1px),
+            linear-gradient(90deg,rgba(255,255,255,.018) 1px,transparent 1px);
+          background-size:60px 60px;
+        }
+        .proc-cta-p {
+          background:linear-gradient(135deg,#38bdf8,#818cf8);
+          color:white; transition:all .28s; position:relative; overflow:hidden;
+        }
+        .proc-cta-p::before { content:''; position:absolute; inset:0;
+          background:linear-gradient(135deg,#818cf8,#f472b6); opacity:0; transition:opacity .28s; }
+        .proc-cta-p:hover::before { opacity:1; }
+        .proc-cta-p:hover { transform:translateY(-2px); box-shadow:0 12px 32px rgba(56,189,248,.35); }
+        .proc-cta-p span { position:relative; z-index:1; }
+        .proc-cta-s {
+          border:1.5px solid rgba(255,255,255,.2); color:white;
+          transition:all .28s; background:transparent;
+        }
+        .proc-cta-s:hover { border-color:rgba(255,255,255,.4); background:rgba(255,255,255,.06); transform:translateY(-2px); }
+      `}</style>
 
-      <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        {/* Header */}
-        <SectionHeader
-          title={
-            <span className="bg-gradient-to-r from-blue-600 via-purple-600 to-pink-600 bg-clip-text text-transparent">
-              My Development Process
-            </span>
-          }
-          subtitle="From idea to production—here's how I turn your vision into reliable, scalable software that delivers results."
-          className="mb-16"
-        />
+      <section id="process" className="relative py-28 overflow-hidden" style={{background:'#060811'}}>
+        <div className="absolute inset-0 grid-subtle pointer-events-none"/>
+        <div className="absolute top-0 left-0 w-96 h-96 rounded-full opacity-10 pointer-events-none"
+          style={{background:'radial-gradient(circle,#38bdf8,transparent 70%)',filter:'blur(80px)',transform:'translate(-30%,-30%)'}}/>
+        <div className="absolute bottom-0 right-0 w-80 h-80 rounded-full opacity-10 pointer-events-none"
+          style={{background:'radial-gradient(circle,#f472b6,transparent 70%)',filter:'blur(80px)',transform:'translate(30%,30%)'}}/>
 
-        {/* Process Steps - Desktop View */}
-        <motion.div
-          variants={containerVariants}
-          initial="hidden"
-          whileInView="visible"
-          viewport={{ once: true, margin: "-100px" }}
-          className="hidden lg:block relative"
-        >
-          {/* Connecting Line */}
-          <div className="absolute top-24 left-0 right-0 h-1 bg-gradient-to-r from-blue-500 via-purple-500 via-orange-500 via-green-500 to-indigo-500 rounded-full opacity-20" />
-          
-          <div className="grid grid-cols-5 gap-8">
-            {processSteps.map((step, index) => (
-              <motion.div
-                key={step.id}
-                variants={itemVariants}
-                className="relative"
-              >
-                {/* Step Card */}
-                <div className={`${step.bgColor} ${step.borderColor} border-2 rounded-2xl p-6 shadow-lg hover:shadow-2xl transition-all duration-300 group relative overflow-hidden h-full`}>
-                  {/* Gradient Overlay */}
-                  <div className={`absolute inset-0 bg-gradient-to-br ${step.color} opacity-0 group-hover:opacity-10 transition-opacity duration-300`} />
-                  
-                  {/* Step Number */}
-                  <div className="absolute top-4 right-4 w-8 h-8 rounded-full bg-white dark:bg-gray-800 flex items-center justify-center text-sm font-bold text-gray-400 dark:text-gray-600">
-                    {step.id}
-                  </div>
+        <div className="relative z-10 max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
 
-                  {/* Icon */}
-                  <div className={`w-16 h-16 ${step.iconBg} rounded-2xl flex items-center justify-center mb-4 group-hover:scale-110 transition-transform duration-300 mx-auto relative`}>
-                    <span className="text-3xl">{step.icon}</span>
-                    {/* Pulse animation */}
-                    <div className={`absolute inset-0 bg-gradient-to-br ${step.color} opacity-20 rounded-2xl animate-pulse`} />
-                  </div>
-
-                  {/* Content */}
-                  <h3 className={`text-xl font-bold mb-3 text-center bg-gradient-to-r ${step.color} bg-clip-text text-transparent`}>
-                    {step.title}
-                  </h3>
-                  
-                  <p className="text-sm text-gray-600 dark:text-gray-300 mb-4 leading-relaxed">
-                    {step.description}
-                  </p>
-
-                  {/* Deliverables */}
-                  <div className="space-y-2">
-                    <div className="text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wide mb-2">
-                      Deliverables:
-                    </div>
-                    {step.deliverables.map((deliverable, idx) => (
-                      <div key={idx} className="flex items-start text-xs text-gray-600 dark:text-gray-400">
-                        <span className={`mr-2 mt-0.5 text-transparent bg-gradient-to-r ${step.color} bg-clip-text font-bold`}>✓</span>
-                        {deliverable}
-                      </div>
-                    ))}
-                  </div>
-                </div>
-
-                {/* Arrow */}
-                {index < processSteps.length - 1 && (
-                  <motion.div
-                    variants={arrowVariants}
-                    className="absolute top-20 -right-4 z-10 hidden lg:block"
-                  >
-                    <svg className="w-8 h-8 text-gray-400 dark:text-gray-600" fill="currentColor" viewBox="0 0 20 20">
-                      <path fillRule="evenodd" d="M10.293 3.293a1 1 0 011.414 0l6 6a1 1 0 010 1.414l-6 6a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-4.293-4.293a1 1 0 010-1.414z" clipRule="evenodd" />
-                    </svg>
-                  </motion.div>
-                )}
-              </motion.div>
-            ))}
+          {/* Header */}
+          <div ref={headerRef} className="text-center mb-16" style={{
+            opacity:headerInView?1:0, transform:headerInView?'none':'translateY(24px)',
+            transition:'opacity .7s,transform .7s cubic-bezier(.22,1,.36,1)',
+          }}>
+            <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full border border-white/10 bg-white/5 text-slate-400 text-xs font-medium tracking-widest uppercase mb-6">
+              <span className="w-1.5 h-1.5 rounded-full bg-violet-400 inline-block"/>
+              How I work
+            </div>
+            <h2 className="syne text-4xl sm:text-5xl font-black text-white mb-4 leading-tight">
+              My Development{' '}
+              <span style={{background:'linear-gradient(135deg,#38bdf8,#818cf8,#f472b6)',
+                WebkitBackgroundClip:'text',WebkitTextFillColor:'transparent',backgroundClip:'text'}}>
+                Process
+              </span>
+            </h2>
+            <p className="text-slate-400 text-lg max-w-xl mx-auto leading-relaxed">
+              From idea to production — how I turn your vision into reliable, scalable software.
+            </p>
           </div>
-        </motion.div>
 
-        {/* Process Steps - Mobile & Tablet View */}
-        <div className="lg:hidden">
-          <StaggerContainer staggerDelay={0.15} className="space-y-6">
-            {processSteps.map((step, index) => (
-              <StaggerItem key={step.id}>
-                <motion.div
-                  whileHover={{ scale: 1.02 }}
-                  className={`${step.bgColor} ${step.borderColor} border-2 rounded-2xl p-6 shadow-lg relative overflow-hidden group`}
-                >
-                  {/* Gradient Overlay */}
-                  <div className={`absolute inset-0 bg-gradient-to-br ${step.color} opacity-0 group-hover:opacity-10 transition-opacity duration-300`} />
-                  
-                  <div className="relative z-10 flex items-start gap-4">
-                    {/* Icon & Number */}
-                    <div className="flex-shrink-0">
-                      <div className={`w-16 h-16 ${step.iconBg} rounded-2xl flex items-center justify-center mb-2 relative`}>
-                        <span className="text-3xl">{step.icon}</span>
-                        <div className={`absolute inset-0 bg-gradient-to-br ${step.color} opacity-20 rounded-2xl animate-pulse`} />
-                      </div>
-                      <div className="w-8 h-8 rounded-full bg-white dark:bg-gray-800 flex items-center justify-center text-sm font-bold text-gray-400 dark:text-gray-600 mx-auto">
-                        {step.id}
-                      </div>
+          {/* ══════════════════════════════════════════════════════════
+              DESKTOP  — CSS grid snake
+              Col template: 1fr 52px 1fr 52px 1fr
+              Row 1: [01] [→] [02] [→] [03]
+              Row 2: [ ]  [ ]  [ ]  [ ] [↓]   ← down arrow in col 5
+              Row 3: [06] [←] [05] [←] [04]
+          ══════════════════════════════════════════════════════════ */}
+          <div ref={roadRef} className="hidden lg:block mb-24">
+            <div style={{
+              display: 'grid',
+              gridTemplateColumns: '1fr 52px 1fr 52px 1fr',
+              gridTemplateRows: `${CARD_H}px 60px ${CARD_H}px`,
+              gap: 0,
+            }}>
+
+              {/* ── ROW 1: steps 01 → 02 → 03 ── */}
+
+              {/* col 1 row 1 — step 01 */}
+              <div style={{gridColumn:1,gridRow:1}}>
+                <Card step={STEPS[0]} inView={roadInView} delay={.1}
+                  hovered={hov===0} onHover={()=>setHov(0)} onLeave={()=>setHov(null)}/>
+              </div>
+
+              {/* col 2 row 1 — → arrow */}
+              <div style={{gridColumn:2,gridRow:1}}>
+                <HArrow fromColor={STEPS[0].to} toColor={STEPS[1].from}
+                  dir="right" inView={roadInView} delay={.22}/>
+              </div>
+
+              {/* col 3 row 1 — step 02 */}
+              <div style={{gridColumn:3,gridRow:1}}>
+                <Card step={STEPS[1]} inView={roadInView} delay={.18}
+                  hovered={hov===1} onHover={()=>setHov(1)} onLeave={()=>setHov(null)}/>
+              </div>
+
+              {/* col 4 row 1 — → arrow */}
+              <div style={{gridColumn:4,gridRow:1}}>
+                <HArrow fromColor={STEPS[1].to} toColor={STEPS[2].from}
+                  dir="right" inView={roadInView} delay={.32}/>
+              </div>
+
+              {/* col 5 row 1 — step 03 */}
+              <div style={{gridColumn:5,gridRow:1}}>
+                <Card step={STEPS[2]} inView={roadInView} delay={.26}
+                  hovered={hov===2} onHover={()=>setHov(2)} onLeave={()=>setHov(null)}/>
+              </div>
+
+              {/* ── ROW 2: only the DOWN arrow in col 5 ── */}
+
+              {/* col 5 row 2 — ↓ down arrow */}
+              <div style={{gridColumn:5,gridRow:2}}>
+                <DownArrow fromColor={STEPS[2].to} toColor={STEPS[3].from}
+                  inView={roadInView} delay={.42}/>
+              </div>
+
+              {/* ── ROW 3: steps 06 ← 05 ← 04  (04 in col5, aligned under 03) ── */}
+
+              {/* col 5 row 3 — step 04 (right-most, directly under step 03) */}
+              <div style={{gridColumn:5,gridRow:3}}>
+                <Card step={STEPS[3]} inView={roadInView} delay={.5}
+                  hovered={hov===3} onHover={()=>setHov(3)} onLeave={()=>setHov(null)}/>
+              </div>
+
+              {/* col 4 row 3 — ← arrow */}
+              <div style={{gridColumn:4,gridRow:3}}>
+                <HArrow fromColor={STEPS[3].to} toColor={STEPS[4].from}
+                  dir="left" inView={roadInView} delay={.6}/>
+              </div>
+
+              {/* col 3 row 3 — step 05 */}
+              <div style={{gridColumn:3,gridRow:3}}>
+                <Card step={STEPS[4]} inView={roadInView} delay={.56}
+                  hovered={hov===4} onHover={()=>setHov(4)} onLeave={()=>setHov(null)}/>
+              </div>
+
+              {/* col 2 row 3 — ← arrow */}
+              <div style={{gridColumn:2,gridRow:3}}>
+                <HArrow fromColor={STEPS[4].to} toColor={STEPS[5].from}
+                  dir="left" inView={roadInView} delay={.68}/>
+              </div>
+
+              {/* col 1 row 3 — step 06 */}
+              <div style={{gridColumn:1,gridRow:3}}>
+                <Card step={STEPS[5]} inView={roadInView} delay={.62}
+                  hovered={hov===5} onHover={()=>setHov(5)} onLeave={()=>setHov(null)}/>
+              </div>
+
+            </div>
+          </div>
+
+          {/* ══════════════════════════════════════════════════════════
+              MOBILE — vertical list, sequential order
+          ══════════════════════════════════════════════════════════ */}
+          <div className="lg:hidden mb-20">
+            {STEPS.map((step, i) => (
+              <div key={step.id}>
+                <div style={{
+                  borderRadius:16, background:'rgba(255,255,255,0.03)',
+                  border:'1px solid rgba(255,255,255,0.08)', padding:18,
+                  position:'relative', overflow:'hidden',
+                  opacity:roadInView?1:0,
+                  transform:roadInView?'none':'translateX(-20px)',
+                  transition:`opacity .6s ease ${i*.07}s,transform .6s cubic-bezier(.22,1,.36,1) ${i*.07}s`,
+                }}>
+                  <div style={{position:'absolute',left:0,top:0,bottom:0,width:3,borderRadius:'2px 0 0 2px',
+                    background:`linear-gradient(to bottom,${step.from},${step.to})`}}/>
+                  <div style={{display:'flex',alignItems:'flex-start',gap:14,paddingLeft:10}}>
+                    <div style={{width:44,height:44,borderRadius:11,flexShrink:0,
+                      background:`linear-gradient(135deg,${step.from}22,${step.to}22)`,
+                      border:`1px solid ${step.from}44`,color:step.from,
+                      display:'flex',alignItems:'center',justifyContent:'center'}}>
+                      {step.icon}
                     </div>
-
-                    {/* Content */}
-                    <div className="flex-1">
-                      <h3 className={`text-xl font-bold mb-2 bg-gradient-to-r ${step.color} bg-clip-text text-transparent`}>
-                        {step.title}
-                      </h3>
-                      
-                      <p className="text-sm text-gray-600 dark:text-gray-300 mb-4 leading-relaxed">
-                        {step.description}
-                      </p>
-
-                      {/* Deliverables */}
-                      <div className="space-y-2">
-                        <div className="text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wide">
-                          Deliverables:
-                        </div>
-                        {step.deliverables.map((deliverable, idx) => (
-                          <div key={idx} className="flex items-start text-xs text-gray-600 dark:text-gray-400">
-                            <span className={`mr-2 mt-0.5 text-transparent bg-gradient-to-r ${step.color} bg-clip-text font-bold`}>✓</span>
-                            {deliverable}
-                          </div>
+                    <div style={{flex:1}}>
+                      <div style={{display:'flex',alignItems:'center',gap:8,marginBottom:4}}>
+                        <span style={{fontSize:10,fontWeight:800,opacity:.5,fontFamily:'Syne,sans-serif',
+                          background:`linear-gradient(135deg,${step.from},${step.to})`,
+                          WebkitBackgroundClip:'text',WebkitTextFillColor:'transparent'}}>{step.id}</span>
+                        <h3 style={{fontSize:15,fontWeight:800,margin:0,fontFamily:'Syne,sans-serif',
+                          background:`linear-gradient(135deg,${step.from},${step.to})`,
+                          WebkitBackgroundClip:'text',WebkitTextFillColor:'transparent',backgroundClip:'text'}}>{step.title}</h3>
+                        <span style={{fontSize:10,color:'#374151',fontWeight:500}}>· {step.sub}</span>
+                      </div>
+                      <div style={{display:'flex',flexWrap:'wrap',gap:5}}>
+                        {step.points.map(p=>(
+                          <span key={p} style={{fontSize:11,color:'#4b5563',padding:'3px 9px',borderRadius:99,
+                            border:'1px solid rgba(255,255,255,.07)',background:'rgba(255,255,255,.02)',
+                            display:'flex',alignItems:'center',gap:4}}>
+                            <span style={{color:step.from}}>✓</span>{p}
+                          </span>
                         ))}
                       </div>
                     </div>
                   </div>
-                </motion.div>
-
-                {/* Arrow Down for Mobile */}
-                {index < processSteps.length - 1 && (
-                  <motion.div
-                    initial={{ opacity: 0, y: -10 }}
-                    whileInView={{ opacity: 1, y: 0 }}
-                    viewport={{ once: true }}
-                    transition={{ delay: 0.2 }}
-                    className="flex justify-center my-4"
-                  >
-                    <svg className="w-6 h-6 text-gray-400 dark:text-gray-600" fill="currentColor" viewBox="0 0 20 20">
-                      <path fillRule="evenodd" d="M16.707 10.293a1 1 0 010 1.414l-6 6a1 1 0 01-1.414 0l-6-6a1 1 0 111.414-1.414L9 14.586V3a1 1 0 012 0v11.586l4.293-4.293a1 1 0 011.414 0z" clipRule="evenodd" />
+                </div>
+                {i < STEPS.length - 1 && (
+                  <div style={{display:'flex',justifyContent:'flex-start',paddingLeft:36,margin:'4px 0',
+                    opacity:roadInView?1:0,transition:`opacity .4s ease ${i*.07+.3}s`}}>
+                    <svg viewBox="0 0 20 24" width="14" height="20">
+                      <defs>
+                        <linearGradient id={`mc${i}`} x1="0%" y1="0%" x2="0%" y2="100%">
+                          <stop offset="0%"   stopColor={step.to}           stopOpacity=".7"/>
+                          <stop offset="100%" stopColor={STEPS[i+1].from}   stopOpacity=".7"/>
+                        </linearGradient>
+                      </defs>
+                      <line x1="10" y1="0" x2="10" y2="17" stroke={`url(#mc${i})`} strokeWidth="1.5" strokeLinecap="round"/>
+                      <polyline points="5,12 10,20 15,12" fill="none" stroke={STEPS[i+1].from} strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
                     </svg>
-                  </motion.div>
+                  </div>
                 )}
-              </StaggerItem>
+              </div>
             ))}
-          </StaggerContainer>
-        </div>
+          </div>
 
-        {/* Bottom CTA */}
-        <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.6, delay: 0.4 }}
-          className="mt-16 text-center"
-        >
-          <div className="inline-block bg-white dark:bg-gray-800 rounded-2xl p-8 shadow-xl border border-gray-200 dark:border-gray-700">
-            <h3 className="text-2xl font-bold text-gray-800 dark:text-white mb-3">
-              Ready to Start Your Project?
-            </h3>
-            <p className="text-gray-600 dark:text-gray-300 mb-6 max-w-2xl">
-              Let's discuss how this proven process can bring your ideas to life with quality, speed, and reliability.
-            </p>
-            <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <a
-                href="#contact"
-                className="px-8 py-3 bg-gradient-to-r from-blue-600 to-purple-600 text-white rounded-xl font-semibold hover:shadow-lg hover:scale-105 transition-all duration-300"
-              >
-                Let's Talk
-              </a>
-              <a
-                href="#projects"
-                className="px-8 py-3 border-2 border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-300 rounded-xl font-semibold hover:bg-gray-50 dark:hover:bg-gray-700 hover:scale-105 transition-all duration-300"
-              >
-                View My Work
-              </a>
+          {/* CTA */}
+          <div ref={ctaRef} className="relative rounded-3xl overflow-hidden p-10 sm:p-14 text-center"
+            style={{
+              background:'linear-gradient(135deg,#1a2744 0%,#2d1b69 50%,#1a2744 100%)',
+              border:'1px solid rgba(255,255,255,.1)',
+              opacity:ctaInView?1:0,
+              transform:ctaInView?'none':'translateY(24px)',
+              transition:'opacity .7s ease .1s,transform .7s cubic-bezier(.22,1,.36,1) .1s',
+            }}>
+            <div className="absolute inset-0 pointer-events-none"
+              style={{background:'linear-gradient(135deg,rgba(56,189,248,.1),rgba(129,140,248,.15),rgba(244,114,182,.08))'}}/>
+            <div className="absolute top-0 left-1/2 -translate-x-1/2 w-72 h-72 rounded-full pointer-events-none"
+              style={{background:'radial-gradient(circle,rgba(129,140,248,.25),transparent 70%)',filter:'blur(40px)'}}/>
+            <div className="relative z-10">
+              <h3 className="syne text-2xl sm:text-3xl font-black text-white mb-3">Ready to Start Your Project?</h3>
+              <p className="text-slate-300 mb-8 max-w-xl mx-auto text-base leading-relaxed">
+                Let's discuss how this proven process can bring your ideas to life with quality, speed, and reliability.
+              </p>
+              <div className="flex flex-col sm:flex-row gap-4 justify-center">
+                <a href="#contact" className="proc-cta-p inline-flex items-center justify-center px-8 py-3.5 rounded-full font-semibold text-sm">
+                  <span>Let's Talk</span>
+                </a>
+                <a href="#projects" className="proc-cta-s inline-flex items-center justify-center px-8 py-3.5 rounded-full font-semibold text-sm">
+                  View My Work
+                </a>
+              </div>
             </div>
           </div>
-        </motion.div>
-      </div>
-    </section>
+
+        </div>
+
+        <div className="absolute bottom-0 left-0 right-0 h-32 pointer-events-none"
+          style={{background:'linear-gradient(to top,#060811,transparent)'}}/>
+      </section>
+    </>
   );
 }
-

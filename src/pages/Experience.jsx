@@ -1,379 +1,571 @@
-import { 
-  SlideFromEdge, 
-  StaggerContainer, 
-  StaggerItem, 
-  TimelineDot,
-  SectionHeader,
-  ScaleIn
-} from '../components/ScrollAnimations';
-import { motion, useAnimation, useInView, useScroll, useTransform } from 'framer-motion';
-import { useRef, useEffect, useState } from 'react';
+import { useState, useEffect, useRef, useCallback } from 'react';
 import portfolioData from '../data/portfolioContent.json';
 
-export default function Experience() {
-  const sectionRef = useRef(null);
-  const lineRef = useRef(null);
-  const timelineRef = useRef(null);
-  const isInView = useInView(sectionRef, { once: true, margin: "-100px" });
-  const lineControls = useAnimation();
-  
-  // Scroll-linked animation setup
-  const { scrollYProgress } = useScroll({
-    target: timelineRef,
-    offset: ["start center", "end center"]
-  });
-  
-  // Transform scroll progress to timeline progress (0 to 1)
-  const timelineProgress = useTransform(scrollYProgress, [0, 1], [0, 1]);
-  
-  // Track active timeline item based on scroll position
-  const [activeItemIndex, setActiveItemIndex] = useState(0);
+// ─── useInView hook ────────────────────────────────────────────────────────────
+function useInView(threshold = 0.1) {
+  const ref = useRef(null);
+  const [inView, setInView] = useState(false);
+  useEffect(() => {
+    const el = ref.current;
+    if (!el) return;
+    const observer = new IntersectionObserver(
+      ([entry]) => { if (entry.isIntersecting) setInView(true); },
+      { threshold }
+    );
+    observer.observe(el);
+    return () => observer.unobserve(el);
+  }, [threshold]);
+  return [ref, inView];
+}
 
-  // Get data from portfolioContent.json
+// ─── Accent theme per experience index ────────────────────────────────────────
+const EXP_THEMES = [
+  { from: '#38bdf8', to: '#6366f1' },
+  { from: '#34d399', to: '#38bdf8' },
+  { from: '#a78bfa', to: '#f472b6' },
+];
+
+function getTheme(index) {
+  return EXP_THEMES[index % EXP_THEMES.length];
+}
+
+// ─── Timeline Dot ─────────────────────────────────────────────────────────────
+function TimelineDot({ theme, active, icon }) {
+  return (
+    <div className="relative flex items-center justify-center" style={{ width: 56, height: 56 }}>
+      {/* Outer pulse ring — only when active */}
+      {active && (
+        <>
+          <span
+            className="absolute inset-0 rounded-2xl"
+            style={{
+              background: `linear-gradient(135deg, ${theme.from}44, ${theme.to}44)`,
+              animation: 'dotPulse 2s ease-out infinite',
+            }}
+          />
+          <span
+            className="absolute inset-0 rounded-2xl border-2"
+            style={{
+              borderColor: theme.from,
+              animation: 'dotRing 2s ease-out infinite 0.4s',
+            }}
+          />
+        </>
+      )}
+
+      {/* Main dot */}
+      <div
+        className="relative z-10 w-14 h-14 rounded-2xl flex items-center justify-center text-xl font-bold text-white shadow-xl transition-all duration-500"
+        style={{
+          background: `linear-gradient(135deg, ${theme.from}, ${theme.to})`,
+          boxShadow: active
+            ? `0 0 0 3px ${theme.from}55, 0 8px 32px ${theme.from}66`
+            : `0 4px 16px ${theme.from}33`,
+          transform: active ? 'scale(1.12)' : 'scale(1)',
+          border: `2px solid ${active ? theme.from : 'rgba(255,255,255,0.1)'}`,
+        }}
+      >
+        {icon}
+      </div>
+    </div>
+  );
+}
+
+// ─── Experience Card ──────────────────────────────────────────────────────────
+function ExperienceCard({ exp, index, active, theme, inView }) {
+  const isRight = index % 2 === 1;
+
+  return (
+    <div
+      className="exp-card group relative rounded-3xl border overflow-hidden"
+      style={{
+        background: 'rgba(255,255,255,0.03)',
+        borderColor: active ? `${theme.from}44` : 'rgba(255,255,255,0.08)',
+        boxShadow: active ? `0 0 0 1px ${theme.from}22, 0 20px 60px rgba(0,0,0,0.5)` : 'none',
+        opacity: inView ? 1 : 0,
+        transform: inView
+          ? 'translateX(0)'
+          : isRight ? 'translateX(40px)' : 'translateX(-40px)',
+        transition: `opacity 0.7s ease ${index * 0.15}s, transform 0.7s cubic-bezier(.22,1,.36,1) ${index * 0.15}s, border-color 0.5s, box-shadow 0.5s`,
+      }}
+    >
+      {/* Top accent bar */}
+      <div
+        className="absolute top-0 left-0 right-0 h-[2px]"
+        style={{
+          background: `linear-gradient(to right, ${theme.from}, ${theme.to})`,
+          opacity: active ? 1 : 0,
+          transition: 'opacity 0.5s',
+        }}
+      />
+
+      {/* Hover / active glow */}
+      <div
+        className="absolute inset-0 pointer-events-none rounded-3xl"
+        style={{
+          background: `radial-gradient(300px circle at ${isRight ? '80%' : '20%'} 0%, ${theme.from}10, transparent 70%)`,
+          opacity: active ? 1 : 0,
+          transition: 'opacity 0.5s',
+        }}
+      />
+
+      <div className="relative z-10 p-7 lg:p-8">
+
+        {/* Header row */}
+        <div className="flex flex-wrap items-center gap-2 mb-4">
+          <span
+            className="px-3 py-1 rounded-full text-xs font-bold text-white"
+            style={{ background: `linear-gradient(135deg, ${theme.from}, ${theme.to})` }}
+          >
+            {exp.period}
+          </span>
+          <span className="px-2.5 py-1 rounded-full text-xs font-medium text-slate-400 border border-white/10 bg-white/5">
+            {exp.type}
+          </span>
+        </div>
+
+        {/* Title */}
+        <h3 className="font-display text-xl lg:text-2xl font-black text-white mb-1 leading-tight">
+          {exp.title}
+        </h3>
+
+        {/* Company */}
+        <p
+          className="font-semibold text-base mb-1"
+          style={{
+            background: `linear-gradient(135deg, ${theme.from}, ${theme.to})`,
+            WebkitBackgroundClip: 'text',
+            WebkitTextFillColor: 'transparent',
+            backgroundClip: 'text',
+          }}
+        >
+          {exp.company}
+        </p>
+
+        {/* Location */}
+        <p className="text-slate-500 text-sm mb-5 flex items-center gap-1.5">
+          <svg viewBox="0 0 20 20" fill="currentColor" className="w-3.5 h-3.5">
+            <path fillRule="evenodd" d="M5.05 4.05a7 7 0 119.9 9.9L10 18.9l-4.95-4.95a7 7 0 010-9.9zM10 11a2 2 0 100-4 2 2 0 000 4z" clipRule="evenodd" />
+          </svg>
+          {exp.location}
+        </p>
+
+        {/* Description */}
+        <p className="text-slate-400 text-sm leading-relaxed mb-6">
+          {exp.description}
+        </p>
+
+        {/* Achievements */}
+        <div className="mb-6">
+          <p className="text-xs font-semibold text-slate-500 uppercase tracking-widest mb-3 flex items-center gap-2">
+            <span
+              className="w-1.5 h-1.5 rounded-full"
+              style={{ background: theme.from }}
+            />
+            Key Achievements
+          </p>
+          <ul className="space-y-2">
+            {exp.achievements.map((a, i) => (
+              <li key={i} className="flex items-start gap-2.5 text-sm text-slate-400">
+                <span
+                  className="mt-1 flex-shrink-0 w-4 h-4 rounded-full flex items-center justify-center"
+                  style={{ background: `${theme.from}22`, color: theme.from }}
+                >
+                  <svg viewBox="0 0 12 12" fill="none" stroke="currentColor" strokeWidth="1.8" className="w-2.5 h-2.5">
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M2 6l2.5 2.5L10 3.5" />
+                  </svg>
+                </span>
+                {a}
+              </li>
+            ))}
+          </ul>
+        </div>
+
+        {/* Tech tags */}
+        <div>
+          <p className="text-xs font-semibold text-slate-500 uppercase tracking-widest mb-3 flex items-center gap-2">
+            <span
+              className="w-1.5 h-1.5 rounded-full"
+              style={{ background: theme.to }}
+            />
+            Technologies
+          </p>
+          <div className="flex flex-wrap gap-2">
+            {exp.technologies.map((tech) => (
+              <span
+                key={tech}
+                className="px-3 py-1 rounded-full text-xs font-medium text-slate-300 border border-white/8 bg-white/5 cursor-default transition-all duration-200 hover:border-white/20 hover:text-white"
+              >
+                {tech}
+              </span>
+            ))}
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+// ─── Main Component ────────────────────────────────────────────────────────────
+export default function Experience() {
   const { experience } = portfolioData;
   const experiences = experience.experiences;
 
-  useEffect(() => {
-    if (isInView) {
-      lineControls.start({
-        height: "100%",
-        transition: {
-          duration: 2,
-          ease: "easeOut",
-          delay: 0.5
-        }
-      });
-    }
-  }, [isInView, lineControls]);
+  const [lineProgress, setLineProgress] = useState(0);   // 0–100 %
+  const [activeIndex,  setActiveIndex]  = useState(-1);
 
-  // Update active item based on scroll progress
-  useEffect(() => {
-    const unsubscribe = timelineProgress.onChange((progress) => {
-      const itemCount = experiences.length;
-      const currentIndex = Math.min(
-        Math.floor(progress * itemCount),
-        itemCount - 1
-      );
-      setActiveItemIndex(Math.max(0, currentIndex));
+  const sectionRef    = useRef(null);
+  const timelineRef   = useRef(null);
+  const dotRefs       = useRef([]);                       // one ref per experience
+
+  const [headerRef, headerInView] = useInView(0.2);
+  const [cardsRef,  cardsInView]  = useInView(0.05);
+  const [ctaRef,    ctaInView]    = useInView(0.2);
+
+  // ── Scroll handler ──────────────────────────────────────────────────────────
+  const handleScroll = useCallback(() => {
+    const tl = timelineRef.current;
+    if (!tl) return;
+
+    const { top, height } = tl.getBoundingClientRect();
+    const vh = window.innerHeight;
+
+    // progress: 0 when top of timeline hits bottom of viewport,
+    //           1 when bottom of timeline hits top of viewport
+    const raw    = (vh - top) / (height + vh);
+    const clamped = Math.min(1, Math.max(0, raw));
+    setLineProgress(clamped * 100);
+
+    // Which dot has the line reached?
+    let newActive = -1;
+    dotRefs.current.forEach((el, i) => {
+      if (!el) return;
+      const dotTop = el.getBoundingClientRect().top;
+      if (dotTop < vh * 0.65) newActive = i;
     });
+    setActiveIndex(newActive);
+  }, []);
 
-    return () => unsubscribe();
-  }, [timelineProgress, experiences.length]);
+  useEffect(() => {
+    window.addEventListener('scroll', handleScroll, { passive: true });
+    handleScroll(); // run once on mount
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, [handleScroll]);
 
-  const scrollToContact = () => {
-    document.querySelector('#contact').scrollIntoView({ behavior: 'smooth' });
-  };
+  // gradient colours for the line depending on progress
+  // cycles through sky → violet → emerald as line grows
+  const lineGradient = `linear-gradient(
+    to bottom,
+    #38bdf8 0%,
+    #818cf8 40%,
+    #34d399 80%,
+    #a78bfa 100%
+  )`;
 
   return (
-    <section 
-      id="experience" 
-      ref={sectionRef}
-      className="py-20 bg-gray-50 dark:bg-gray-900 relative overflow-hidden"
-    >
-      {/* Background Elements */}
-      <div className="absolute inset-0 bg-gradient-to-r from-gray-50/40 to-blue-50/40 dark:from-gray-800/40 dark:to-blue-900/40" />
-      <div className="absolute top-0 left-0 w-96 h-96 bg-gradient-to-br from-blue-100 to-purple-100 dark:from-blue-900/20 dark:to-purple-900/20 rounded-full blur-3xl transform -translate-x-1/2 -translate-y-1/2" />
-      <div className="absolute bottom-0 right-0 w-96 h-96 bg-gradient-to-br from-green-100 to-blue-100 dark:from-green-900/20 dark:to-blue-900/20 rounded-full blur-3xl transform translate-x-1/2 translate-y-1/2" />
+    <>
+      <style>{`
+        @import url('https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500&display=swap');
 
-      <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        {/* Header */}
-        <SectionHeader
-          title={
-            <span className="bg-gradient-to-r from-emerald-600 to-blue-600 bg-clip-text text-transparent">
-              {experience.title}
-            </span>
-          }
-          subtitle={experience.subtitle}
-          className="mb-20"
-        />
+        #experience * { font-family: 'DM Sans', sans-serif; }
+        #experience .font-display { font-family: 'Syne', sans-serif; }
 
-        {/* Timeline Container */}
-        <div ref={timelineRef} className="relative max-w-6xl mx-auto">
-          {/* Animated Central Line */}
-          <div className="absolute left-1/2 transform -translate-x-0.5 top-0 bottom-0 w-0.5 bg-gray-200 dark:bg-gray-700 hidden lg:block">
-            {/* Base line that grows on view */}
-            <motion.div
-              ref={lineRef}
-              className="w-full bg-gradient-to-b from-blue-500 via-purple-500 to-green-500"
-              initial={{ height: 0 }}
-              animate={lineControls}
-              style={{ transformOrigin: "top" }}
-            />
-            
-            {/* Scroll-linked progress indicator */}
-            <motion.div
-              className="absolute top-0 left-0 w-full bg-gradient-to-b from-cyan-400 via-blue-400 to-purple-500 rounded-full"
-              style={{ 
-                height: useTransform(timelineProgress, [0, 1], ["0%", "100%"]),
-                transformOrigin: "top",
-                filter: "drop-shadow(0 0 8px rgba(59, 130, 246, 0.6))"
-              }}
-            />
-          </div>
+        .grid-subtle {
+          background-image:
+            linear-gradient(rgba(255,255,255,0.02) 1px, transparent 1px),
+            linear-gradient(90deg, rgba(255,255,255,0.02) 1px, transparent 1px);
+          background-size: 60px 60px;
+        }
 
-          {/* Mobile Line */}
-          <div className="absolute left-8 top-0 bottom-0 w-0.5 bg-gray-200 dark:bg-gray-700 lg:hidden">
-            {/* Base line */}
-            <motion.div
-              className="w-full bg-gradient-to-b from-blue-500 via-purple-500 to-green-500"
-              initial={{ height: 0 }}
-              animate={lineControls}
-              style={{ transformOrigin: "top" }}
-            />
-            
-            {/* Mobile scroll progress */}
-            <motion.div
-              className="absolute top-0 left-0 w-full bg-gradient-to-b from-cyan-400 via-blue-400 to-purple-500 rounded-full"
-              style={{ 
-                height: useTransform(timelineProgress, [0, 1], ["0%", "100%"]),
-                transformOrigin: "top",
-                filter: "drop-shadow(0 0 6px rgba(59, 130, 246, 0.5))"
-              }}
-            />
-          </div>
+        @keyframes dotPulse {
+          0%   { transform: scale(1);   opacity: 0.5; }
+          100% { transform: scale(1.9); opacity: 0; }
+        }
+        @keyframes dotRing {
+          0%   { transform: scale(1);   opacity: 0.8; }
+          100% { transform: scale(1.6); opacity: 0; }
+        }
 
-          {/* Experience Cards */}
-          <StaggerContainer 
-            staggerDelay={0.3}
-            className="space-y-16 lg:space-y-20"
+        .exp-card:hover {
+          border-color: rgba(255,255,255,0.15) !important;
+          transform: translateY(-4px) !important;
+          box-shadow: 0 24px 60px rgba(0,0,0,0.5) !important;
+        }
+
+        .connector {
+          position: absolute;
+          top: 50%;
+          height: 2px;
+          width: 48px;
+          transform: translateY(-50%);
+        }
+
+        .cta-btn-primary {
+          background: linear-gradient(135deg, #38bdf8, #818cf8);
+          color: white;
+          transition: all 0.28s ease;
+          position: relative; overflow: hidden;
+        }
+        .cta-btn-primary::before {
+          content: ''; position: absolute; inset: 0;
+          background: linear-gradient(135deg, #818cf8, #f472b6);
+          opacity: 0; transition: opacity 0.28s;
+        }
+        .cta-btn-primary:hover::before { opacity: 1; }
+        .cta-btn-primary:hover { transform: translateY(-2px); box-shadow: 0 12px 32px rgba(56,189,248,0.35); }
+        .cta-btn-primary span { position: relative; z-index: 1; }
+      `}</style>
+
+      <section
+        id="experience"
+        ref={sectionRef}
+        className="relative py-28 overflow-hidden"
+        style={{ background: '#060811' }}
+      >
+        {/* Background */}
+        <div className="absolute inset-0 grid-subtle pointer-events-none" />
+        <div className="absolute top-0 left-0 w-[500px] h-[500px] rounded-full opacity-10 pointer-events-none"
+          style={{ background: 'radial-gradient(circle, #34d399, transparent 70%)', filter: 'blur(80px)', transform: 'translate(-30%, -30%)' }} />
+        <div className="absolute bottom-0 right-0 w-[400px] h-[400px] rounded-full opacity-10 pointer-events-none"
+          style={{ background: 'radial-gradient(circle, #38bdf8, transparent 70%)', filter: 'blur(80px)', transform: 'translate(30%, 30%)' }} />
+
+        <div className="relative z-10 max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+
+          {/* ── Header ── */}
+          <div
+            ref={headerRef}
+            className="text-center mb-20"
+            style={{
+              opacity: headerInView ? 1 : 0,
+              transform: headerInView ? 'translateY(0)' : 'translateY(24px)',
+              transition: 'opacity 0.7s ease, transform 0.7s cubic-bezier(.22,1,.36,1)',
+            }}
           >
-            {experiences.map((exp, index) => {
-              // For zig-zag starting from LEFT: even indexes (0,2,4) = LEFT side, odd indexes (1,3,5) = RIGHT side
-              const isOnRight = index % 2 === 1;
-              
-              return (
-                <StaggerItem key={exp.id}>
-                  <div className="relative flex items-center min-h-[200px]">
-                    
-                    {/* Timeline Dot - positioned based on content side */}
-                    <TimelineDot 
-                      delay={index * 0.2}
-                      className={`absolute z-20 transform ${
-                        isOnRight 
-                          ? 'left-8 lg:right-[calc(50%-2rem)] lg:left-auto' // Right side on desktop, left on mobile
-                          : 'left-8 lg:left-[calc(50%-2rem)]' // Left side on desktop, left on mobile
-                      } -translate-x-1/2 lg:translate-x-0 top-1/2 -translate-y-1/2`}
-                    >
-                      <motion.div
-                        className={`w-16 h-16 rounded-2xl bg-gradient-to-br ${exp.gradient} flex items-center justify-center shadow-2xl border-4 ${
-                          activeItemIndex === index 
-                            ? 'border-cyan-400 dark:border-cyan-400' 
-                            : 'border-white dark:border-gray-900'
-                        } transition-colors duration-300`}
-                        animate={{
-                          scale: activeItemIndex === index ? [1, 1.1, 1] : 1,
-                          filter: activeItemIndex === index 
-                            ? ["drop-shadow(0 0 0px rgba(34, 211, 238, 0))", "drop-shadow(0 0 20px rgba(34, 211, 238, 0.8))", "drop-shadow(0 0 0px rgba(34, 211, 238, 0))"]
-                            : "drop-shadow(0 0 0px rgba(34, 211, 238, 0))"
-                        }}
-                        transition={{
-                          scale: { duration: 0.6, repeat: activeItemIndex === index ? Infinity : 0 },
-                          filter: { duration: 1.5, repeat: activeItemIndex === index ? Infinity : 0 }
-                        }}
-                        whileHover={{ 
-                          scale: 1.1, 
-                          rotate: 5,
-                          transition: { duration: 0.2 }
-                        }}
-                        whileTap={{ scale: 0.95 }}
-                      >
-                        <span className="text-2xl">{exp.icon}</span>
-                      </motion.div>
-                      
-                      {/* Enhanced Pulse Effect for Active Item */}
-                      <motion.div
-                        className={`absolute inset-0 rounded-2xl bg-gradient-to-br ${
-                          activeItemIndex === index ? 'from-cyan-400 to-blue-500' : exp.gradient
-                        } ${activeItemIndex === index ? 'opacity-30' : 'opacity-20'}`}
-                        animate={{
-                          scale: activeItemIndex === index ? [1, 1.8, 1] : [1, 1.5, 1],
-                          opacity: activeItemIndex === index ? [0.3, 0, 0.3] : [0.2, 0, 0.2]
-                        }}
-                        transition={{
-                          duration: activeItemIndex === index ? 2 : 3,
-                          repeat: Infinity,
-                          ease: "easeInOut"
-                        }}
-                      />
-                      
-                      {/* Active Item Glow Ring */}
-                      {activeItemIndex === index && (
-                        <motion.div
-                          className="absolute inset-0 rounded-2xl border-2 border-cyan-400"
-                          animate={{
-                            scale: [1, 1.3, 1],
-                            opacity: [0.8, 0, 0.8]
-                          }}
-                          transition={{
-                            duration: 2,
-                            repeat: Infinity,
-                            ease: "easeInOut"
-                          }}
-                        />
-                      )}
-                    </TimelineDot>
-
-                    {/* Enhanced Connector Line - connects timeline dot to content */}
-                    <motion.div 
-                      className={`hidden lg:block absolute z-10 top-1/2 w-8 h-0.5 bg-gradient-to-r ${
-                        activeItemIndex === index ? 'from-cyan-400 to-blue-500' : exp.gradient
-                      } ${
-                        isOnRight 
-                          ? 'right-[calc(50%+1rem)] translate-x-8' // Right side connector
-                          : 'left-[calc(50%+1rem)] -translate-x-8'  // Left side connector
-                      }`}
-                      animate={{
-                        opacity: activeItemIndex === index ? [0.7, 1, 0.7] : 0.5,
-                        filter: activeItemIndex === index 
-                          ? ["drop-shadow(0 0 0px rgba(34, 211, 238, 0))", "drop-shadow(0 0 8px rgba(34, 211, 238, 1))", "drop-shadow(0 0 0px rgba(34, 211, 238, 0))"]
-                          : "drop-shadow(0 0 0px rgba(34, 211, 238, 0))"
-                      }}
-                      transition={{
-                        duration: activeItemIndex === index ? 2 : 0.3,
-                        repeat: activeItemIndex === index ? Infinity : 0
-                      }}
-                    />
-
-                    {/* Content Card - zig-zag positioning */}
-                    <SlideFromEdge
-                      direction={isOnRight ? "right" : "left"}
-                      delay={0.3 + index * 0.1}
-                      className={`w-full ${
-                        isOnRight 
-                          ? 'lg:w-5/12 lg:ml-auto lg:pl-20 lg:text-right' // Right side
-                          : 'lg:w-5/12 lg:mr-auto lg:pr-20 lg:text-left'   // Left side
-                      } ml-20 lg:ml-0 text-left relative`}
-                    >
-                      <motion.div
-                        whileHover={{ 
-                          y: -8,
-                          transition: { duration: 0.2 }
-                        }}
-                      >
-                        <div className="group relative p-8 bg-white dark:bg-gray-800 rounded-3xl shadow-lg hover:shadow-2xl transition-all duration-500 border border-gray-100 dark:border-gray-700 overflow-hidden">
-                          {/* Gradient Background on Hover */}
-                          <div className={`absolute inset-0 bg-gradient-to-br ${exp.gradient} opacity-0 group-hover:opacity-5 transition-opacity duration-500`} />
-                          
-                          {/* Glow Effect */}
-                          <div className={`absolute inset-0 rounded-3xl opacity-0 group-hover:opacity-100 transition-opacity duration-500 bg-gradient-to-br ${exp.gradient} blur-xl -z-10 transform scale-110`} />
-
-                          <div className="relative z-10">
-                            {/* Header */}
-                            <div className="mb-6">
-                              <div className="flex flex-wrap items-center gap-3 mb-3">
-                                <span className={`px-3 py-1 bg-gradient-to-r ${exp.gradient} text-white rounded-full text-xs font-medium`}>
-                                  {exp.period}
-                                </span>
-                                <span className="text-gray-500 dark:text-gray-400 text-sm">
-                                  {exp.type}
-                                </span>
-                              </div>
-                              
-                              <h3 className="text-xl lg:text-2xl font-bold text-gray-900 dark:text-white mb-2 group-hover:text-transparent group-hover:bg-gradient-to-r group-hover:bg-clip-text group-hover:from-gray-900 group-hover:to-gray-600 dark:group-hover:from-white dark:group-hover:to-gray-300 transition-all duration-300">
-                                {exp.title}
-                              </h3>
-                              
-                              <p className={`text-lg font-semibold bg-gradient-to-r ${exp.gradient} bg-clip-text text-transparent mb-1`}>
-                                {exp.company}
-                              </p>
-                              
-                              <p className="text-gray-500 dark:text-gray-400 text-sm">
-                                📍 {exp.location}
-                              </p>
-                            </div>
-
-                            {/* Description */}
-                            <p className="text-gray-600 dark:text-gray-300 leading-relaxed mb-6">
-                              {exp.description}
-                            </p>
-
-                            {/* Achievements */}
-                            <div className="mb-6">
-                              <h4 className="font-semibold text-gray-900 dark:text-white mb-3 flex items-center">
-                                <span className="w-2 h-2 bg-green-500 rounded-full mr-2" />
-                                Key Achievements
-                              </h4>
-                              <ul className="space-y-2">
-                                {exp.achievements.slice(0, 2).map((achievement, i) => (
-                                  <motion.li 
-                                    key={i} 
-                                    className="flex items-start text-sm text-gray-600 dark:text-gray-400"
-                                    whileHover={{ x: 4 }}
-                                    transition={{ duration: 0.2 }}
-                                  >
-                                    <span className="text-green-500 mr-3 mt-0.5 flex-shrink-0">✓</span>
-                                    {achievement}
-                                  </motion.li>
-                                ))}
-                              </ul>
-                            </div>
-
-                            {/* Technologies */}
-                            <div>
-                              <h4 className="font-semibold text-gray-900 dark:text-white mb-3 flex items-center">
-                                <span className="w-2 h-2 bg-blue-500 rounded-full mr-2" />
-                                Technologies
-                              </h4>
-                              <div className="flex flex-wrap gap-2">
-                                {exp.technologies.slice(0, 4).map((tech, i) => (
-                                  <motion.span 
-                                    key={i}
-                                    className="px-3 py-1 bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 rounded-full text-xs font-medium"
-                                    whileHover={{ 
-                                      scale: 1.05,
-                                      backgroundColor: "rgb(59 130 246 / 0.1)"
-                                    }}
-                                    transition={{ duration: 0.2 }}
-                                  >
-                                    {tech}
-                                  </motion.span>
-                                ))}
-                                {exp.technologies.length > 4 && (
-                                  <span className="px-3 py-1 bg-gray-100 dark:bg-gray-700 text-gray-500 dark:text-gray-400 rounded-full text-xs">
-                                    +{exp.technologies.length - 4}
-                                  </span>
-                                )}
-                              </div>
-                            </div>
-                          </div>
-
-                          {/* Floating Elements */}
-                          <div className="absolute -top-2 -right-2 w-4 h-4 bg-gradient-to-br from-blue-400 to-purple-400 rounded-full opacity-0 group-hover:opacity-100 transition-all duration-500 animate-ping" />
-                        </div>
-                      </motion.div>
-                    </SlideFromEdge>
-                  </div>
-                </StaggerItem>
-              );
-            })}
-          </StaggerContainer>
-        </div>
-
-        {/* Call to Action */}
-        <ScaleIn delay={2.5} className="text-center mt-20">
-          <div className="p-8 bg-gradient-to-r from-emerald-600 to-blue-600 rounded-3xl text-white relative overflow-hidden">
-            {/* Background Overlay */}
-            <div className="absolute inset-0 bg-gradient-to-bl from-white/10 to-transparent" />
-            
-            <div className="relative z-10">
-              <h3 className="text-2xl lg:text-3xl font-bold mb-4">
-                {experience.cta.title}
-              </h3>
-              <p className="text-emerald-100 mb-8 max-w-2xl mx-auto">
-                {experience.cta.description}
-              </p>
-              <motion.button
-                onClick={scrollToContact}
-                className="px-8 py-4 bg-white text-emerald-600 rounded-full font-semibold hover:bg-gray-100 transition-colors duration-300"
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.95 }}
+            <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full border border-white/10 bg-white/5 text-slate-400 text-xs font-medium tracking-widest uppercase mb-6">
+              <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 inline-block" />
+              Career journey
+            </div>
+            <h2 className="font-display text-4xl sm:text-5xl font-black text-white mb-4 leading-tight">
+              Professional{' '}
+              <span
+                style={{
+                  background: 'linear-gradient(135deg, #34d399, #38bdf8)',
+                  WebkitBackgroundClip: 'text',
+                  WebkitTextFillColor: 'transparent',
+                  backgroundClip: 'text',
+                }}
               >
-                {experience.cta.buttonText}
-              </motion.button>
+                Experience
+              </span>
+            </h2>
+            <p className="text-slate-400 text-lg max-w-xl mx-auto leading-relaxed">
+              {experience.subtitle}
+            </p>
+          </div>
+
+          {/* ── Timeline ── */}
+          <div ref={timelineRef} className="relative" style={{ paddingBottom: '2px' }}>
+
+            {/* ── CENTER LINE (desktop) ── */}
+            <div
+              className="hidden lg:block absolute left-1/2 -translate-x-px top-0 bottom-0 w-px"
+              style={{ background: 'rgba(255,255,255,0.06)' }}
+            >
+              {/* Filled portion — scroll-driven */}
+              <div
+                className="absolute top-0 left-0 w-full origin-top rounded-full"
+                style={{
+                  height: `${lineProgress}%`,
+                  background: lineGradient,
+                  transition: 'height 0.1s linear',
+                  boxShadow: '0 0 8px rgba(56,189,248,0.5)',
+                  filter: 'drop-shadow(0 0 4px #38bdf8)',
+                }}
+              />
+              {/* Glowing tip */}
+              <div
+                className="absolute w-2 h-2 rounded-full -translate-x-1/2 -translate-y-1/2"
+                style={{
+                  top: `${lineProgress}%`,
+                  left: '50%',
+                  background: '#38bdf8',
+                  boxShadow: '0 0 12px 4px #38bdf866',
+                  opacity: lineProgress > 2 && lineProgress < 99 ? 1 : 0,
+                  transition: 'top 0.1s linear, opacity 0.3s',
+                }}
+              />
+            </div>
+
+            {/* ── LEFT LINE (mobile) ── */}
+            <div
+              className="lg:hidden absolute left-7 top-0 bottom-0 w-px"
+              style={{ background: 'rgba(255,255,255,0.06)' }}
+            >
+              <div
+                className="absolute top-0 left-0 w-full origin-top rounded-full"
+                style={{
+                  height: `${lineProgress}%`,
+                  background: lineGradient,
+                  transition: 'height 0.1s linear',
+                  boxShadow: '0 0 6px rgba(56,189,248,0.5)',
+                }}
+              />
+              <div
+                className="absolute w-2 h-2 rounded-full -translate-x-1/2"
+                style={{
+                  top: `${lineProgress}%`,
+                  left: '50%',
+                  background: '#38bdf8',
+                  boxShadow: '0 0 10px 3px #38bdf866',
+                  opacity: lineProgress > 2 && lineProgress < 99 ? 1 : 0,
+                  transition: 'top 0.1s linear',
+                }}
+              />
+            </div>
+
+            {/* ── Experience rows ── */}
+            <div ref={cardsRef} className="space-y-20 lg:space-y-24">
+              {experiences.map((exp, index) => {
+                const isRight = index % 2 === 1;
+                const theme   = getTheme(index);
+                const active  = activeIndex === index;
+
+                return (
+                  <div key={exp.id} className="relative flex items-center min-h-[80px]">
+
+                    {/* ── Desktop layout: zig-zag ── */}
+                    <div className="hidden lg:flex w-full items-center">
+
+                      {/* Left card slot */}
+                      <div className="w-5/12">
+                        {!isRight && (
+                          <ExperienceCard
+                            exp={exp}
+                            index={index}
+                            active={active}
+                            theme={theme}
+                            inView={cardsInView}
+                          />
+                        )}
+                      </div>
+
+                      {/* Center dot */}
+                      <div className="w-2/12 flex justify-center relative z-10">
+                        {/* Connector left → dot */}
+                        {!isRight && (
+                          <div
+                            className="connector right-1/2"
+                            style={{
+                              background: `linear-gradient(to left, ${theme.from}88, transparent)`,
+                              opacity: active ? 1 : 0.35,
+                              marginRight: '28px',
+                            }}
+                          />
+                        )}
+
+                        <div ref={el => dotRefs.current[index] = el}>
+                          <TimelineDot theme={theme} active={active} icon={exp.icon} />
+                        </div>
+
+                        {/* Connector dot → right */}
+                        {isRight && (
+                          <div
+                            className="connector left-1/2"
+                            style={{
+                              background: `linear-gradient(to right, ${theme.from}88, transparent)`,
+                              opacity: active ? 1 : 0.35,
+                              marginLeft: '28px',
+                            }}
+                          />
+                        )}
+                      </div>
+
+                      {/* Right card slot */}
+                      <div className="w-5/12">
+                        {isRight && (
+                          <ExperienceCard
+                            exp={exp}
+                            index={index}
+                            active={active}
+                            theme={theme}
+                            inView={cardsInView}
+                          />
+                        )}
+                      </div>
+                    </div>
+
+                    {/* ── Mobile layout: left-line + full-width card ── */}
+                    <div className="lg:hidden flex w-full items-start gap-5 pl-2">
+                      <div
+                        className="flex-shrink-0 mt-6"
+                        ref={el => {
+                          // Also register for mobile scroll detection
+                          if (!dotRefs.current[index]) dotRefs.current[index] = el;
+                        }}
+                      >
+                        <TimelineDot theme={theme} active={active} icon={exp.icon} />
+                      </div>
+                      <div className="flex-1">
+                        <ExperienceCard
+                          exp={exp}
+                          index={index}
+                          active={active}
+                          theme={theme}
+                          inView={cardsInView}
+                        />
+                      </div>
+                    </div>
+
+                  </div>
+                );
+              })}
             </div>
           </div>
-        </ScaleIn>
-      </div>
-    </section>
+
+          {/* ── CTA ── */}
+          <div
+            ref={ctaRef}
+            className="mt-24 relative rounded-3xl overflow-hidden p-10 sm:p-14 text-center"
+            style={{
+              background: 'linear-gradient(135deg, #1a2744 0%, #0d3321 50%, #1a2744 100%)',
+              border: '1px solid rgba(255,255,255,0.1)',
+              opacity: ctaInView ? 1 : 0,
+              transform: ctaInView ? 'translateY(0)' : 'translateY(24px)',
+              transition: 'opacity 0.7s ease 0.1s, transform 0.7s cubic-bezier(.22,1,.36,1) 0.1s',
+            }}
+          >
+            <div
+              className="absolute inset-0 pointer-events-none"
+              style={{ background: 'linear-gradient(135deg, rgba(52,211,153,0.1), rgba(56,189,248,0.12), rgba(129,140,248,0.08))' }}
+            />
+            <div
+              className="absolute top-0 left-1/2 -translate-x-1/2 w-72 h-72 rounded-full pointer-events-none"
+              style={{ background: 'radial-gradient(circle, rgba(52,211,153,0.2), transparent 70%)', filter: 'blur(40px)' }}
+            />
+            <div className="relative z-10">
+              <h3 className="font-display text-2xl sm:text-3xl font-black text-white mb-3">
+                {experience.cta.title}
+              </h3>
+              <p className="text-slate-300 mb-8 max-w-xl mx-auto text-base leading-relaxed">
+                {experience.cta.description}
+              </p>
+              <button
+                onClick={() => document.getElementById('contact')?.scrollIntoView({ behavior: 'smooth' })}
+                className="cta-btn-primary inline-flex items-center justify-center px-8 py-3.5 rounded-full font-semibold text-sm"
+              >
+                <span>{experience.cta.buttonText}</span>
+              </button>
+            </div>
+          </div>
+
+        </div>
+
+        {/* Edge fade */}
+        <div
+          className="absolute bottom-0 left-0 right-0 h-32 pointer-events-none"
+          style={{ background: 'linear-gradient(to top, #060811, transparent)' }}
+        />
+      </section>
+    </>
   );
 }

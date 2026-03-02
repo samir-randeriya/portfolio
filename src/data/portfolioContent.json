@@ -30,29 +30,43 @@
   "hero": {
     "greeting": "Hi, I'm",
     "rolePrefix": "I'm a ",
-    "description": {
-      "primary": "I help **startups and enterprises** ship **secure, scalable web applications** faster—without compromising quality or performance",
-      "secondary": "Specializing in **Laravel backend systems** and **modern full-stack solutions** that handle real growth, real users, and real business impact."
-    },
-    "techStack": ["PHP", "Laravel", "Vue.js", "React.js", "Nuxt.js", "Quasar", "Tailwind CSS", "Git"],
+    "description": "I help **startups and enterprises** ship **secure, scalable web applications** faster specializing in **Laravel backend systems** and **modern full-stack solutions** that drive real growth and business impact.",
+    "techStack": [
+      "PHP",
+      "Laravel",
+      "React.js",
+      "Vue.js",
+      "Nuxt.js",
+      "Next.js",
+      "REST APIs",
+      "Payment Integration",
+      "Redis",
+      "MySQL",
+      "PostgreSQL",
+      "Docker",
+      "Cloud Services",
+      "Tailwind CSS",
+      "TypeScript",
+      "Git"
+    ],
     "buttons": [
       {
-        "text": "View My Work", 
+        "text": "View My Work",
         "icon": "🚀",
         "action": "scrollToProjects",
         "type": "primary"
       },
       {
         "text": "Download Resume",
-        "icon": "📄", 
+        "icon": "📄",
         "action": "downloadResume",
         "type": "secondary"
       },
       {
         "text": "Let's Talk",
         "icon": "💬",
-        "action": "scrollToContact", 
-        "type": "secondary"
+        "action": "scrollToContact",
+        "type": "ghost"
       }
     ]
   },
@@ -60,16 +74,48 @@
     "title": "From Crashing Code to Leading Teams",
     "subtitle": "The story of how 4+ years of building, breaking, and fixing systems taught me what truly matters: reliable software that drives real business impact.",
     "skills": [
-      { "name": "Frontend Development", "percentage": 95, "color": "blue" },
-      { "name": "Backend Development", "percentage": 90, "color": "purple" },
-      { "name": "Database Design", "percentage": 85, "color": "green" },
-      { "name": "DevOps & Deployment", "percentage": 80, "color": "orange" }
+      {
+        "name": "Frontend Development",
+        "percentage": 95,
+        "color": "blue"
+      },
+      {
+        "name": "Backend Development",
+        "percentage": 90,
+        "color": "purple"
+      },
+      {
+        "name": "Database Design",
+        "percentage": 85,
+        "color": "green"
+      },
+      {
+        "name": "DevOps & Deployment",
+        "percentage": 80,
+        "color": "orange"
+      }
     ],
     "personalStats": [
-      { "number": "4+", "label": "Years Experience", "color": "from-blue-500 to-purple-500" },
-      { "number": "15+", "label": "Major Projects Led", "color": "from-purple-500 to-pink-500" },
-      { "number": "20+", "label": "Technologies Used", "color": "from-pink-500 to-red-500" },
-      { "number": "100%", "label": "Code Passion", "color": "from-green-500 to-emerald-500" }
+      {
+        "number": "4+",
+        "label": "Years Experience",
+        "color": "from-blue-500 to-purple-500"
+      },
+      {
+        "number": "15+",
+        "label": "Major Projects Led",
+        "color": "from-purple-500 to-pink-500"
+      },
+      {
+        "number": "20+",
+        "label": "Technologies Used",
+        "color": "from-pink-500 to-red-500"
+      },
+      {
+        "number": "100%",
+        "label": "Code Passion",
+        "color": "from-green-500 to-emerald-500"
+      }
     ],
     "qualities": [
       {
@@ -97,8 +143,16 @@
       "title": "Let's Build Something That Matters",
       "description": "Whether you're scaling a startup or modernizing enterprise systems, I bring 4+ years of battle-tested experience to make it happen.",
       "buttons": [
-        { "text": "Start a Conversation", "href": "#contact", "type": "primary" },
-        { "text": "View My Work", "href": "#projects", "type": "secondary" }
+        {
+          "text": "Start a Conversation",
+          "href": "#contact",
+          "type": "primary"
+        },
+        {
+          "text": "View My Work",
+          "href": "#projects",
+          "type": "secondary"
+        }
       ]
     }
   },
@@ -110,7 +164,16 @@
         "title": "Frontend Development",
         "icon": "🎨",
         "description": "Building responsive, user-friendly interfaces with modern frameworks",
-        "skills": ["Vue.js", "React.js", "Nuxt.js", "Livewire", "Tailwind CSS", "Bootstrap", "TypeScript", "Quasar"],
+        "skills": [
+          "Vue.js",
+          "React.js",
+          "Nuxt.js",
+          "Livewire",
+          "Tailwind CSS",
+          "Bootstrap",
+          "TypeScript",
+          "Quasar"
+        ],
         "gradient": "from-blue-500 to-cyan-500",
         "delay": 0
       },
@@ -118,7 +181,16 @@
         "title": "Backend Development",
         "icon": "⚙️",
         "description": "Creating secure and performant server-side applications and APIs",
-        "skills": ["PHP", "Laravel", "Laravel Nova", "Backpack", "CodeIgniter", "Symfony", "RESTful APIs", "GraphQL"],
+        "skills": [
+          "PHP",
+          "Laravel",
+          "Laravel Nova",
+          "Backpack",
+          "CodeIgniter",
+          "Symfony",
+          "RESTful APIs",
+          "GraphQL"
+        ],
         "gradient": "from-green-500 to-emerald-500",
         "delay": 0.1
       },
@@ -126,7 +198,15 @@
         "title": "Database & Storage",
         "icon": "🗄️",
         "description": "Managing structured and unstructured data efficiently",
-        "skills": ["PostgreSQL", "MySQL", "MongoDB", "Firebase", "Redis", "MSSQL", "SQLite"],
+        "skills": [
+          "PostgreSQL",
+          "MySQL",
+          "MongoDB",
+          "Firebase",
+          "Redis",
+          "MSSQL",
+          "SQLite"
+        ],
         "gradient": "from-purple-500 to-pink-500",
         "delay": 0.2
       },
@@ -134,7 +214,13 @@
         "title": "DevOps & Cloud",
         "icon": "☁️",
         "description": "Deploying and scaling apps with CI/CD and cloud infrastructure",
-        "skills": ["Azure DevOps", "Bitbucket", "GitLab CI/CD", "GitHub Actions", "Docker"],
+        "skills": [
+          "Azure DevOps",
+          "Bitbucket",
+          "GitLab CI/CD",
+          "GitHub Actions",
+          "Docker"
+        ],
         "gradient": "from-orange-500 to-red-500",
         "delay": 0.3
       },
@@ -142,7 +228,16 @@
         "title": "Tools & Workflow",
         "icon": "🛠️",
         "description": "Productivity tools and collaboration platforms for efficient development",
-        "skills": ["Git", "VS Code", "Postman", "Jira", "Trello", "Slack", "Asana", "Monday.com"],
+        "skills": [
+          "Git",
+          "VS Code",
+          "Postman",
+          "Jira",
+          "Trello",
+          "Slack",
+          "Asana",
+          "Monday.com"
+        ],
         "gradient": "from-indigo-500 to-blue-500",
         "delay": 0.4
       },
@@ -150,31 +245,65 @@
         "title": "Testing & Quality",
         "icon": "🧪",
         "description": "Ensuring performance, security, and usability across applications",
-        "skills": ["Manual Testing", "Automated Testing", "Security Testing", "Performance Testing", "Usability Testing"],
+        "skills": [
+          "Manual Testing",
+          "Automated Testing",
+          "Security Testing",
+          "Performance Testing",
+          "Usability Testing"
+        ],
         "gradient": "from-yellow-500 to-orange-500",
         "delay": 0.5
-        }
+      }
     ],
     "proficiencyLevels": [
-      { "name": "Expert", "percentage": 95, "color": "from-green-400 to-emerald-600", "count": 6 },
-      { "name": "Advanced", "percentage": 85, "color": "from-blue-400 to-cyan-600", "count": 10 },
-      { "name": "Intermediate", "percentage": 70, "color": "from-yellow-400 to-orange-600", "count": 7 },
-      { "name": "Learning", "percentage": 40, "color": "from-purple-400 to-pink-600", "count": 4 }
+      {
+        "name": "Expert",
+        "percentage": 95,
+        "color": "from-green-400 to-emerald-600",
+        "count": 6
+      },
+      {
+        "name": "Advanced",
+        "percentage": 85,
+        "color": "from-blue-400 to-cyan-600",
+        "count": 10
+      },
+      {
+        "name": "Intermediate",
+        "percentage": 70,
+        "color": "from-yellow-400 to-orange-600",
+        "count": 7
+      },
+      {
+        "name": "Learning",
+        "percentage": 40,
+        "color": "from-purple-400 to-pink-600",
+        "count": 4
+      }
     ],
     "currentlyLearning": [
-        "AI/ML Integration",
-        "Web3 Security",
-        "Serverless Architecture",
-        "Advanced Laravel Packages",
-        "Multi-tenant Architecture",
-        "DevSecOps"
+      "AI/ML Integration",
+      "Web3 Security",
+      "Serverless Architecture",
+      "Advanced Laravel Packages",
+      "Multi-tenant Architecture",
+      "DevSecOps"
     ],
     "cta": {
-        "title": "Let's Build Future-Ready Solutions",
-        "description": "If you're looking to work with someone who combines experience with modern tools to create impactful digital products—I'm your developer.",
-       "buttons": [
-        { "text": "View My Projects", "href": "#projects", "type": "primary" },
-        { "text": "Let's Collaborate", "href": "#contact", "type": "secondary" }
+      "title": "Let's Build Future-Ready Solutions",
+      "description": "If you're looking to work with someone who combines experience with modern tools to create impactful digital products—I'm your developer.",
+      "buttons": [
+        {
+          "text": "View My Projects",
+          "href": "#projects",
+          "type": "primary"
+        },
+        {
+          "text": "Let's Collaborate",
+          "href": "#contact",
+          "type": "secondary"
+        }
       ]
     }
   },
@@ -184,70 +313,320 @@
     "projects": [
       {
         "id": "01",
-        "title": "Dynamic File Management System",
+        "title": "Meal Vista - A Modern Recipe Search App",
         "category": "Full Stack Development",
-        "description": "**Challenge:** Built a centralized file management system to replace scattered file storage across multiple platforms. **Solution:** Architected a full-stack application with Laravel REST APIs and React frontend, implementing secure authentication, real-time search, multi-file operations, and responsive design. **Impact:** Delivered a production-ready system with optimized performance across devices and streamlined file workflows.",
-        "image": "📁",
-        "color": "from-blue-600 to-indigo-600",
-        "technologies": ["Laravel", "RESTful API", "React", "Authentication", "File Handling"],
-        "metrics": [
-            { "label": "Role", "value": "Full Stack" },
-            { "label": "Published", "value": "Jan 2025" },
-            { "label": "Platform", "value": "Web" }
+        "description": "**Challenge:** Customers needed a platform to browse and search for recipes online. **Solution:** Built a full-stack platform with Laravel and Vue.js, featuring recipe catalog, search functionality, and comprehensive admin dashboard for inventory, coupons, and user management. **Impact:** Delivered a scalable solution with 10+ core features, enabling customers to search for recipes efficiently.",
+        "image": "🍜",
+        "color": "from-purple-500 to-pink-500",
+        "technologies": [
+          "React.js",
+          "Tailwind CSS",
+          "Restful APIs",
+          "API Integration",
+          "Database Design",
+          "User Experience"
         ],
-        "liveUrl": "",
+        "metrics": [
+          {
+            "label": "Role",
+            "value": "Frontend Developer"
+          },
+          {
+            "label": "Published",
+            "value": "October 2025"
+          },
+          {
+            "label": "Features",
+            "value": "10+"
+          }
+        ],
+        "images": [
+          "/meal-vista/image1.png",
+          "/meal-vista/image2.png",
+          "/meal-vista/image3.png",
+          "/meal-vista/image4.png"
+        ],
+        "liveUrl": "https://meal-vista.vercel.app/",
         "githubUrl": "https://github.com/samir-randeriya/file-management",
+        "upworkUrl": "https://www.upwork.com/freelancers/~014e94a19f6e639b39?p=1895717466452103168",
         "featured": true
       },
       {
         "id": "02",
         "title": "Asset Management",
-        "category": "Full Stack Laravel Development",
-        "description": "**Challenge:** Organizations struggled to track equipment and inventory across departments, leading to lost assets and inefficient resource allocation. **Solution:** Built a full-stack Laravel application with real-time tracking, role-based access control, and an intuitive admin panel using Tailwind CSS. **Impact:** Created a scalable system enabling organizations to monitor assets, reduce losses, and make data-driven resource decisions.",
-        "image": "📦",
-        "color": "from-purple-500 to-pink-500", 
-        "technologies": ["Laravel", "Tailwind CSS", "MySQL", "Admin Panel", "User Experience"],
+        "category": "Full Stack Development",
+        "description": "**Challenge:** Customers needed a platform to track their assets and inventory. **Solution:** Built a full-stack platform with Laravel and Vue.js, featuring asset catalog, search functionality, and comprehensive admin dashboard for inventory, coupons, and user management. **Impact:** Delivered a scalable solution with 10+ core features, enabling customers to track their assets efficiently.",
+        "image": "💼",
+        "color": "from-green-500 to-emerald-500",
+        "technologies": [
+          "Laravel",
+          "Bootstrap",
+          "JQuery",
+          "MySQL"
+        ],
         "metrics": [
-            { "label": "Role", "value": "Full Stack" },
-            { "label": "Published", "value": "Aug 2024" },
-            { "label": "Platform", "value": "Web" }
+          {
+            "label": "Role",
+            "value": "Backend Developer"
+          },
+          {
+            "label": "Published",
+            "value": "January 2025"
+          },
+          {
+            "label": "Features",
+            "value": "10+"
+          }
+        ],
+        "images": [
+          "/asset-management/image1.png",
+          "/asset-management/image2.png",
+          "/asset-management/image3.png"
         ],
         "liveUrl": "",
         "githubUrl": "http://github.com/samir-randeriya/laravel-asset-management",
+        "upworkUrl": "https://www.upwork.com/freelancers/~014e94a19f6e639b39?p=1822539884965969920",
         "featured": true
       },
       {
         "id": "03",
-        "title": "MealVista – Recipe Search App",
-        "category": "Frontend Development",
-        "description": "**Challenge:** Home cooks needed a fast, intuitive way to discover recipes with ingredients and cooking instructions. **Solution:** Developed a responsive Vue.js application integrating third-party recipe APIs, featuring real-time search, video tutorials, and clean UI with Tailwind CSS. **Impact:** Delivered a production-ready app with seamless mobile experience, deployed on Vercel with optimized performance.",
-        "image": "🍳",
-        "color": "from-amber-500 to-orange-500",
-        "technologies": ["Vue.js", "Tailwind CSS", "API Integration", "Vercel"],
-        "metrics": [
-          { "label": "Published", "value": "2025" },
-          { "label": "Role", "value": "Frontend" },
-          { "label": "Platform", "value": "Web" }
+        "title": "Hyper Mart - A Modern E-commerce Platform",
+        "category": "Full Stack Development",
+        "description": "**Challenge:** Customers needed a platform to browse and purchase products online. **Solution:** Built a full-stack platform with Laravel and Vue.js, featuring product catalog, cart system, secure checkout, order tracking, and comprehensive admin dashboard for inventory, coupons, and user management. **Impact:** Delivered a scalable solution with 10+ core features, enabling customers to purchase products efficiently.",
+        "image": "🛒",
+        "color": "from-blue-500 to-cyan-500",
+        "technologies": [
+          "PHP",
+          "Laravel",
+          "Bootstrap",
+          "Restful APIs",
+          "Database Design",
+          "User Experience",
+          "Payment Integration"
         ],
-        "liveUrl": "https://samir-frontend-developer.vercel.app/",
-        "githubUrl": "https://github.com/samir-randeriya/MealVista-A-Modern-Recipe-Search-App",
+        "metrics": [
+          {
+            "label": "Published",
+            "value": "March 2017"
+          },
+          {
+            "label": "Role",
+            "value": "Backend Developer"
+          },
+          {
+            "label": "Features",
+            "value": "10+"
+          }
+        ],
+        "images": [
+          "/hyper-mart/image1.png",
+          "/hyper-mart/image2.png",
+          "/hyper-mart/image3.png",
+          "/hyper-mart/image4.png"
+        ],
+        "liveUrl": "",
+        "githubUrl": "https://github.com/samir-randeriya/laravel-ecommerce",
+        "upworkUrl": "https://www.upwork.com/freelancers/~014e94a19f6e639b39?p=1797308307686379520",
         "featured": false
       },
       {
         "id": "04",
-        "title": "E-commerce Platform",
-        "category": "Full-Stack Development",
-        "description": "**Challenge:** Small businesses needed an affordable, feature-complete online store to compete in digital commerce. **Solution:** Built a full-stack e-commerce platform with Laravel backend, featuring product catalog, cart system, secure checkout, order tracking, and comprehensive admin dashboard for inventory, coupons, and user management. **Impact:** Delivered a scalable solution with 10+ core features, enabling businesses to launch online stores without expensive enterprise platforms.",
-        "image": "🛍️",
-        "color": "from-orange-500 to-red-500", 
-        "technologies": ["Laravel", "Bootstrap", "jQuery", "PHP", "MySQL"],
+        "title": "Textile Market - A Modern Textile Shopping Platform",
+        "category": "Full Stack Development",
+        "description": "**Challenge:** Customers needed a platform to browse and purchase textiles online. **Solution:** Built a full-stack platform with ASP.NET and SQL Server, featuring product catalog, cart system, secure checkout, order tracking, and comprehensive admin dashboard for inventory, coupons, and user management. **Impact:** Delivered a scalable solution with 10+ core features, enabling customers to purchase textiles efficiently.",
+        "image": "🧵",
+        "color": "from-green-500 to-emerald-500",
+        "technologies": [
+          "ASP.NET",
+          "SQL Server",
+          "ASP.NET C#",
+          "Web API"
+        ],
         "metrics": [
-          { "label": "Role", "value": "Full-Stack" },
-          { "label": "Published", "value": "2024" },
-          { "label": "Features", "value": "10+" }
+          {
+            "label": "Role",
+            "value": "Backend Developer"
+          },
+          {
+            "label": "Published",
+            "value": "June 2018"
+          },
+          {
+            "label": "Features",
+            "value": "5+"
+          }
+        ],
+        "images": [
+          "/textile-market/online_textile.gif"
         ],
         "liveUrl": "",
         "githubUrl": "",
+        "upworkUrl": "https://www.upwork.com/freelancers/~014e94a19f6e639b39?p=1739313697803608064",
+        "featured": false
+      },
+      {
+        "id": "05",
+        "title": "Online Outfit Shopping Platform",
+        "category": "Full Stack Development",
+        "description": "**Challenge:** Customers needed a platform to browse and purchase clothing and accessories online. **Solution:** Built a full-stack platform with PHP and MySQL, featuring product catalog, cart system, secure checkout, order tracking, and comprehensive admin dashboard for inventory, coupons, and user management. **Impact:** Delivered a scalable solution with 10+ core features, enabling customers to purchase clothing and accessories efficiently.",
+        "image": "👕",
+        "color": "from-purple-500 to-pink-500",
+        "technologies": [
+          "PHP",
+          "MySQL",
+          "Bootstrap",
+          "JQuery",
+          "Git"
+        ],
+        "metrics": [
+          {
+            "label": "Role",
+            "value": "Full Stack Developer"
+          },
+          {
+            "label": "Published",
+            "value": "October 2017"
+          },
+          {
+            "label": "Features",
+            "value": "5+"
+          }
+        ],
+        "images": [
+          "/ecommerce/image1.png",
+          "/ecommerce/image2.png",
+          "/ecommerce/image3.png",
+          "/ecommerce/image4.png",
+          "/ecommerce/image5.png"
+        ],
+        "liveUrl": "",
+        "githubUrl": "https://github.com/samir-randeriya/php-ecommerce",
+        "upworkUrl": "https://www.upwork.com/freelancers/~014e94a19f6e639b39?p=1797346588377567232",
+        "featured": false
+      },
+      {
+        "id": "06",
+        "title": "Online Footwear Shopping Platform",
+        "category": "Full Stack Development",
+        "description": "**Challenge:** Customers needed a platform to browse and purchase footwear online. **Solution:** Built a full-stack platform with PHP and MySQL, featuring product catalog, cart system, secure checkout, order tracking, and comprehensive admin dashboard for inventory, coupons, and user management. **Impact:** Delivered a scalable solution with 10+ core features, enabling customers to purchase footwear efficiently.",
+        "image": "👟",
+        "color": "from-blue-500 to-cyan-500",
+        "technologies": [
+          "PHP",
+          "MySQL",
+          "HTML",
+          "CSS",
+          "JavaScript",
+          "Bootstrap",
+          "JQuery",
+          "Git"
+        ],
+        "metrics": [
+          {
+            "label": "Role",
+            "value": "Full Stack Developer"
+          },
+          {
+            "label": "Published",
+            "value": "December 2017"
+          },
+          {
+            "label": "Features",
+            "value": "5+"
+          }
+        ],
+        "images": [
+          "/ecommerce/image1.png",
+          "/ecommerce/image2.png",
+          "/ecommerce/image3.png",
+          "/ecommerce/image4.png",
+          "/ecommerce/image5.png"
+        ],
+        "liveUrl": "",
+        "githubUrl": "",
+        "upworkUrl": "https://www.upwork.com/freelancers/~014e94a19f6e639b39?p=1739308298229641216",
+        "featured": false
+      },
+      {
+        "id": "07",
+        "title": "Dynamic File Management System",
+        "category": "Full Stack Web Development",
+        "description": "**Challenge:** Customers needed a platform to manage their files online. **Solution:** Built a full-stack platform with Laravel and React.js, featuring file catalog, search functionality, and comprehensive admin dashboard for file management. **Impact:** Delivered a scalable solution with 5+ core features, enabling customers to manage their files efficiently.",
+        "image": "📂",
+        "color": "from-green-500 to-emerald-500",
+        "technologies": [
+          "Laravel",
+          "React.js",
+          "JWT Authentication",
+          "MySQL",
+          "Tailwind CSS",
+          "Restful APIs",
+          "User Experience"
+        ],
+        "metrics": [
+          {
+            "label": "Role",
+            "value": "Full Stack Web Developer"
+          },
+          {
+            "label": "Published",
+            "value": "March 2025"
+          },
+          {
+            "label": "Features",
+            "value": "10+"
+          }
+        ],
+        "images": [
+          "/file-management/image1.png",
+          "/file-management/image2.png",
+          "/file-management/image3.png"
+        ],
+        "liveUrl": "",
+        "githubUrl": "https://github.com/samir-randeriya/file-management",
+        "upworkUrl": "https://www.upwork.com/freelancers/~014e94a19f6e639b39?p=1883049878694350848",
+        "featured": false
+      },
+      {
+        "id": "08",
+        "title": "Google Authentication Application",
+        "category": "Frontend Developer",
+        "description": "**Challenge:** Customers needed a platform to manage their files online. **Solution:** Built a platform with Vue.js, featuring Google Authentication, JWT Authentication, and comprehensive admin dashboard for file management. **Impact:** Delivered a scalable solution with 5+ core features, enabling customers to manage their files efficiently.",
+        "image": "🔒",
+        "color": "from-blue-500 to-cyan-500",
+        "technologies": [
+          "Vue.js",
+          "Vuex",
+          "Vue Router",
+          "Google OAuth",
+          "JWT Authentication",
+          "PostgreSQL",
+          "Tailwind CSS",
+          "RESTful APIs",
+          "User Experience"
+        ],
+        "metrics": [
+          {
+            "label": "Role",
+            "value": "Frontend Developer"
+          },
+          {
+            "label": "Published",
+            "value": "July 2024"
+          },
+          {
+            "label": "Features",
+            "value": "5+"
+          }
+        ],
+        "images": [
+          "/google-authentication/image1.png",
+          "/google-authentication/image2.png",
+          "/google-authentication/image3.png"
+        ],
+        "liveUrl": "",
+        "githubUrl": "https://github.com/samir-randeriya/VueJs-sso-login",
+        "upworkUrl": "https://www.upwork.com/freelancers/~014e94a19f6e639b39?p=1812896626883903488",
         "featured": false
       }
     ],
@@ -255,8 +634,16 @@
       "title": "Ready to Turn Your Idea Into Reality?",
       "description": "Whether you need a Laravel backend, a full-stack solution, or help scaling your existing platform—let's talk.",
       "buttons": [
-        { "text": "Start a Project", "action": "scrollToContact", "type": "primary" },
-        { "text": "View All Work", "action": "openGithub", "type": "secondary" }
+        {
+          "text": "Start a Project",
+          "action": "scrollToContact",
+          "type": "primary"
+        },
+        {
+          "text": "View All Work",
+          "action": "openGithub",
+          "type": "secondary"
+        }
       ]
     }
   },
@@ -272,14 +659,24 @@
         "location": "Surat, Gujarat, India",
         "type": "Full-time",
         "icon": "💼",
-        "description": "Leading frontend development for enterprise-level applications with React.js and TypeScript. Spearheading UI/UX improvements and mentoring junior developers. ", 
+        "description": "Leading frontend development for enterprise-level applications with React.js and TypeScript. Spearheading UI/UX improvements and mentoring junior developers. ",
         "achievements": [
           "Resolved complex technical issues, improving system stability and reducing bug-related delays across multiple development cycles.",
           "Optimized codebase, resulting in a 40% improvement in application performance and supporting a 3x increase in user traffic without degradation.",
           "Mentored 5 junior developers, leading to a 30% improvement in their code quality and faster onboarding into production-level tasks.",
           "Led the delivery of 5+ high-impact projects, aligning cross-functional teams and maintaining 100% adherence to deadlines and quality benchmarks"
         ],
-        "technologies": ["Laravel", "Laravel Nova", "Livewire", "Alpine.js", "RESTful APIs", "PostgreSQL", "Docker", "AWS", "CI/CD"],
+        "technologies": [
+          "Laravel",
+          "Laravel Nova",
+          "Livewire",
+          "Alpine.js",
+          "RESTful APIs",
+          "PostgreSQL",
+          "Docker",
+          "AWS",
+          "CI/CD"
+        ],
         "gradient": "from-blue-500 to-cyan-500"
       },
       {
@@ -296,7 +693,17 @@
           "Contributed to company's component library documentation",
           "Participated in daily standups and sprint planning sessions"
         ],
-        "technologies": ["PHP", "MySQL", "HTML", "CSS", "JavaScript", "Bootstrap", "JQuery", "Git", "Laravel"],
+        "technologies": [
+          "PHP",
+          "MySQL",
+          "HTML",
+          "CSS",
+          "JavaScript",
+          "Bootstrap",
+          "JQuery",
+          "Git",
+          "Laravel"
+        ],
         "gradient": "from-green-500 to-emerald-500"
       },
       {
@@ -313,7 +720,16 @@
           "Reviewed and resolved 100+ customer-reported bugs, improving system stability and customer satisfaction by 20%.",
           "Participated in 50+ code reviews, identifying critical issues and contributing to a 15% reduction in post-deployment defects."
         ],
-        "technologies": ["PHP", "MySQL", "HTML", "CSS", "JavaScript", "Bootstrap", "JQuery", "Git"],
+        "technologies": [
+          "PHP",
+          "MySQL",
+          "HTML",
+          "CSS",
+          "JavaScript",
+          "Bootstrap",
+          "JQuery",
+          "Git"
+        ],
         "gradient": "from-purple-500 to-pink-500"
       }
     ],
@@ -333,7 +749,25 @@
         "period": "2019 - 2022",
         "gpa": "9.0/10",
         "achievements": [],
-        "coursework": ["Data Structures", "Algorithms", "Database Systems", "Web Development", "Software Engineering", "Operating Systems", "Computer Networks", "Computer Architecture", "Data Science", "Cloud Computing", "DevOps", "Cybersecurity", "Web3", "Web3 Security", "Serverless Architecture", "Advanced Laravel Packages", "DevSecOps"]
+        "coursework": [
+          "Data Structures",
+          "Algorithms",
+          "Database Systems",
+          "Web Development",
+          "Software Engineering",
+          "Operating Systems",
+          "Computer Networks",
+          "Computer Architecture",
+          "Data Science",
+          "Cloud Computing",
+          "DevOps",
+          "Cybersecurity",
+          "Web3",
+          "Web3 Security",
+          "Serverless Architecture",
+          "Advanced Laravel Packages",
+          "DevSecOps"
+        ]
       },
       {
         "degree": "Bachelor of Computer Applications",
@@ -341,14 +775,41 @@
         "period": "2016 - 2019",
         "gpa": "7.8/10",
         "achievements": [],
-        "coursework": ["HTML", "PHP", "C++", "Web Development", "Java", "Operating Systems", "Computer Networks", "Data Science", "Cloud Computing", "DevOps"]
+        "coursework": [
+          "HTML",
+          "PHP",
+          "C++",
+          "Web Development",
+          "Java",
+          "Operating Systems",
+          "Computer Networks",
+          "Data Science",
+          "Cloud Computing",
+          "DevOps"
+        ]
       }
     ],
     "certifications": [
-      { "name": "Introduction to Structured Query Language (SQL)", "issuer": "Coursera", "year": "June 2020" },
-      { "name": "Building Web Applications in PHP", "issuer": "Coursera", "year": "May 2020" },
-      { "name": "Javascript Basic to Advanced", "issuer": "Udemy", "year": "January 2021" },
-      { "name": "The complete ReactJs Course - Basic to Advanced", "issuer": "Udemy", "year": "March 2021" }
+      {
+        "name": "Introduction to Structured Query Language (SQL)",
+        "issuer": "Coursera",
+        "year": "June 2020"
+      },
+      {
+        "name": "Building Web Applications in PHP",
+        "issuer": "Coursera",
+        "year": "May 2020"
+      },
+      {
+        "name": "Javascript Basic to Advanced",
+        "issuer": "Udemy",
+        "year": "January 2021"
+      },
+      {
+        "name": "The complete ReactJs Course - Basic to Advanced",
+        "issuer": "Udemy",
+        "year": "March 2021"
+      }
     ]
   },
   "contact": {
@@ -386,8 +847,8 @@
       {
         "icon": "💼",
         "label": "LinkedIn",
-        "value": "linkedin.com/in/samir-randeriya-578a17185/",
-        "link": "https://www.linkedin.com/in/samir-randeriya-578a17185/",
+        "value": "linkedin.com/in/samir-randeriya",
+        "link": "https://www.linkedin.com/in/samir-randeriya/",
         "color": "from-purple-500 to-violet-500",
         "bgColor": "bg-purple-50 dark:bg-purple-900/20"
       }
@@ -396,10 +857,31 @@
       "title": "Send Message",
       "successMessage": "Message sent successfully! I'll get back to you soon.",
       "fields": [
-        { "name": "name", "label": "Your Name", "type": "text", "required": true },
-        { "name": "email", "label": "Email Address", "type": "email", "required": true },
-        { "name": "subject", "label": "Subject", "type": "text", "required": true },
-        { "name": "message", "label": "Message", "type": "textarea", "required": true, "rows": 4 }
+        {
+          "name": "name",
+          "label": "Your Name",
+          "type": "text",
+          "required": true
+        },
+        {
+          "name": "email",
+          "label": "Email Address",
+          "type": "email",
+          "required": true
+        },
+        {
+          "name": "subject",
+          "label": "Subject",
+          "type": "text",
+          "required": true
+        },
+        {
+          "name": "message",
+          "label": "Message",
+          "type": "textarea",
+          "required": true,
+          "rows": 4
+        }
       ],
       "submitText": "Send Message",
       "submittingText": "Sending..."
@@ -409,10 +891,22 @@
     "title": "Client Reviews & Testimonials",
     "subtitle": "Here's what my clients say about working with me",
     "stats": [
-      { "number": "50+", "label": "Projects Completed" },
-      { "number": "100%", "label": "Client Satisfaction" },
-      { "number": "4.9/5", "label": "Average Rating" },
-      { "number": "24h", "label": "Average Response Time" }
+      {
+        "number": "50+",
+        "label": "Projects Completed"
+      },
+      {
+        "number": "100%",
+        "label": "Client Satisfaction"
+      },
+      {
+        "number": "4.9/5",
+        "label": "Average Rating"
+      },
+      {
+        "number": "24h",
+        "label": "Average Response Time"
+      }
     ],
     "reviews": [
       {
@@ -480,8 +974,16 @@
       "title": "Ready to Start Your Project?",
       "description": "Join the growing list of satisfied clients. Let's discuss your project requirements and create something amazing together.",
       "buttons": [
-        { "text": "Get Started", "action": "scrollToContact", "type": "primary" },
-        { "text": "View Portfolio", "href": "#projects", "type": "secondary" }
+        {
+          "text": "Get Started",
+          "action": "scrollToContact",
+          "type": "primary"
+        },
+        {
+          "text": "View Portfolio",
+          "href": "#projects",
+          "type": "secondary"
+        }
       ]
     }
   },
@@ -492,14 +994,38 @@
       "title": "Senior Lead Software Engineer"
     },
     "menuItems": [
-      { "name": "Home", "href": "#home" },
-      { "name": "About", "href": "#about" },
-      { "name": "Skills", "href": "#skills" },
-      { "name": "Projects", "href": "#projects" },
-      { "name": "Proof", "href": "#proof" },
-      { "name": "Experience", "href": "#experience" },
-      { "name": "AI Chat", "href": "#chat" },
-      { "name": "Contact", "href": "#contact" }
+      {
+        "name": "Home",
+        "href": "#home"
+      },
+      {
+        "name": "About",
+        "href": "#about"
+      },
+      {
+        "name": "Skills",
+        "href": "#skills"
+      },
+      {
+        "name": "Projects",
+        "href": "#projects"
+      },
+      {
+        "name": "Proof",
+        "href": "#proof"
+      },
+      {
+        "name": "Experience",
+        "href": "#experience"
+      },
+      {
+        "name": "AI Chat",
+        "href": "#chat"
+      },
+      {
+        "name": "Contact",
+        "href": "#contact"
+      }
     ],
     "cta": {
       "text": "Hire Me",
@@ -534,11 +1060,26 @@
       }
     ],
     "quickLinks": [
-      { "name": "Home", "href": "#home" },
-      { "name": "About", "href": "#about" },
-      { "name": "Projects", "href": "#projects" },
-      { "name": "Proof", "href": "#proof" },
-      { "name": "Contact", "href": "#contact" }
+      {
+        "name": "Home",
+        "href": "#home"
+      },
+      {
+        "name": "About",
+        "href": "#about"
+      },
+      {
+        "name": "Projects",
+        "href": "#projects"
+      },
+      {
+        "name": "Proof",
+        "href": "#proof"
+      },
+      {
+        "name": "Contact",
+        "href": "#contact"
+      }
     ],
     "contactInfo": [
       {
@@ -555,8 +1096,11 @@
       }
     ],
     "legalLinks": [
-      { "name": "Privacy Policy", "href": "/privacy" }
+      {
+        "name": "Privacy Policy",
+        "href": "/privacy"
+      }
     ],
     "copyright": "Samir Randeriya. All rights reserved."
   }
-} 
+}

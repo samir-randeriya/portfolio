@@ -57,6 +57,22 @@ export default function Navbar() {
     };
   }, [navigation.menuItems]);
 
+  // Scroll to section when element is ready (handles lazy-loaded sections after route change)
+  const scrollWhenReady = (selector, maxWait = 3000) => {
+    const start = Date.now();
+    const tryScroll = () => {
+      const el = document.querySelector(selector);
+      if (el) {
+        el.scrollIntoView({ behavior: 'smooth' });
+        return;
+      }
+      if (Date.now() - start < maxWait) {
+        requestAnimationFrame(tryScroll);
+      }
+    };
+    requestAnimationFrame(tryScroll);
+  };
+
   const scrollToSection = (href) => {
     setIsMenuOpen(false);
     
@@ -66,16 +82,10 @@ export default function Navbar() {
       return;
     }
     
-    // If we're on AI page, navigate home first
+    // If we're on AI page, navigate home first then scroll when section is ready
     if (location.pathname === '/ai') {
       navigate('/');
-      setTimeout(() => {
-        const sectionId = href.replace('#', '');
-        const element = document.querySelector(href);
-        if (element) {
-          element.scrollIntoView({ behavior: 'smooth' });
-        }
-      }, 100);
+      scrollWhenReady(href);
       return;
     }
     
@@ -84,6 +94,8 @@ export default function Navbar() {
     const element = document.querySelector(href);
     if (element) {
       element.scrollIntoView({ behavior: 'smooth' });
+    } else {
+      scrollWhenReady(href);
     }
   };
 

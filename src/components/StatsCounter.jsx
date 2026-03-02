@@ -1,214 +1,338 @@
-import { useState, useEffect, useRef, useMemo } from 'react';
-import { 
-  FadeSlideUp, 
-  StaggerContainer, 
-  StaggerItem, 
-  SectionHeader 
-} from './ScrollAnimations';
+import { useState, useEffect, useRef } from 'react';
+import portfolioData from '../data/portfolioContent.json';
 
+// ─── Helpers ──────────────────────────────────────────────────────────────────
+function useCountUp(target, isVisible, duration = 2000, delay = 0) {
+  const [count, setCount] = useState(0);
+
+  useEffect(() => {
+    if (!isVisible) return;
+    let startTime = null;
+    let frame;
+    const delayTimer = setTimeout(() => {
+      const step = (timestamp) => {
+        if (!startTime) startTime = timestamp;
+        const progress = Math.min((timestamp - startTime) / duration, 1);
+        // Ease out cubic
+        const eased = 1 - Math.pow(1 - progress, 3);
+        setCount(Math.floor(eased * target));
+        if (progress < 1) frame = requestAnimationFrame(step);
+        else setCount(target);
+      };
+      frame = requestAnimationFrame(step);
+    }, delay);
+
+    return () => {
+      clearTimeout(delayTimer);
+      cancelAnimationFrame(frame);
+    };
+  }, [isVisible, target, duration, delay]);
+
+  return count;
+}
+
+// ─── Stat definitions (icons & descriptions come from here; numbers from JSON) ─
+const STAT_META = [
+  {
+    key: 'projects',
+    icon: (
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={1.5} className="w-7 h-7">
+        <path strokeLinecap="round" strokeLinejoin="round"
+          d="M3.75 12h16.5m-16.5 3.75h16.5M3.75 19.5h16.5M5.625 4.5h12.75a1.875 1.875 0 010 3.75H5.625a1.875 1.875 0 010-3.75z" />
+      </svg>
+    ),
+    accent: '#38bdf8',
+    accent2: '#818cf8',
+    description: 'Full-stack apps, SaaS platforms & APIs shipped to production',
+  },
+  {
+    key: 'technologies',
+    icon: (
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={1.5} className="w-7 h-7">
+        <path strokeLinecap="round" strokeLinejoin="round"
+          d="M17.25 6.75L22.5 12l-5.25 5.25m-10.5 0L1.5 12l5.25-5.25m7.5-3l-4.5 16.5" />
+      </svg>
+    ),
+    accent: '#34d399',
+    accent2: '#38bdf8',
+    description: 'Frontend, backend, databases, DevOps & cloud infrastructure',
+  },
+  {
+    key: 'experience',
+    icon: (
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={1.5} className="w-7 h-7">
+        <path strokeLinecap="round" strokeLinejoin="round"
+          d="M12 6v6h4.5m4.5 0a9 9 0 11-18 0 9 9 0 0118 0z" />
+      </svg>
+    ),
+    accent: '#a78bfa',
+    accent2: '#f472b6',
+    description: 'Building scalable systems for startups & enterprises',
+  },
+  {
+    key: 'passion',
+    icon: (
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={1.5} className="w-7 h-7">
+        <path strokeLinecap="round" strokeLinejoin="round"
+          d="M9.813 15.904L9 18.75l-.813-2.846a4.5 4.5 0 00-3.09-3.09L2.25 12l2.846-.813a4.5 4.5 0 003.09-3.09L9 5.25l.813 2.846a4.5 4.5 0 003.09 3.09L15.75 12l-2.846.813a4.5 4.5 0 00-3.09 3.09z" />
+      </svg>
+    ),
+    accent: '#fb923c',
+    accent2: '#f43f5e',
+    description: 'Clean, maintainable, security-first code on every project',
+  },
+];
+
+const ACHIEVEMENTS = [
+  { icon: '⭐', text: '5-Star Client Ratings' },
+  { icon: '✅', text: '100% Satisfaction Rate' },
+  { icon: '🎯', text: 'Zero-Bug Deployments' },
+  { icon: '⚡', text: 'Performance Specialist' },
+];
+
+// ─── Single Stat Card ─────────────────────────────────────────────────────────
+function StatCard({ stat, meta, index, isVisible }) {
+  const numericValue = parseInt(stat.number, 10);
+  const suffix = stat.number.replace(/[0-9]/g, '');
+  const count = useCountUp(numericValue, isVisible, 1800, index * 150);
+
+  return (
+    <div
+      className="stat-card group relative rounded-2xl border p-8 flex flex-col gap-5 overflow-hidden cursor-default"
+      style={{
+        background: 'rgba(255,255,255,0.03)',
+        borderColor: 'rgba(255,255,255,0.08)',
+        transition: 'border-color 0.3s, transform 0.3s, box-shadow 0.3s',
+        animationDelay: `${index * 0.1}s`,
+      }}
+    >
+      {/* Hover glow */}
+      <div
+        className="stat-card-glow absolute inset-0 opacity-0 transition-opacity duration-500 pointer-events-none rounded-2xl"
+        style={{
+          background: `radial-gradient(200px circle at 50% 0%, ${meta.accent}18, transparent 70%)`,
+        }}
+      />
+
+      {/* Top: icon + number */}
+      <div className="relative z-10 flex items-start justify-between">
+        {/* Icon badge */}
+        <div
+          className="w-12 h-12 rounded-xl flex items-center justify-center flex-shrink-0"
+          style={{
+            background: `linear-gradient(135deg, ${meta.accent}22, ${meta.accent2}22)`,
+            border: `1px solid ${meta.accent}33`,
+            color: meta.accent,
+          }}
+        >
+          {meta.icon}
+        </div>
+
+        {/* Animated number */}
+        <span
+          className="text-4xl lg:text-5xl font-black leading-none tabular-nums"
+          style={{
+            background: `linear-gradient(135deg, ${meta.accent}, ${meta.accent2})`,
+            WebkitBackgroundClip: 'text',
+            WebkitTextFillColor: 'transparent',
+            backgroundClip: 'text',
+          }}
+        >
+          {count}{suffix}
+        </span>
+      </div>
+
+      {/* Label */}
+      <div className="relative z-10">
+        <h3 className="text-white font-semibold text-base mb-1.5">{stat.label}</h3>
+        <p className="text-slate-500 text-sm leading-relaxed">{meta.description}</p>
+      </div>
+
+      {/* Bottom accent line */}
+      <div
+        className="absolute bottom-0 left-0 h-[2px] w-0 group-hover:w-full transition-all duration-500 rounded-full"
+        style={{ background: `linear-gradient(to right, ${meta.accent}, ${meta.accent2})` }}
+      />
+    </div>
+  );
+}
+
+// ─── Main Component ───────────────────────────────────────────────────────────
 export default function StatsCounter() {
+  const { about } = portfolioData;
+  const stats = about.personalStats;
+
   const [isVisible, setIsVisible] = useState(false);
   const sectionRef = useRef(null);
 
-  const stats = useMemo(() => [
-    {
-      number: 20,
-      suffix: '+',
-      label: 'Projects Completed',
-      description: 'Full-stack applications, websites, and mobile apps delivered',
-      icon: '🚀',
-      gradient: 'from-blue-500 to-cyan-500'
-    },
-    {
-      number: 15,
-      suffix: '+',
-      label: 'Technologies Mastered',
-      description: 'Frontend, backend, database, and DevOps technologies',
-      icon: '💻',
-      gradient: 'from-green-500 to-emerald-500'
-    },
-    {
-      number: 4,
-      suffix: '+',
-      label: 'Years of Experience',
-      description: 'Building scalable web applications and digital solutions',
-      icon: '📅',
-      gradient: 'from-purple-500 to-pink-500'
-    },
-    {
-      number: 99,
-      suffix: '%',
-      label: 'Code Quality',
-      description: 'Commitment to clean, maintainable, and well-tested code',
-      icon: '✨',
-      gradient: 'from-orange-500 to-red-500'
-    }
-  ], []);
-
-  // Individual counter states for each stat
-  const [count0, setCount0] = useState(0);
-  const [count1, setCount1] = useState(0);
-  const [count2, setCount2] = useState(0);
-  const [count3, setCount3] = useState(0);
-
-  const setters = useMemo(() => [setCount0, setCount1, setCount2, setCount3], []);
-  const counts = [count0, count1, count2, count3];
-
-  // Intersection Observer to trigger animation
   useEffect(() => {
-    const currentRef = sectionRef.current;
+    const el = sectionRef.current;
+    if (!el) return;
     const observer = new IntersectionObserver(
-      ([entry]) => {
-        if (entry.isIntersecting) {
-          setIsVisible(true);
-        }
-      },
-      { threshold: 0.1 }
+      ([entry]) => { if (entry.isIntersecting) setIsVisible(true); },
+      { threshold: 0.15 }
     );
-
-    if (currentRef) {
-      observer.observe(currentRef);
-    }
-
-    return () => {
-      if (currentRef) {
-        observer.unobserve(currentRef);
-      }
-    };
+    observer.observe(el);
+    return () => observer.unobserve(el);
   }, []);
 
-  // Animate counters when visible
-  useEffect(() => {
-    if (!isVisible) return;
-
-    const timers = [];
-
-    stats.forEach((stat, index) => {
-      const setter = setters[index];
-      const duration = 2000 + index * 200;
-      const increment = stat.number / (duration / 16);
-      let current = 0;
-
-      const timer = setInterval(() => {
-        current += increment;
-        if (current >= stat.number) {
-          setter(stat.number);
-          clearInterval(timer);
-        } else {
-          setter(Math.floor(current));
-        }
-      }, 16);
-
-      timers.push(timer);
-    });
-
-    return () => {
-      timers.forEach(timer => clearInterval(timer));
-    };
-  }, [isVisible, setters, stats]);
-
   return (
-    <section 
-      ref={sectionRef}
-      className="py-20 bg-gradient-to-br from-gray-50 to-white dark:from-gray-900 dark:to-gray-800 relative overflow-hidden"
-    >
-      {/* Background Elements */}
-      <div className="absolute inset-0 bg-gradient-to-t from-gray-100/30 to-transparent dark:from-gray-700/30 dark:to-transparent" />
-      <div className="absolute top-0 left-1/4 w-72 h-72 bg-blue-200/20 dark:bg-blue-500/10 rounded-full blur-3xl" />
-      <div className="absolute bottom-0 right-1/4 w-72 h-72 bg-purple-200/20 dark:bg-purple-500/10 rounded-full blur-3xl" />
+    <>
+      <style>{`
+        @import url('https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500&display=swap');
 
-      <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        {/* Header */}
-        <SectionHeader
-          title={
-            <span className="bg-gradient-to-r from-emerald-600 to-blue-600 bg-clip-text text-transparent">
-              Developer Statistics
-            </span>
-          }
-          subtitle="A quick look at my journey as a developer, showcasing experience, projects, and commitment to quality."
-          className="mb-16"
-        />
+        #stats * { font-family: 'DM Sans', sans-serif; }
+        #stats .font-display { font-family: 'Syne', sans-serif; }
 
-        {/* Stats Grid */}
-        <StaggerContainer staggerDelay={0.2} className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
-          {stats.map((stat, index) => {
-            const animatedNumber = counts[index];
-            
-            return (
-              <StaggerItem key={index}>
-                <div className="relative group h-full">
-                  <div className="card-hover bg-white dark:bg-gray-800 rounded-2xl p-8 text-center relative overflow-hidden border border-gray-100 dark:border-gray-700 group-hover:shadow-2xl transition-all duration-500 h-full flex flex-col justify-between min-h-[280px]">
-                    {/* Background Gradient */}
-                    <div className={`absolute inset-0 bg-gradient-to-br ${stat.gradient} opacity-0 group-hover:opacity-5 transition-opacity duration-500`} />
-                    
-                    {/* Top Section */}
-                    <div className="relative z-10 flex-1 flex flex-col">
-                      {/* Icon */}
-                      <div className="text-4xl mb-4 group-hover:scale-110 group-hover:animate-bounce transition-all duration-300">
-                        {stat.icon}
-                      </div>
-                      
-                      {/* Number */}
-                      <div className={`text-4xl lg:text-5xl font-bold bg-gradient-to-r ${stat.gradient} bg-clip-text text-transparent mb-2 transition-all duration-300`}>
-                        {isVisible ? animatedNumber : 0}{stat.suffix}
-                      </div>
-                      
-                      {/* Label */}
-                      <h3 className="text-lg font-semibold text-gray-800 dark:text-white mb-3 group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors duration-300">
-                        {stat.label}
-                      </h3>
-                    </div>
-                    
-                    {/* Bottom Section */}
-                    <div className="relative z-10">
-                      {/* Description */}
-                      <p className="text-sm text-gray-600 dark:text-gray-400 leading-relaxed">
-                        {stat.description}
-                      </p>
-                    </div>
+        @keyframes statsSlideUp {
+          from { opacity: 0; transform: translateY(32px); }
+          to   { opacity: 1; transform: translateY(0); }
+        }
+        @keyframes statsReveal {
+          from { opacity: 0; transform: translateY(16px); }
+          to   { opacity: 1; transform: translateY(0); }
+        }
+        @keyframes accentPulse {
+          0%, 100% { opacity: 0.5; transform: scale(1); }
+          50%       { opacity: 1;   transform: scale(1.08); }
+        }
 
-                    {/* Decorative Elements */}
-                    <div className="absolute top-4 right-4 w-2 h-2 bg-blue-400 rounded-full opacity-20 group-hover:opacity-60 transition-opacity duration-300" />
-                    <div className="absolute bottom-4 left-4 w-1 h-1 bg-purple-400 rounded-full opacity-20 group-hover:opacity-60 transition-opacity duration-300" />
-                  </div>
-                </div>
-              </StaggerItem>
-            );
-          })}
-        </StaggerContainer>
+        .stats-visible .stat-card {
+          animation: statsSlideUp 0.6s cubic-bezier(.22,1,.36,1) both;
+        }
+        .stats-visible .stats-footer {
+          animation: statsReveal 0.6s cubic-bezier(.22,1,.36,1) 0.5s both;
+        }
 
-        {/* Additional Info */}
-        <FadeSlideUp delay={0.8} className="text-center mt-16">
-          <div className="max-w-3xl mx-auto">
-            <div className="p-8 bg-gradient-to-r from-blue-50 to-purple-50 dark:from-blue-900/20 dark:to-purple-900/20 rounded-2xl border border-blue-100 dark:border-blue-800/30">
-              <h3 className="text-xl font-bold text-gray-800 dark:text-white mb-4">
-                Continuous Growth & Learning
-              </h3>
-              <p className="text-gray-600 dark:text-gray-300 leading-relaxed">
-                These numbers represent my journey so far, but I'm always growing. Every project teaches me something new, 
-                and I'm committed to staying current with the latest technologies and best practices in software development.
-              </p>
-              
-              {/* Mini Achievement List */}
-              <div className="flex flex-wrap justify-center gap-4 mt-6">
-                {[
-                  '⭐ Completed Project with 5-Star Rating',
-                  '⭐ 100% Client Satisfaction Rate',
-                  '🎯 Zero-Bug Production Deployments',
-                  '🚀 Performance Optimization Specialist'
-                ].map((achievement, index) => (
+        .stat-card:hover {
+          transform: translateY(-4px);
+          border-color: rgba(255,255,255,0.15) !important;
+          box-shadow: 0 20px 60px rgba(0,0,0,0.4);
+        }
+        .stat-card:hover .stat-card-glow { opacity: 1; }
+
+        .achievement-pill {
+          transition: all 0.2s ease;
+          cursor: default;
+        }
+        .achievement-pill:hover {
+          background: rgba(255,255,255,0.08);
+          border-color: rgba(255,255,255,0.2);
+          transform: translateY(-1px);
+        }
+
+        .grid-subtle {
+          background-image:
+            linear-gradient(rgba(255,255,255,0.02) 1px, transparent 1px),
+            linear-gradient(90deg, rgba(255,255,255,0.02) 1px, transparent 1px);
+          background-size: 60px 60px;
+        }
+
+        .accent-pulse { animation: accentPulse 3s ease-in-out infinite; }
+      `}</style>
+
+      <section
+        id="stats"
+        ref={sectionRef}
+        className={`relative py-28 overflow-hidden ${isVisible ? 'stats-visible' : ''}`}
+        style={{ background: '#060811' }}
+      >
+        {/* Background */}
+        <div className="absolute inset-0 grid-subtle pointer-events-none" />
+        <div className="absolute top-0 left-1/3 w-[500px] h-[500px] rounded-full opacity-10 pointer-events-none accent-pulse"
+          style={{ background: 'radial-gradient(circle, #38bdf8, transparent 70%)', filter: 'blur(80px)' }} />
+        <div className="absolute bottom-0 right-1/4 w-[400px] h-[400px] rounded-full opacity-10 pointer-events-none accent-pulse"
+          style={{ background: 'radial-gradient(circle, #818cf8, transparent 70%)', filter: 'blur(80px)', animationDelay: '1.5s' }} />
+
+        <div className="relative z-10 max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+
+          {/* ── Section header ── */}
+          <div className="text-center mb-16">
+            <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full border border-white/10 bg-white/5 text-slate-400 text-xs font-medium tracking-widest uppercase mb-6">
+              <span className="w-1.5 h-1.5 rounded-full bg-sky-400 inline-block" />
+              By the numbers
+            </div>
+            <h2
+              className="font-display text-4xl sm:text-5xl font-black text-white mb-4 leading-tight"
+            >
+              Developer{' '}
+              <span
+                style={{
+                  background: 'linear-gradient(135deg, #38bdf8, #818cf8)',
+                  WebkitBackgroundClip: 'text',
+                  WebkitTextFillColor: 'transparent',
+                  backgroundClip: 'text',
+                }}
+              >
+                Statistics
+              </span>
+            </h2>
+            <p className="text-slate-400 text-lg max-w-xl mx-auto leading-relaxed">
+              A snapshot of my journey — experience, projects delivered, and the standards I hold myself to.
+            </p>
+          </div>
+
+          {/* ── Stats grid — numbers & labels from about.personalStats in JSON ── */}
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
+            {stats.map((stat, i) => (
+              <StatCard
+                key={stat.label}
+                stat={stat}
+                meta={STAT_META[i] || STAT_META[0]}
+                index={i}
+                isVisible={isVisible}
+              />
+            ))}
+          </div>
+
+          {/* ── Footer card ── */}
+          <div
+            className="stats-footer mt-12 rounded-2xl border border-white/8 p-8 sm:p-10 relative overflow-hidden"
+            style={{ background: 'rgba(255,255,255,0.025)' }}
+          >
+            {/* Subtle gradient overlay */}
+            <div
+              className="absolute inset-0 pointer-events-none rounded-2xl"
+              style={{
+                background: 'linear-gradient(135deg, rgba(56,189,248,0.04) 0%, rgba(129,140,248,0.04) 100%)',
+              }}
+            />
+
+            <div className="relative z-10 flex flex-col lg:flex-row items-center gap-8">
+              {/* Text block */}
+              <div className="flex-1 text-center lg:text-left">
+                <h3 className="font-display text-xl font-bold text-white mb-2">
+                  Continuous Growth &amp; Learning
+                </h3>
+                <p className="text-slate-400 text-sm leading-relaxed max-w-lg">
+                  These numbers represent my journey so far — but I'm always growing. Every project
+                  teaches me something new, and I stay current with the best practices in modern
+                  software development.
+                </p>
+              </div>
+
+              {/* Achievement pills */}
+              <div className="flex flex-wrap justify-center lg:justify-end gap-2.5 flex-shrink-0 max-w-sm">
+                {ACHIEVEMENTS.map((a) => (
                   <span
-                    key={index}
-                    className="px-3 py-1 bg-white dark:bg-gray-700 text-gray-700 dark:text-gray-300 rounded-full text-sm font-medium border border-gray-200 dark:border-gray-600 hover:border-blue-300 dark:hover:border-blue-500 transition-colors duration-200"
+                    key={a.text}
+                    className="achievement-pill inline-flex items-center gap-2 px-4 py-2 rounded-full border border-white/10 bg-white/5 text-slate-300 text-sm"
                   >
-                    {achievement}
+                    <span>{a.icon}</span>
+                    {a.text}
                   </span>
                 ))}
               </div>
             </div>
           </div>
-        </FadeSlideUp>
-      </div>
-    </section>
+        </div>
+
+        {/* Edge fade */}
+        <div
+          className="absolute bottom-0 left-0 right-0 h-32 pointer-events-none"
+          style={{ background: 'linear-gradient(to top, #060811, transparent)' }}
+        />
+      </section>
+    </>
   );
-} 
+}

@@ -1,218 +1,423 @@
-import { 
-  StaggerContainer, 
-  StaggerItem, 
-  SectionHeader,
-  SlideFromEdge
-} from './ScrollAnimations';
+import { useState, useEffect, useRef } from 'react';
+import portfolioData from '../data/portfolioContent.json';
 
-export default function Testimonials() {
-  const testimonials = [
-    {
-      name: 'Sarah Johnson',
-      role: 'Product Manager',
-      company: 'TechStart Inc.',
-      rating: 5,
-      content: 'Alex delivered an exceptional full-stack application that exceeded our expectations. His attention to detail and proactive communication made the entire process smooth and enjoyable.',
-      avatar: '👩‍💼',
-      projectType: 'Full-Stack Web App'
-    },
-    {
-      name: 'Michael Chen',
-      role: 'CTO',
-      company: 'Digital Solutions Co.',
-      rating: 5,
-      content: 'Working with Alex was a game-changer for our startup. He built a scalable architecture that handled our rapid growth seamlessly. Highly recommend for any serious development work.',
-      avatar: '👨‍💻',
-      projectType: 'Backend API & Database'
-    },
-    {
-      name: 'Emily Rodriguez',
-      role: 'Marketing Director',
-      company: 'Creative Agency',
-      rating: 5,
-      content: 'Alex transformed our outdated website into a modern, responsive platform that tripled our conversion rate. His React expertise and design sense are top-notch.',
-      avatar: '👩‍🎨',
-      projectType: 'React Website Redesign'
-    },
-    {
-      name: 'David Thompson',
-      role: 'Business Owner',
-      company: 'Local Restaurant Chain',
-      rating: 5,
-      content: 'The mobile app Alex built for our restaurant helped us stay competitive during tough times. The ordering system is intuitive and our customers love it.',
-      avatar: '👨‍🍳',
-      projectType: 'React Native Mobile App'
-    },
-    {
-      name: 'Lisa Wang',
-      role: 'Operations Manager',
-      company: 'E-commerce Platform',
-      rating: 5,
-      content: 'Alex optimized our application performance and reduced load times by 60%. His expertise in both frontend and backend technologies is truly impressive.',
-      avatar: '👩‍💼',
-      projectType: 'Performance Optimization'
-    },
-    {
-      name: 'James Miller',
-      role: 'Startup Founder',
-      company: 'FinTech Startup',
-      rating: 5,
-      content: 'From MVP to production, Alex guided us through every step. His technical leadership and mentorship were invaluable. We couldn\'t have launched without him.',
-      avatar: '👨‍💼',
-      projectType: 'Full Product Development'
-    }
-  ];
+// ─── useInView hook ────────────────────────────────────────────────────────────
+function useInView(threshold = 0.1) {
+  const ref = useRef(null);
+  const [inView, setInView] = useState(false);
+  useEffect(() => {
+    const el = ref.current;
+    if (!el) return;
+    const observer = new IntersectionObserver(
+      ([entry]) => { if (entry.isIntersecting) setInView(true); },
+      { threshold }
+    );
+    observer.observe(el);
+    return () => observer.unobserve(el);
+  }, [threshold]);
+  return [ref, inView];
+}
 
-  const renderStars = (rating) => {
-    return Array.from({ length: 5 }, (_, i) => (
-      <span
-        key={i}
-        className={`text-lg ${
-          i < rating ? 'text-yellow-400' : 'text-gray-300 dark:text-gray-600'
-        }`}
-      >
-        ★
-      </span>
-    ));
-  };
+// ─── Star Rating ──────────────────────────────────────────────────────────────
+function StarRating({ rating }) {
+  return (
+    <div className="flex items-center gap-0.5">
+      {Array.from({ length: 5 }, (_, i) => (
+        <svg
+          key={i}
+          viewBox="0 0 20 20"
+          className="w-4 h-4"
+          fill={i < rating ? '#facc15' : 'none'}
+          stroke={i < rating ? '#facc15' : '#475569'}
+          strokeWidth={1.5}
+        >
+          <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+        </svg>
+      ))}
+      <span className="ml-1.5 text-xs text-slate-500 font-medium">{rating}.0</span>
+    </div>
+  );
+}
+
+// ─── Quote SVG ────────────────────────────────────────────────────────────────
+const QuoteIcon = ({ color = '#38bdf8' }) => (
+  <svg viewBox="0 0 32 24" fill="currentColor" className="w-8 h-6" style={{ color }}>
+    <path d="M0 24V14.4C0 6.44 4.56 1.68 13.68 0l1.44 2.64C10.36 3.76 7.88 6.32 7.28 10H13V24H0zm18 0V14.4C18 6.44 22.56 1.68 31.68 0l1.32 2.64C28.36 3.76 25.88 6.32 25.28 10H31V24H18z" />
+  </svg>
+);
+
+// ─── Testimonial Card ─────────────────────────────────────────────────────────
+const CARD_ACCENTS = ['#38bdf8', '#a78bfa', '#34d399', '#fb923c', '#f472b6', '#facc15'];
+
+function TestimonialCard({ testimonial, index, inView }) {
+  const accent = CARD_ACCENTS[index % CARD_ACCENTS.length];
 
   return (
-    <section className="py-20 bg-gray-50 dark:bg-gray-800/50 relative overflow-hidden">
-      {/* Background Elements */}
-      <div className="absolute inset-0 bg-gradient-to-l from-gray-100/25 to-blue-50/25 dark:from-gray-700/25 dark:to-blue-900/25" />
-      <div className="absolute top-1/2 left-0 w-72 h-72 bg-blue-200/20 dark:bg-blue-500/10 rounded-full blur-3xl transform -translate-x-1/2 -translate-y-1/2" />
-      <div className="absolute top-1/2 right-0 w-72 h-72 bg-purple-200/20 dark:bg-purple-500/10 rounded-full blur-3xl transform translate-x-1/2 -translate-y-1/2" />
+    <div
+      className="testimonial-card group relative rounded-2xl border flex flex-col overflow-hidden"
+      style={{
+        background: 'rgba(255,255,255,0.03)',
+        borderColor: 'rgba(255,255,255,0.08)',
+        opacity: inView ? 1 : 0,
+        transform: inView ? 'translateY(0)' : 'translateY(28px)',
+        transition: `opacity 0.6s ease ${index * 0.1}s, transform 0.6s cubic-bezier(.22,1,.36,1) ${index * 0.1}s`,
+        minHeight: '280px',
+      }}
+    >
+      {/* Top accent bar */}
+      <div
+        className="absolute top-0 left-0 right-0 h-[2px] opacity-0 group-hover:opacity-100 transition-opacity duration-400"
+        style={{ background: `linear-gradient(to right, ${accent}, transparent)` }}
+      />
 
-      <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        {/* Header */}
-        <SectionHeader
-          title={
-            <span className="bg-gradient-to-r from-yellow-600 to-orange-600 bg-clip-text text-transparent">
-              What Clients Say About Me
-            </span>
-          }
-          subtitle="Real feedback from clients who trusted me with their projects. Every testimonial represents a successful collaboration and lasting partnership."
-          className="mb-16"
+      {/* Hover glow */}
+      <div
+        className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none rounded-2xl"
+        style={{ background: `radial-gradient(200px circle at 20% 0%, ${accent}10, transparent 70%)` }}
+      />
+
+      {/* Quote mark — decorative */}
+      <div
+        className="absolute top-5 right-5 opacity-10 group-hover:opacity-20 transition-opacity duration-400"
+        style={{ color: accent }}
+      >
+        <QuoteIcon color={accent} />
+      </div>
+
+      <div className="relative z-10 p-7 flex flex-col h-full gap-5">
+
+        {/* Author row */}
+        <div className="flex items-start gap-3">
+          {/* Avatar */}
+          <div
+            className="w-11 h-11 rounded-xl flex items-center justify-center text-xl flex-shrink-0 font-black text-white"
+            style={{
+              background: `linear-gradient(135deg, ${accent}33, ${accent}18)`,
+              border: `1px solid ${accent}33`,
+            }}
+          >
+            {/* Use initials if avatar is emoji, otherwise render emoji */}
+            {testimonial.avatar}
+          </div>
+
+          {/* Name / role */}
+          <div className="flex-1 min-w-0">
+            <h4
+              className="text-white font-semibold text-sm leading-tight truncate group-hover:transition-colors duration-300"
+              style={{ '--accent': accent }}
+            >
+              {testimonial.name}
+            </h4>
+            <p className="text-slate-500 text-xs mt-0.5 truncate">
+              {testimonial.role}
+              {testimonial.company && (
+                <span className="text-slate-600"> · {testimonial.company}</span>
+              )}
+            </p>
+          </div>
+
+          {/* Project badge */}
+          <span
+            className="flex-shrink-0 px-2.5 py-1 rounded-full text-xs font-semibold"
+            style={{
+              background: `${accent}18`,
+              border: `1px solid ${accent}30`,
+              color: accent,
+            }}
+          >
+            {testimonial.project}
+          </span>
+        </div>
+
+        {/* Stars */}
+        <StarRating rating={testimonial.rating} />
+
+        {/* Feedback */}
+        <blockquote className="text-slate-400 text-sm leading-relaxed flex-1">
+          "{testimonial.feedback}"
+        </blockquote>
+
+        {/* Footer — date */}
+        <p className="text-slate-600 text-xs mt-auto">{testimonial.date}</p>
+      </div>
+    </div>
+  );
+}
+
+// ─── "Coming soon" placeholder card ──────────────────────────────────────────
+function PlaceholderCard({ index, inView }) {
+  return (
+    <div
+      className="relative rounded-2xl border flex flex-col items-center justify-center p-7 overflow-hidden"
+      style={{
+        background: 'rgba(255,255,255,0.015)',
+        borderColor: 'rgba(255,255,255,0.06)',
+        borderStyle: 'dashed',
+        minHeight: '280px',
+        opacity: inView ? 1 : 0,
+        transform: inView ? 'translateY(0)' : 'translateY(28px)',
+        transition: `opacity 0.6s ease ${index * 0.1}s, transform 0.6s cubic-bezier(.22,1,.36,1) ${index * 0.1}s`,
+      }}
+    >
+      <div
+        className="w-12 h-12 rounded-xl flex items-center justify-center mb-4"
+        style={{ background: 'rgba(56,189,248,0.08)', border: '1px dashed rgba(56,189,248,0.2)' }}
+      >
+        <svg viewBox="0 0 24 24" fill="none" stroke="#38bdf8" strokeWidth={1.5} className="w-5 h-5 opacity-50">
+          <path strokeLinecap="round" strokeLinejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
+        </svg>
+      </div>
+      <p className="text-slate-600 text-sm text-center leading-relaxed max-w-[180px]">
+        More reviews coming soon from happy clients
+      </p>
+    </div>
+  );
+}
+
+// ─── Stats row — from reviews.stats in JSON ───────────────────────────────────
+const STAT_ACCENTS = ['#facc15', '#38bdf8', '#fb923c', '#34d399'];
+
+function StatCard({ stat, index, inView }) {
+  const accent = STAT_ACCENTS[index % STAT_ACCENTS.length];
+  return (
+    <div
+      className="stat-card group relative rounded-2xl border p-6 flex flex-col items-center text-center overflow-hidden"
+      style={{
+        background: 'rgba(255,255,255,0.03)',
+        borderColor: 'rgba(255,255,255,0.08)',
+        opacity: inView ? 1 : 0,
+        transform: inView ? 'translateY(0)' : 'translateY(20px)',
+        transition: `opacity 0.5s ease ${0.1 + index * 0.08}s, transform 0.5s cubic-bezier(.22,1,.36,1) ${0.1 + index * 0.08}s`,
+      }}
+    >
+      <div
+        className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-400 pointer-events-none rounded-2xl"
+        style={{ background: `radial-gradient(140px circle at 50% 0%, ${accent}12, transparent 70%)` }}
+      />
+      <div
+        className="text-2xl font-black mb-1 relative z-10"
+        style={{
+          background: `linear-gradient(135deg, ${accent}, ${STAT_ACCENTS[(index + 1) % 4]})`,
+          WebkitBackgroundClip: 'text',
+          WebkitTextFillColor: 'transparent',
+          backgroundClip: 'text',
+        }}
+      >
+        {stat.number}
+      </div>
+      <div className="text-slate-500 text-xs font-medium relative z-10">{stat.label}</div>
+      <div
+        className="absolute bottom-0 left-0 h-[2px] w-0 group-hover:w-full transition-all duration-500 rounded-full"
+        style={{ background: `linear-gradient(to right, ${accent}, transparent)` }}
+      />
+    </div>
+  );
+}
+
+// ─── Main Component ────────────────────────────────────────────────────────────
+export default function Testimonials() {
+  const { reviews } = portfolioData;
+  const testimonials = reviews.reviews;
+
+  // How many placeholder cards to fill the grid (min 3 visible slots)
+  const GRID_MIN = 3;
+  const placeholderCount = Math.max(0, GRID_MIN - testimonials.length);
+
+  const [headerRef, headerInView] = useInView(0.2);
+  const [gridRef,   gridInView]   = useInView(0.05);
+  const [statsRef,  statsInView]  = useInView(0.1);
+  const [ctaRef,    ctaInView]    = useInView(0.2);
+
+  return (
+    <>
+      <style>{`
+        @import url('https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500&display=swap');
+
+        #proof * { font-family: 'DM Sans', sans-serif; }
+        #proof .font-display { font-family: 'Syne', sans-serif; }
+
+        .grid-subtle {
+          background-image:
+            linear-gradient(rgba(255,255,255,0.02) 1px, transparent 1px),
+            linear-gradient(90deg, rgba(255,255,255,0.02) 1px, transparent 1px);
+          background-size: 60px 60px;
+        }
+
+        .testimonial-card:hover {
+          border-color: rgba(255,255,255,0.14) !important;
+          transform: translateY(-4px) !important;
+          box-shadow: 0 20px 50px rgba(0,0,0,0.45);
+        }
+
+        .stat-card:hover {
+          border-color: rgba(255,255,255,0.12) !important;
+          transform: translateY(-3px) !important;
+          box-shadow: 0 16px 40px rgba(0,0,0,0.4);
+        }
+
+        .cta-btn-primary {
+          background: white;
+          color: #0f172a;
+          transition: all 0.25s ease;
+        }
+        .cta-btn-primary:hover { background: #f1f5f9; transform: translateY(-2px); box-shadow: 0 8px 24px rgba(0,0,0,0.3); }
+
+        .cta-btn-secondary {
+          border: 1.5px solid rgba(255,255,255,0.25);
+          color: white;
+          transition: all 0.25s ease;
+        }
+        .cta-btn-secondary:hover {
+          background: rgba(255,255,255,0.08);
+          border-color: rgba(255,255,255,0.45);
+          transform: translateY(-2px);
+        }
+      `}</style>
+
+      <section
+        id="proof"
+        className="relative py-28 overflow-hidden"
+        style={{ background: '#060811' }}
+      >
+        {/* Background */}
+        <div className="absolute inset-0 grid-subtle pointer-events-none" />
+        <div
+          className="absolute top-1/2 left-0 w-[500px] h-[500px] rounded-full opacity-10 pointer-events-none"
+          style={{ background: 'radial-gradient(circle, #facc15, transparent 70%)', filter: 'blur(80px)', transform: 'translate(-40%, -50%)' }}
+        />
+        <div
+          className="absolute top-1/2 right-0 w-[400px] h-[400px] rounded-full opacity-10 pointer-events-none"
+          style={{ background: 'radial-gradient(circle, #a78bfa, transparent 70%)', filter: 'blur(80px)', transform: 'translate(40%, -50%)' }}
         />
 
-        {/* Testimonials Grid */}
-        <StaggerContainer staggerDelay={0.1} className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {testimonials.map((testimonial, index) => (
-            <StaggerItem key={index}>
-              <div className="card-hover h-full bg-white dark:bg-gray-900 rounded-2xl p-6 shadow-lg hover:shadow-2xl transition-all duration-500 border border-gray-100 dark:border-gray-700 group relative overflow-hidden flex flex-col min-h-[320px]">
-                {/* Background Gradient */}
-                <div className="absolute inset-0 bg-gradient-to-br from-blue-50/50 to-purple-50/50 dark:from-blue-900/10 dark:to-purple-900/10 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
-                
-                <div className="relative z-10 flex flex-col h-full">
-                  {/* Top Section */}
-                  <div className="flex-1">
-                    {/* Header */}
-                    <div className="flex items-start justify-between mb-4">
-                      <div className="flex items-center space-x-3 flex-1 min-w-0">
-                        <div className="text-3xl flex-shrink-0">
-                          {testimonial.avatar}
-                        </div>
-                        <div className="min-w-0 flex-1">
-                          <h4 className="font-semibold text-gray-800 dark:text-white group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors duration-300 truncate">
-                            {testimonial.name}
-                          </h4>
-                          <p className="text-sm text-gray-600 dark:text-gray-400 truncate">
-                            {testimonial.role}
-                          </p>
-                          <p className="text-xs text-gray-500 dark:text-gray-500 truncate">
-                            {testimonial.company}
-                          </p>
-                        </div>
-                      </div>
-                      
-                      {/* Project Type Badge */}
-                      <span className="px-2 py-1 bg-blue-100 dark:bg-blue-900/30 text-blue-600 dark:text-blue-400 text-xs rounded-full font-medium flex-shrink-0 ml-2">
-                        {testimonial.projectType}
-                      </span>
-                    </div>
+        <div className="relative z-10 max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
 
-                    {/* Rating */}
-                    <div className="flex items-center mb-4">
-                      {renderStars(testimonial.rating)}
-                      <span className="ml-2 text-sm text-gray-600 dark:text-gray-400 font-medium">
-                        {testimonial.rating}.0
-                      </span>
-                    </div>
-
-                    {/* Content */}
-                    <blockquote className="text-gray-700 dark:text-gray-300 text-sm leading-relaxed break-words">
-                      "{testimonial.content}"
-                    </blockquote>
-                  </div>
-
-                  {/* Decorative Quote */}
-                  <div className="absolute top-4 right-4 text-blue-200 dark:text-blue-800 text-4xl opacity-30 group-hover:opacity-50 transition-opacity duration-300 pointer-events-none">
-                    "
-                  </div>
-                </div>
-              </div>
-            </StaggerItem>
-          ))}
-        </StaggerContainer>
-
-        {/* Stats Section */}
-        <SlideFromEdge direction="up" delay={0.6} className="mt-20">
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
-            {[
-              { number: '100%', label: 'Client Satisfaction', icon: '⭐' },
-              { number: '50+', label: 'Projects Delivered', icon: '🚀' },
-              { number: '4.9/5', label: 'Average Rating', icon: '🏆' },
-              { number: '95%', label: 'Repeat Clients', icon: '🤝' }
-            ].map((stat, index) => (
-              <div
-                key={index}
-                className="text-center p-6 bg-white dark:bg-gray-900 rounded-xl border border-gray-100 dark:border-gray-700 hover:shadow-lg transition-all duration-300 group"
+          {/* ── Header ── */}
+          <div
+            ref={headerRef}
+            className="text-center mb-16"
+            style={{
+              opacity: headerInView ? 1 : 0,
+              transform: headerInView ? 'translateY(0)' : 'translateY(24px)',
+              transition: 'opacity 0.7s ease, transform 0.7s cubic-bezier(.22,1,.36,1)',
+            }}
+          >
+            <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full border border-white/10 bg-white/5 text-slate-400 text-xs font-medium tracking-widest uppercase mb-6">
+              <span className="w-1.5 h-1.5 rounded-full bg-yellow-400 inline-block" />
+              Social proof
+            </div>
+            <h2 className="font-display text-4xl sm:text-5xl font-black text-white mb-4 leading-tight">
+              What Clients{' '}
+              <span
+                style={{
+                  background: 'linear-gradient(135deg, #facc15, #fb923c)',
+                  WebkitBackgroundClip: 'text',
+                  WebkitTextFillColor: 'transparent',
+                  backgroundClip: 'text',
+                }}
               >
-                <div className="text-2xl mb-2 group-hover:animate-bounce">
-                  {stat.icon}
-                </div>
-                <div className="text-2xl font-bold text-gray-800 dark:text-white mb-1">
-                  {stat.number}
-                </div>
-                <div className="text-sm text-gray-600 dark:text-gray-400">
-                  {stat.label}
-                </div>
-              </div>
+                Say About Me
+              </span>
+            </h2>
+            <p className="text-slate-400 text-lg max-w-xl mx-auto leading-relaxed">
+              Real feedback from clients who trusted me with their projects. Every review represents a successful collaboration and lasting partnership.
+            </p>
+          </div>
+
+          {/* ── Testimonial grid — from reviews.reviews in JSON ── */}
+          <div
+            ref={gridRef}
+            className={`grid gap-5 mb-16 ${
+              testimonials.length === 1
+                ? 'md:grid-cols-3'          // 1 real + 2 placeholders
+                : testimonials.length === 2
+                ? 'md:grid-cols-3'          // 2 real + 1 placeholder
+                : 'md:grid-cols-2 lg:grid-cols-3' // 3+ real reviews
+            }`}
+          >
+            {testimonials.map((t, i) => (
+              <TestimonialCard key={i} testimonial={t} index={i} inView={gridInView} />
+            ))}
+            {/* Placeholder cards to fill the row */}
+            {Array.from({ length: placeholderCount }, (_, i) => (
+              <PlaceholderCard key={`ph-${i}`} index={testimonials.length + i} inView={gridInView} />
             ))}
           </div>
-        </SlideFromEdge>
 
-        {/* CTA Section */}
-        <SlideFromEdge direction="up" delay={0.8} className="text-center mt-16">
-          <div className="p-8 bg-gradient-to-r from-blue-600 to-purple-600 rounded-3xl text-white relative overflow-hidden">
-            <div className="absolute inset-0 bg-gradient-to-br from-white/10 to-transparent" />
-            
+          {/* ── Stats row — from reviews.stats in JSON ── */}
+          <div
+            ref={statsRef}
+            className="grid grid-cols-2 sm:grid-cols-4 gap-4 mb-16"
+          >
+            {reviews.stats.map((stat, i) => (
+              <StatCard key={stat.label} stat={stat} index={i} inView={statsInView} />
+            ))}
+          </div>
+
+          {/* ── CTA ── */}
+          <div
+            ref={ctaRef}
+            className="relative rounded-3xl overflow-hidden p-10 sm:p-14 text-center"
+            style={{
+              background: 'linear-gradient(135deg, #1a2744 0%, #2d1b69 50%, #1a2744 100%)',
+              border: '1px solid rgba(255,255,255,0.1)',
+              opacity: ctaInView ? 1 : 0,
+              transform: ctaInView ? 'translateY(0)' : 'translateY(24px)',
+              transition: 'opacity 0.7s ease 0.1s, transform 0.7s cubic-bezier(.22,1,.36,1) 0.1s',
+            }}
+          >
+            <div
+              className="absolute inset-0 pointer-events-none"
+              style={{ background: 'linear-gradient(135deg, rgba(250,204,21,0.08), rgba(129,140,248,0.14), rgba(244,114,182,0.07))' }}
+            />
+            <div
+              className="absolute top-0 left-1/2 -translate-x-1/2 w-72 h-72 rounded-full pointer-events-none"
+              style={{ background: 'radial-gradient(circle, rgba(250,204,21,0.15), transparent 70%)', filter: 'blur(40px)' }}
+            />
+
             <div className="relative z-10">
-              <h3 className="text-2xl sm:text-3xl font-bold mb-4">
-                Ready to Be My Next Success Story?
+              <h3 className="font-display text-2xl sm:text-3xl font-black text-white mb-3">
+                {reviews.cta.title}
               </h3>
-              <p className="text-blue-100 mb-8 max-w-2xl mx-auto">
-                Join the growing list of satisfied clients who trust me with their most important projects. 
-                Let's create something amazing together.
+              <p className="text-slate-300 mb-8 max-w-xl mx-auto text-base leading-relaxed">
+                {reviews.cta.description}
               </p>
               <div className="flex flex-col sm:flex-row gap-4 justify-center">
-                <a
-                  href="#contact"
-                  className="px-8 py-3 bg-white text-blue-600 rounded-xl font-semibold hover:bg-gray-100 transition-colors duration-300"
-                >
-                  Start Your Project
-                </a>
-                <a
-                  href="#projects"
-                  className="px-8 py-3 border-2 border-white/30 text-white rounded-xl font-semibold hover:bg-white/10 transition-colors duration-300"
-                >
-                  View Case Studies
-                </a>
+                {reviews.cta.buttons.map((btn, i) => (
+                  btn.action === 'scrollToContact' ? (
+                    <button
+                      key={i}
+                      onClick={() => document.getElementById('contact')?.scrollIntoView({ behavior: 'smooth' })}
+                      className={`inline-flex items-center justify-center px-8 py-3.5 rounded-full font-semibold text-sm cursor-pointer ${
+                        btn.type === 'primary' ? 'cta-btn-primary' : 'cta-btn-secondary'
+                      }`}
+                    >
+                      {btn.text}
+                    </button>
+                  ) : (
+                    <a
+                      key={i}
+                      href={btn.href || '#projects'}
+                      className={`inline-flex items-center justify-center px-8 py-3.5 rounded-full font-semibold text-sm ${
+                        btn.type === 'primary' ? 'cta-btn-primary' : 'cta-btn-secondary'
+                      }`}
+                    >
+                      {btn.text}
+                    </a>
+                  )
+                ))}
               </div>
             </div>
           </div>
-        </SlideFromEdge>
-      </div>
-    </section>
+
+        </div>
+
+        {/* Edge fade */}
+        <div
+          className="absolute bottom-0 left-0 right-0 h-32 pointer-events-none"
+          style={{ background: 'linear-gradient(to top, #060811, transparent)' }}
+        />
+      </section>
+    </>
   );
-} 
+}

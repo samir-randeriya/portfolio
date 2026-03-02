@@ -1,137 +1,382 @@
-import { 
-  StaggerContainer, 
-  StaggerItem, 
-  AnimatedCard,
-  SectionHeader,
-  ScaleIn
-} from '../components/ScrollAnimations';
+import { useState, useEffect, useRef } from 'react';
 import portfolioData from '../data/portfolioContent.json';
 
+// ─── useInView hook ────────────────────────────────────────────────────────────
+function useInView(threshold = 0.15) {
+  const ref = useRef(null);
+  const [inView, setInView] = useState(false);
+  useEffect(() => {
+    const el = ref.current;
+    if (!el) return;
+    const observer = new IntersectionObserver(
+      ([entry]) => { if (entry.isIntersecting) setInView(true); },
+      { threshold }
+    );
+    observer.observe(el);
+    return () => observer.unobserve(el);
+  }, [threshold]);
+  return [ref, inView];
+}
+
+// ─── Presentation-layer theme per category index ──────────────────────────────
+// Content (title, description, skills) comes from JSON; colours live here
+const CATEGORY_THEMES = [
+  { from: '#38bdf8', to: '#6366f1', iconBg: 'rgba(56,189,248,0.15)',  border: 'rgba(56,189,248,0.25)'  }, // Frontend
+  { from: '#34d399', to: '#38bdf8', iconBg: 'rgba(52,211,153,0.15)',  border: 'rgba(52,211,153,0.25)'  }, // Backend
+  { from: '#a78bfa', to: '#f472b6', iconBg: 'rgba(167,139,250,0.15)', border: 'rgba(167,139,250,0.25)' }, // Database
+  { from: '#fb923c', to: '#f43f5e', iconBg: 'rgba(251,146,60,0.15)',  border: 'rgba(251,146,60,0.25)'  }, // DevOps
+  { from: '#6366f1', to: '#38bdf8', iconBg: 'rgba(99,102,241,0.15)',  border: 'rgba(99,102,241,0.25)'  }, // Tools
+  { from: '#facc15', to: '#fb923c', iconBg: 'rgba(250,204,21,0.15)',  border: 'rgba(250,204,21,0.25)'  }, // Testing
+];
+
+const PROFICIENCY_THEMES = [
+  { from: '#34d399', to: '#38bdf8' }, // Expert
+  { from: '#38bdf8', to: '#6366f1' }, // Advanced
+  { from: '#facc15', to: '#fb923c' }, // Intermediate
+  { from: '#a78bfa', to: '#f472b6' }, // Learning
+];
+
+// ─── Category Card ─────────────────────────────────────────────────────────────
+function CategoryCard({ category, theme, index, inView }) {
+  return (
+    <div
+      className="skill-card group relative rounded-2xl border flex flex-col overflow-hidden"
+      style={{
+        background: 'rgba(255,255,255,0.03)',
+        borderColor: 'rgba(255,255,255,0.08)',
+        opacity: inView ? 1 : 0,
+        transform: inView ? 'translateY(0) scale(1)' : 'translateY(28px) scale(0.97)',
+        transition: `opacity 0.6s ease ${index * 0.08}s, transform 0.6s cubic-bezier(.22,1,.36,1) ${index * 0.08}s`,
+        minHeight: '320px',
+      }}
+    >
+      {/* Hover gradient overlay */}
+      <div
+        className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none rounded-2xl"
+        style={{
+          background: `linear-gradient(135deg, ${theme.from}10 0%, ${theme.to}08 100%)`,
+        }}
+      />
+
+      {/* Top border accent on hover */}
+      <div
+        className="absolute top-0 left-0 right-0 h-[2px] opacity-0 group-hover:opacity-100 transition-opacity duration-500"
+        style={{ background: `linear-gradient(to right, ${theme.from}, ${theme.to})` }}
+      />
+
+      <div className="relative z-10 p-7 flex flex-col h-full">
+        {/* Icon + title row */}
+        <div className="flex items-center gap-4 mb-4">
+          <div
+            className="w-12 h-12 rounded-xl flex items-center justify-center text-2xl flex-shrink-0 group-hover:scale-110 transition-transform duration-300"
+            style={{ background: theme.iconBg, border: `1px solid ${theme.border}` }}
+          >
+            {category.icon}
+          </div>
+          <div>
+            <h3
+              className="text-white font-bold text-base leading-tight"
+              style={{ transition: 'color 0.3s' }}
+            >
+              {category.title}
+            </h3>
+          </div>
+        </div>
+
+        {/* Description */}
+        <p className="text-slate-500 text-sm leading-relaxed mb-5 flex-shrink-0">
+          {category.description}
+        </p>
+
+        {/* Skill tags */}
+        <div className="flex flex-wrap gap-2 mt-auto">
+          {category.skills.map((skill) => (
+            <span
+              key={skill}
+              className="skill-tag px-3 py-1 rounded-full text-xs font-medium text-slate-300 border border-white/8 bg-white/5 cursor-default"
+              style={{ transition: 'all 0.2s ease' }}
+            >
+              {skill}
+            </span>
+          ))}
+        </div>
+      </div>
+    </div>
+  );
+}
+
+// ─── Proficiency Card ─────────────────────────────────────────────────────────
+function ProficiencyCard({ level, theme, index, inView }) {
+  return (
+    <div
+      className="proficiency-card group relative rounded-2xl border p-6 flex flex-col items-center text-center overflow-hidden"
+      style={{
+        background: 'rgba(255,255,255,0.03)',
+        borderColor: 'rgba(255,255,255,0.08)',
+        opacity: inView ? 1 : 0,
+        transform: inView ? 'translateY(0)' : 'translateY(24px)',
+        transition: `opacity 0.55s ease ${0.1 + index * 0.1}s, transform 0.55s cubic-bezier(.22,1,.36,1) ${0.1 + index * 0.1}s`,
+      }}
+    >
+      {/* Glow on hover */}
+      <div
+        className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none rounded-2xl"
+        style={{ background: `radial-gradient(160px circle at 50% 0%, ${theme.from}18, transparent 70%)` }}
+      />
+
+      {/* Count bubble */}
+      <div
+        className="relative z-10 w-14 h-14 rounded-full flex items-center justify-center text-white font-black text-xl mb-4 group-hover:scale-110 transition-transform duration-300"
+        style={{ background: `linear-gradient(135deg, ${theme.from}, ${theme.to})`, boxShadow: `0 4px 20px ${theme.from}40` }}
+      >
+        {level.count}
+      </div>
+
+      {/* Level name */}
+      <h4 className="text-white font-semibold text-base mb-3 relative z-10">{level.name}</h4>
+
+      {/* Progress bar */}
+      <div className="w-full h-1.5 rounded-full bg-white/8 overflow-hidden mb-2 relative z-10">
+        <div
+          className="h-full rounded-full transition-all duration-1000 ease-out"
+          style={{
+            width: inView ? `${level.percentage}%` : '0%',
+            background: `linear-gradient(to right, ${theme.from}, ${theme.to})`,
+            transitionDelay: `${0.3 + index * 0.1}s`,
+            boxShadow: `0 0 8px ${theme.from}66`,
+          }}
+        />
+      </div>
+
+      {/* Confidence label */}
+      <p className="text-slate-500 text-xs font-medium relative z-10">
+        {level.percentage}% Confidence
+      </p>
+
+      {/* Bottom accent */}
+      <div
+        className="absolute bottom-0 left-0 h-[2px] w-0 group-hover:w-full transition-all duration-500 rounded-full"
+        style={{ background: `linear-gradient(to right, ${theme.from}, ${theme.to})` }}
+      />
+    </div>
+  );
+}
+
+// ─── Main Component ────────────────────────────────────────────────────────────
 export default function Skills() {
-  // Get data from portfolioContent.json
   const { skills } = portfolioData;
 
+  const [headerRef, headerInView]   = useInView(0.2);
+  const [gridRef,   gridInView]     = useInView(0.05);
+  const [profRef,   profInView]     = useInView(0.1);
+  const [learnRef,  learnInView]    = useInView(0.2);
+  const [ctaRef,    ctaInView]      = useInView(0.2);
+
   return (
-    <section id="skills" className="py-20 bg-white dark:bg-gray-900 relative overflow-hidden">
-      {/* Background Elements */}
-      <div className="absolute inset-0 bg-gradient-to-tr from-gray-50/20 to-purple-50/20 dark:from-gray-800/20 dark:to-purple-900/20" />
-      <div className="absolute top-0 right-0 w-96 h-96 bg-gradient-to-br from-blue-100 to-purple-100 dark:from-blue-900/20 dark:to-purple-900/20 rounded-full blur-3xl transform translate-x-1/2 -translate-y-1/2" />
-      <div className="absolute bottom-0 left-0 w-96 h-96 bg-gradient-to-br from-green-100 to-blue-100 dark:from-green-900/20 dark:to-blue-900/20 rounded-full blur-3xl transform -translate-x-1/2 translate-y-1/2" />
+    <>
+      <style>{`
+        @import url('https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500&display=swap');
 
-      <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        {/* Header */}
-        <SectionHeader
-          title={
-            <span className="bg-gradient-to-r from-purple-600 to-blue-600 bg-clip-text text-transparent">
-              {skills.title}
-            </span>
-          }
-          subtitle={skills.subtitle}
-          className="mb-16"
-        />
+        #skills * { font-family: 'DM Sans', sans-serif; }
+        #skills .font-display { font-family: 'Syne', sans-serif; }
 
-        {/* Skills Grid */}
-        <StaggerContainer staggerDelay={0.1} className="grid md:grid-cols-2 lg:grid-cols-3 gap-8 mb-20">
-          {skills.categories.map((category, index) => (
-            <StaggerItem key={index}>
-              <AnimatedCard delay={category.delay} className="h-full">
-                <div className={`relative p-8 bg-gradient-to-br ${category.gradient} rounded-3xl text-white overflow-hidden group hover:scale-105 transition-all duration-500 shadow-lg hover:shadow-2xl h-full flex flex-col min-h-[320px]`}>
-                  {/* Background Overlay */}
-                  <div className="absolute inset-0 bg-gradient-to-tl from-white/15 to-white/5" />
-                  
-                  <div className="relative z-10 flex flex-col h-full">
-                    {/* Top Section */}
-                    <div className="flex-1">
-                      {/* Icon */}
-                      <div className="text-5xl mb-6 group-hover:scale-110 group-hover:rotate-12 transition-all duration-500">
-                        {category.icon}
-                      </div>
-                      
-                      {/* Title */}
-                      <h3 className="text-xl font-bold mb-3 group-hover:text-yellow-200 transition-colors duration-300">
-                        {category.title}
-                      </h3>
-                      
-                      {/* Description */}
-                      <p className="text-white/90 mb-6 text-sm leading-relaxed">
-                        {category.description}
-                      </p>
-                    </div>
-                    
-                    {/* Bottom Section - Skills Tags */}
-                    <div className="flex flex-wrap gap-2 mt-auto">
-                      {category.skills.map((skill, skillIndex) => (
-                        <span
-                          key={skillIndex}
-                          className="px-3 py-1 bg-white/20 backdrop-blur-sm rounded-full text-xs font-medium hover:bg-white/30 transition-colors duration-200 cursor-default"
-                          style={{ animationDelay: `${skillIndex * 0.1}s` }}
-                        >
-                          {skill}
-                        </span>
-                      ))}
-                    </div>
-                  </div>
-                </div>
-              </AnimatedCard>
-            </StaggerItem>
-          ))}
-        </StaggerContainer>
+        .grid-subtle {
+          background-image:
+            linear-gradient(rgba(255,255,255,0.02) 1px, transparent 1px),
+            linear-gradient(90deg, rgba(255,255,255,0.02) 1px, transparent 1px);
+          background-size: 60px 60px;
+        }
 
-        {/* Proficiency Overview */}
-        <ScaleIn delay={0.6}>
-          <div className="mb-16">
-            <div className="text-center mb-12">
-              <h3 className="text-2xl lg:text-3xl font-bold text-gray-800 dark:text-white mb-4">
-                Proficiency Overview
+        .skill-card:hover {
+          border-color: rgba(255,255,255,0.14) !important;
+          transform: translateY(-5px) scale(1) !important;
+          box-shadow: 0 24px 60px rgba(0,0,0,0.45);
+        }
+
+        .skill-tag:hover {
+          border-color: rgba(255,255,255,0.2);
+          background: rgba(255,255,255,0.09);
+          color: white;
+        }
+
+        .proficiency-card:hover {
+          border-color: rgba(255,255,255,0.14) !important;
+          transform: translateY(-4px) !important;
+          box-shadow: 0 20px 50px rgba(0,0,0,0.4);
+        }
+
+        .learn-pill {
+          transition: all 0.22s ease;
+          cursor: default;
+        }
+        .learn-pill:hover {
+          border-color: rgba(56,189,248,0.4);
+          background: rgba(56,189,248,0.1);
+          color: #38bdf8;
+          transform: translateY(-2px);
+        }
+
+        .cta-btn-primary {
+          background: white;
+          color: #0f172a;
+          transition: all 0.25s ease;
+        }
+        .cta-btn-primary:hover { background: #f1f5f9; transform: translateY(-2px); }
+
+        .cta-btn-secondary {
+          border: 1.5px solid rgba(255,255,255,0.3);
+          color: white;
+          transition: all 0.25s ease;
+        }
+        .cta-btn-secondary:hover {
+          background: rgba(255,255,255,0.1);
+          border-color: rgba(255,255,255,0.5);
+          transform: translateY(-2px);
+        }
+      `}</style>
+
+      <section
+        id="skills"
+        className="relative py-28 overflow-hidden"
+        style={{ background: '#060811' }}
+      >
+        {/* Background */}
+        <div className="absolute inset-0 grid-subtle pointer-events-none" />
+        <div className="absolute top-0 right-0 w-[500px] h-[500px] rounded-full opacity-10 pointer-events-none"
+          style={{ background: 'radial-gradient(circle, #38bdf8, transparent 70%)', filter: 'blur(80px)', transform: 'translate(30%, -30%)' }} />
+        <div className="absolute bottom-0 left-0 w-[400px] h-[400px] rounded-full opacity-10 pointer-events-none"
+          style={{ background: 'radial-gradient(circle, #a78bfa, transparent 70%)', filter: 'blur(80px)', transform: 'translate(-30%, 30%)' }} />
+
+        <div className="relative z-10 max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+
+          {/* ── Section header ── */}
+          <div
+            ref={headerRef}
+            className="text-center mb-16"
+            style={{
+              opacity: headerInView ? 1 : 0,
+              transform: headerInView ? 'translateY(0)' : 'translateY(24px)',
+              transition: 'opacity 0.7s ease, transform 0.7s cubic-bezier(.22,1,.36,1)',
+            }}
+          >
+            <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full border border-white/10 bg-white/5 text-slate-400 text-xs font-medium tracking-widest uppercase mb-6">
+              <span className="w-1.5 h-1.5 rounded-full bg-sky-400 inline-block" />
+              Technical expertise
+            </div>
+            <h2 className="font-display text-4xl sm:text-5xl font-black text-white mb-4 leading-tight">
+              {skills.title.split(' ').slice(0, 2).join(' ')}{' '}
+              <span
+                style={{
+                  background: 'linear-gradient(135deg, #38bdf8, #818cf8)',
+                  WebkitBackgroundClip: 'text',
+                  WebkitTextFillColor: 'transparent',
+                  backgroundClip: 'text',
+                }}
+              >
+                {skills.title.split(' ').slice(2).join(' ')}
+              </span>
+            </h2>
+            <p className="text-slate-400 text-lg max-w-xl mx-auto leading-relaxed">
+              {skills.subtitle}
+            </p>
+          </div>
+
+          {/* ── Category cards grid — from skills.categories ── */}
+          <div
+            ref={gridRef}
+            className="grid md:grid-cols-2 lg:grid-cols-3 gap-5 mb-20"
+          >
+            {skills.categories.map((category, i) => (
+              <CategoryCard
+                key={category.title}
+                category={category}
+                theme={CATEGORY_THEMES[i] || CATEGORY_THEMES[0]}
+                index={i}
+                inView={gridInView}
+              />
+            ))}
+          </div>
+
+          {/* ── Proficiency overview — from skills.proficiencyLevels ── */}
+          <div ref={profRef}>
+            {/* Sub-header */}
+            <div
+              className="text-center mb-10"
+              style={{
+                opacity: profInView ? 1 : 0,
+                transform: profInView ? 'translateY(0)' : 'translateY(20px)',
+                transition: 'opacity 0.6s ease, transform 0.6s cubic-bezier(.22,1,.36,1)',
+              }}
+            >
+              <h3 className="font-display text-3xl sm:text-4xl font-black text-white mb-3">
+                Proficiency{' '}
+                <span
+                  style={{
+                    background: 'linear-gradient(135deg, #34d399, #38bdf8)',
+                    WebkitBackgroundClip: 'text',
+                    WebkitTextFillColor: 'transparent',
+                    backgroundClip: 'text',
+                  }}
+                >
+                  Overview
+                </span>
               </h3>
-              <p className="text-gray-600 dark:text-gray-300 max-w-2xl mx-auto">
+              <p className="text-slate-400 max-w-xl mx-auto text-base">
                 A breakdown of my expertise levels across different technologies and frameworks.
               </p>
             </div>
 
-            <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
-              {skills.proficiencyLevels.map((level, index) => (
-                <StaggerItem key={index} delay={index * 0.1}>
-                  <div className="text-center p-6 bg-white dark:bg-gray-800 rounded-2xl border border-gray-100 dark:border-gray-700 hover:shadow-lg transition-all duration-300 group">
-                    <div className={`w-16 h-16 mx-auto mb-4 bg-gradient-to-r ${level.color} rounded-full flex items-center justify-center text-white font-bold text-xl group-hover:scale-110 transition-transform duration-300`}>
-                      {level.count}
-                    </div>
-                    <h4 className="text-lg font-semibold text-gray-800 dark:text-white mb-2">
-                      {level.name}
-                    </h4>
-                    <div className="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-2 mb-2">
-                      <div 
-                        className={`h-2 bg-gradient-to-r ${level.color} rounded-full transition-all duration-1000 delay-500`}
-                        style={{ width: `${level.percentage}%` }}
-                      />
-                    </div>
-                    <p className="text-sm text-gray-600 dark:text-gray-400">
-                      {level.percentage}% Confidence
-                    </p>
-                  </div>
-                </StaggerItem>
+            {/* Proficiency cards */}
+            <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-5 mb-16">
+              {skills.proficiencyLevels.map((level, i) => (
+                <ProficiencyCard
+                  key={level.name}
+                  level={level}
+                  theme={PROFICIENCY_THEMES[i] || PROFICIENCY_THEMES[0]}
+                  index={i}
+                  inView={profInView}
+                />
               ))}
             </div>
           </div>
-        </ScaleIn>
 
-        {/* Learning Goals */}
-        {/* <ScaleIn delay={0.8}>
-          <div className="text-center bg-gradient-to-r from-gray-50 to-blue-50 dark:from-gray-800 dark:to-blue-900/20 rounded-3xl p-8 border border-gray-100 dark:border-gray-700">
-            <div className="max-w-3xl mx-auto">
-              <h3 className="text-2xl font-bold text-gray-800 dark:text-white mb-4">
-                Currently Learning & Exploring
+          {/* ── Currently learning — from skills.currentlyLearning ── */}
+          <div
+            ref={learnRef}
+            className="mb-16 rounded-2xl border border-white/8 p-8 relative overflow-hidden"
+            style={{
+              background: 'rgba(255,255,255,0.025)',
+              opacity: learnInView ? 1 : 0,
+              transform: learnInView ? 'translateY(0)' : 'translateY(20px)',
+              transition: 'opacity 0.6s ease, transform 0.6s cubic-bezier(.22,1,.36,1)',
+            }}
+          >
+            {/* Mesh */}
+            <div
+              className="absolute inset-0 pointer-events-none rounded-2xl"
+              style={{ background: 'linear-gradient(135deg, rgba(56,189,248,0.04), rgba(167,139,250,0.04))' }}
+            />
+            <div className="relative z-10 text-center">
+              <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full border border-white/10 bg-white/5 text-slate-400 text-xs font-medium tracking-widest uppercase mb-5">
+                <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 inline-block animate-pulse" />
+                Currently exploring
+              </div>
+              <h3 className="font-display text-xl font-bold text-white mb-2">
+                Always Learning, Always Growing
               </h3>
-              <p className="text-gray-600 dark:text-gray-300 mb-6">
-                I believe in continuous learning. Here are some technologies I'm currently exploring to stay ahead of the curve.
+              <p className="text-slate-400 text-sm mb-6 max-w-lg mx-auto">
+                Staying ahead of the curve by continuously exploring new technologies and best practices.
               </p>
-              
-              <div className="flex flex-wrap justify-center gap-3">
-                {skills.currentlyLearning.map((tech, index) => (
+              <div className="flex flex-wrap justify-center gap-2.5">
+                {skills.currentlyLearning.map((tech, i) => (
                   <span
-                    key={index}
-                    className="px-4 py-2 bg-white dark:bg-gray-700 text-gray-700 dark:text-gray-300 rounded-full text-sm font-medium border border-gray-200 dark:border-gray-600 hover:border-blue-300 dark:hover:border-blue-500 hover:bg-blue-50 dark:hover:bg-blue-900/20 transition-all duration-200 cursor-default"
-                    style={{ animationDelay: `${index * 0.1}s` }}
+                    key={tech}
+                    className="learn-pill px-4 py-2 rounded-full border border-white/10 bg-white/5 text-slate-300 text-sm font-medium"
+                    style={{
+                      opacity: learnInView ? 1 : 0,
+                      transform: learnInView ? 'translateY(0)' : 'translateY(12px)',
+                      transition: `opacity 0.4s ease ${0.2 + i * 0.06}s, transform 0.4s ease ${0.2 + i * 0.06}s`,
+                    }}
                   >
                     {tech}
                   </span>
@@ -139,40 +384,60 @@ export default function Skills() {
               </div>
             </div>
           </div>
-        </ScaleIn> */}
 
-        {/* CTA Section */}
-        <ScaleIn delay={1.0} className="text-center mt-16">
-          <div className="p-8 bg-gradient-to-r from-purple-600 to-blue-600 rounded-3xl text-white relative overflow-hidden">
-            {/* Background Overlay */}
-            <div className="absolute inset-0 bg-gradient-to-br from-white/10 to-transparent" />
-            
+          {/* ── CTA — from skills.cta ── */}
+          <div
+            ref={ctaRef}
+            className="relative rounded-3xl overflow-hidden p-10 sm:p-14 text-center"
+            style={{
+              background: 'linear-gradient(135deg, #1e3a5f 0%, #2d1b69 50%, #1e3a5f 100%)',
+              border: '1px solid rgba(255,255,255,0.1)',
+              opacity: ctaInView ? 1 : 0,
+              transform: ctaInView ? 'translateY(0)' : 'translateY(24px)',
+              transition: 'opacity 0.7s ease 0.1s, transform 0.7s cubic-bezier(.22,1,.36,1) 0.1s',
+            }}
+          >
+            {/* Overlay */}
+            <div
+              className="absolute inset-0 pointer-events-none"
+              style={{ background: 'linear-gradient(135deg, rgba(56,189,248,0.12) 0%, rgba(129,140,248,0.18) 50%, rgba(244,114,182,0.1) 100%)' }}
+            />
+            <div
+              className="absolute top-0 left-1/2 -translate-x-1/2 w-64 h-64 rounded-full pointer-events-none"
+              style={{ background: 'radial-gradient(circle, rgba(129,140,248,0.3), transparent 70%)', filter: 'blur(40px)' }}
+            />
+
             <div className="relative z-10">
-              <h3 className="text-2xl sm:text-3xl font-bold mb-4">
+              <h3 className="font-display text-2xl sm:text-3xl font-black text-white mb-3">
                 {skills.cta.title}
               </h3>
-              <p className="text-purple-100 mb-8 max-w-2xl mx-auto">
+              <p className="text-slate-300 mb-8 max-w-xl mx-auto text-base leading-relaxed">
                 {skills.cta.description}
               </p>
               <div className="flex flex-col sm:flex-row gap-4 justify-center">
-                {skills.cta.buttons.map((button, index) => (
+                {skills.cta.buttons.map((btn, i) => (
                   <a
-                    key={index}
-                    href={button.href}
-                    className={`px-8 py-3 rounded-xl font-semibold transition-colors duration-300 ${
-                      button.type === 'primary'
-                        ? 'bg-white text-purple-600 hover:bg-gray-100'
-                        : 'border-2 border-white/30 text-white hover:bg-white/10'
+                    key={i}
+                    href={btn.href}
+                    className={`inline-flex items-center justify-center px-8 py-3.5 rounded-full font-semibold text-sm ${
+                      btn.type === 'primary' ? 'cta-btn-primary' : 'cta-btn-secondary'
                     }`}
                   >
-                    {button.text}
+                    {btn.text}
                   </a>
                 ))}
               </div>
             </div>
           </div>
-        </ScaleIn>
-      </div>
-    </section>
+
+        </div>
+
+        {/* Edge fade */}
+        <div
+          className="absolute bottom-0 left-0 right-0 h-32 pointer-events-none"
+          style={{ background: 'linear-gradient(to top, #060811, transparent)' }}
+        />
+      </section>
+    </>
   );
 }
