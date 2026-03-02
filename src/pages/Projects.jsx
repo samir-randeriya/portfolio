@@ -4,7 +4,7 @@ import ImagePreviewModal from '../components/ImagePreviewModal';
 import { 
   FaGithub, 
   FaExternalLinkAlt,
-  FaEye
+  // FaEye
 } from 'react-icons/fa';
 import { SiUpwork } from 'react-icons/si';
 
@@ -185,7 +185,7 @@ function FeaturedProject({ project, index, inView }) {
               onClick={hasImages ? () => setShowPreview(true) : undefined}
               className={`relative z-10 flex items-center justify-center w-full h-full ${hasImages ? 'cursor-zoom-in' : 'cursor-default'}`}
             >
-              {hasImages ? (
+              {/* {hasImages ? (
                 <img
                   src={project.images[0]}
                   alt={project.title}
@@ -199,8 +199,14 @@ function FeaturedProject({ project, index, inView }) {
                   style={{ filter: 'drop-shadow(0 8px 24px rgba(0,0,0,0.4))' }}
                 >
                   {project.image}
-                </span>
-              )}
+                  </span>
+              )} */}
+              <span
+                className="relative z-10 text-8xl sm:text-9xl transition-transform duration-500 group-hover:scale-110 group-hover:rotate-6 select-none"
+                style={{ filter: 'drop-shadow(0 8px 24px rgba(0,0,0,0.4))' }}
+              >
+                {project.image}
+              </span>
             </button>
 
             {/* Floating dots */}
@@ -310,7 +316,7 @@ function OtherProjectCard({ project, index, inView }) {
         {/* Action buttons */}
         <div className="flex gap-2.5 mt-auto">
           {/* Image preview trigger */}
-          <button
+          {/* <button
             type="button"
             onClick={hasImages ? () => setShowPreview(true) : undefined}
             disabled={!hasImages}
@@ -319,7 +325,7 @@ function OtherProjectCard({ project, index, inView }) {
           >
             <FaEye />
             Preview
-          </button>
+          </button> */}
 
           {/* Upwork URL */}
           {project.upworkUrl && (
