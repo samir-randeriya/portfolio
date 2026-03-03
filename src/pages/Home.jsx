@@ -25,7 +25,7 @@ export default function Home() {
   const [showCursor, setShowCursor] = useState(true);
   const [animationStarted, setAnimationStarted] = useState(false);
   const mousePos = useRef({ x: 50, y: 50 });
-  const [tick, setTick] = useState(0); // forces re-render when parallax position updates
+  const [, setTick] = useState(0); // forces re-render when parallax position updates
   const rafRef = useRef(null);
 
   const handleMouseMove = useCallback((e) => {

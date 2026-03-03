@@ -145,7 +145,7 @@ export default function Contact() {
     } finally {
       setIsSubmitting(false);
     }
-  }, [formData, EMAILJS_SERVICE_ID, EMAILJS_TEMPLATE_ID, EMAILJS_PUBLIC_KEY, contact.form]);
+  }, [formData, contact.form]);
 
   const [headerRef, headerInView] = useInView(0.2);
   const [availRef,  availInView]  = useInView(0.2);
