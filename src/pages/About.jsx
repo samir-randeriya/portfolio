@@ -1,39 +1,10 @@
-import { useState, useEffect, useRef } from 'react';
+import { useState } from 'react';
 import portfolioData from '../data/portfolioContent.json';
-
-// ─── Helpers ──────────────────────────────────────────────────────────────────
-function parseBold(text) {
-  if (!text) return null;
-  return text.split('**').map((part, i) =>
-    i % 2 === 0
-      ? part
-      : <strong key={i} className="text-white font-semibold">{part}</strong>
-  );
-}
-
-function useInView(threshold = 0.15) {
-  const ref = useRef(null);
-  const [inView, setInView] = useState(false);
-  useEffect(() => {
-    const el = ref.current;
-    if (!el) return;
-    const observer = new IntersectionObserver(
-      ([entry]) => { if (entry.isIntersecting) setInView(true); },
-      { threshold }
-    );
-    observer.observe(el);
-    return () => observer.unobserve(el);
-  }, [threshold]);
-  return [ref, inView];
-}
-
-// ─── Animated Progress Bar ────────────────────────────────────────────────────
-const COLOR_MAP = {
-  blue:   { from: '#38bdf8', to: '#818cf8' },
-  purple: { from: '#818cf8', to: '#f472b6' },
-  green:  { from: '#34d399', to: '#38bdf8' },
-  orange: { from: '#fb923c', to: '#f43f5e' },
-};
+import { useInView } from '../hooks/useInView';
+import { parseBold } from '../utils/parseBold';
+import { SECTION_IDS, BACKGROUND_DARK } from '../constants';
+import { COLOR_MAP, QUALITY_ACCENTS } from '../constants/themes';
+import { QUALITY_ICON_MAP } from '../constants/icons';
 
 function ProgressBar({ skill, index, animate }) {
   const colors = COLOR_MAP[skill.color] || COLOR_MAP.blue;
@@ -61,31 +32,6 @@ function ProgressBar({ skill, index, animate }) {
 }
 
 // ─── Quality Card ─────────────────────────────────────────────────────────────
-const QUALITY_ICON_MAP = {
-  '🛠️': (
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={1.5} className="w-6 h-6">
-      <path strokeLinecap="round" strokeLinejoin="round" d="M11.42 15.17L17.25 21A2.652 2.652 0 0021 17.25l-5.877-5.877M11.42 15.17l2.496-3.03c.317-.384.74-.626 1.208-.766M11.42 15.17l-4.655 5.653a2.548 2.548 0 11-3.586-3.586l6.837-5.63m5.108-.233c.55-.164 1.163-.188 1.743-.14a4.5 4.5 0 004.486-6.336l-3.276 3.277a3.004 3.004 0 01-2.25-2.25l3.276-3.276a4.5 4.5 0 00-6.336 4.486c.091 1.076-.071 2.264-.904 2.95l-.102.085m-1.745 1.437L5.909 7.5H4.5L2.25 3.75l1.5-1.5L7.5 4.5v1.409l4.26 4.26m-1.745 1.437l1.745-1.437m6.615 8.206L15.75 15.75M4.867 19.125h.008v.008h-.008v-.008z" />
-    </svg>
-  ),
-  '🚀': (
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={1.5} className="w-6 h-6">
-      <path strokeLinecap="round" strokeLinejoin="round" d="M15.59 14.37a6 6 0 01-5.84 7.38v-4.8m5.84-2.58a14.98 14.98 0 006.16-12.12A14.98 14.98 0 009.631 8.41m5.96 5.96a14.926 14.926 0 01-5.841 2.58m-.119-8.54a6 6 0 00-7.381 5.84h4.8m2.581-5.84a14.927 14.927 0 00-2.58 5.84m2.699 2.7c-.103.021-.207.041-.311.06a15.09 15.09 0 01-2.448-2.448 14.9 14.9 0 01.06-.312m-2.24 2.39a4.493 4.493 0 00-1.757 4.306 4.493 4.493 0 004.306-1.758M16.5 9a1.5 1.5 0 11-3 0 1.5 1.5 0 013 0z" />
-    </svg>
-  ),
-  '🔐': (
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={1.5} className="w-6 h-6">
-      <path strokeLinecap="round" strokeLinejoin="round" d="M16.5 10.5V6.75a4.5 4.5 0 10-9 0v3.75m-.75 11.25h10.5a2.25 2.25 0 002.25-2.25v-6.75a2.25 2.25 0 00-2.25-2.25H6.75a2.25 2.25 0 00-2.25 2.25v6.75a2.25 2.25 0 002.25 2.25z" />
-    </svg>
-  ),
-  '🧠': (
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={1.5} className="w-6 h-6">
-      <path strokeLinecap="round" strokeLinejoin="round" d="M12 18v-5.25m0 0a6.01 6.01 0 001.5-.189m-1.5.189a6.01 6.01 0 01-1.5-.189m3.75 7.478a12.06 12.06 0 01-4.5 0m3.75 2.383a14.406 14.406 0 01-3 0M14.25 18v-.192c0-.983.658-1.823 1.508-2.316a7.5 7.5 0 10-7.517 0c.85.493 1.509 1.333 1.509 2.316V18" />
-    </svg>
-  ),
-};
-
-const QUALITY_ACCENTS = ['#38bdf8', '#34d399', '#818cf8', '#fb923c'];
-
 // Number of characters before we show "Read more"
 const DESCRIPTION_LIMIT = 120;
 
@@ -205,99 +151,10 @@ export default function About() {
 
   return (
     <>
-      <style>{`
-        @import url('https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500&display=swap');
-
-        #about * { font-family: 'DM Sans', sans-serif; }
-        #about .font-display { font-family: 'Syne', sans-serif; }
-
-        .grid-subtle {
-          background-image:
-            linear-gradient(rgba(255,255,255,0.02) 1px, transparent 1px),
-            linear-gradient(90deg, rgba(255,255,255,0.02) 1px, transparent 1px);
-          background-size: 60px 60px;
-        }
-
-        .quality-card {
-          transition: border-color 0.25s, box-shadow 0.25s, transform 0.25s;
-        }
-        .quality-card:hover {
-          border-color: rgba(255,255,255,0.14) !important;
-          box-shadow: 0 20px 50px rgba(0,0,0,0.4);
-          transform: translateY(-4px) !important;
-        }
-
-        /* Stat card hover */
-        .stat-card {
-          transition: all 0.25s ease;
-        }
-        .stat-card:hover {
-          border-color: rgba(255,255,255,0.15);
-          background: rgba(255,255,255,0.06);
-          transform: translateY(-3px);
-          box-shadow: 0 12px 32px rgba(0,0,0,0.3);
-        }
-
-        .resume-btn {
-          background: linear-gradient(135deg, #38bdf8, #818cf8);
-          transition: all 0.3s ease;
-          position: relative;
-          overflow: hidden;
-        }
-        .resume-btn::before {
-          content: '';
-          position: absolute; inset: 0;
-          background: linear-gradient(135deg, #818cf8, #f472b6);
-          opacity: 0;
-          transition: opacity 0.3s;
-        }
-        .resume-btn:hover::before { opacity: 1; }
-        .resume-btn:hover { transform: translateY(-2px); box-shadow: 0 12px 32px rgba(56,189,248,0.35); }
-        .resume-btn > * { position: relative; z-index: 1; }
-
-        .cta-btn-primary {
-          background: white;
-          color: #0f172a;
-          transition: all 0.25s ease;
-        }
-        .cta-btn-primary:hover { background: #f1f5f9; transform: translateY(-2px); }
-
-        .cta-btn-secondary {
-          border: 1.5px solid rgba(255,255,255,0.3);
-          color: white;
-          transition: all 0.25s ease;
-        }
-        .cta-btn-secondary:hover {
-          background: rgba(255,255,255,0.1);
-          border-color: rgba(255,255,255,0.5);
-          transform: translateY(-2px);
-        }
-
-        /* ── Responsive stat grid ── */
-        .stats-grid {
-          display: grid;
-          gap: 12px;
-          /* Mobile: 1 column */
-          grid-template-columns: 1fr;
-        }
-        /* Tablet (sm 640px+): 2 columns */
-        @media (min-width: 640px) {
-          .stats-grid {
-            grid-template-columns: repeat(2, 1fr);
-          }
-        }
-        /* Desktop (lg 1024px+): 4 columns in one row */
-        @media (min-width: 1024px) {
-          .stats-grid {
-            grid-template-columns: repeat(4, 1fr);
-          }
-        }
-      `}</style>
-
       <section
-        id="about"
+        id={SECTION_IDS.ABOUT}
         className="relative py-28 overflow-hidden"
-        style={{ background: '#060811' }}
+        style={{ background: BACKGROUND_DARK }}
       >
         {/* Background */}
         <div className="absolute inset-0 grid-subtle pointer-events-none" />
@@ -349,7 +206,7 @@ export default function About() {
               }}
             >
               <p className="text-slate-400 text-base sm:text-lg leading-relaxed">
-                {parseBold(personal.bio)}
+                {parseBold(personal.bio, 'text-accent font-semibold')}
               </p>
             </div>
 
@@ -493,7 +350,7 @@ export default function About() {
         </div>
 
         <div className="absolute bottom-0 left-0 right-0 h-32 pointer-events-none"
-          style={{ background: 'linear-gradient(to top, #060811, transparent)' }} />
+          style={{ background: `linear-gradient(to top, ${BACKGROUND_DARK}, transparent)` }} />
       </section>
     </>
   );

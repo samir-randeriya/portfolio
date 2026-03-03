@@ -1,29 +1,8 @@
 import { useState, useEffect, useRef, useCallback } from 'react';
 import portfolioData from '../data/portfolioContent.json';
-
-// ─── useInView hook ────────────────────────────────────────────────────────────
-function useInView(threshold = 0.1) {
-  const ref = useRef(null);
-  const [inView, setInView] = useState(false);
-  useEffect(() => {
-    const el = ref.current;
-    if (!el) return;
-    const observer = new IntersectionObserver(
-      ([entry]) => { if (entry.isIntersecting) setInView(true); },
-      { threshold }
-    );
-    observer.observe(el);
-    return () => observer.unobserve(el);
-  }, [threshold]);
-  return [ref, inView];
-}
-
-// ─── Accent theme per experience index ────────────────────────────────────────
-const EXP_THEMES = [
-  { from: '#38bdf8', to: '#6366f1' },
-  { from: '#34d399', to: '#38bdf8' },
-  { from: '#a78bfa', to: '#f472b6' },
-];
+import { useInView } from '../hooks/useInView';
+import { SECTION_IDS, BACKGROUND_DARK } from '../constants';
+import { EXP_THEMES } from '../constants/themes';
 
 function getTheme(index) {
   return EXP_THEMES[index % EXP_THEMES.length];
@@ -264,63 +243,11 @@ export default function Experience() {
 
   return (
     <>
-      <style>{`
-        @import url('https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500&display=swap');
-
-        #experience * { font-family: 'DM Sans', sans-serif; }
-        #experience .font-display { font-family: 'Syne', sans-serif; }
-
-        .grid-subtle {
-          background-image:
-            linear-gradient(rgba(255,255,255,0.02) 1px, transparent 1px),
-            linear-gradient(90deg, rgba(255,255,255,0.02) 1px, transparent 1px);
-          background-size: 60px 60px;
-        }
-
-        @keyframes dotPulse {
-          0%   { transform: scale(1);   opacity: 0.5; }
-          100% { transform: scale(1.9); opacity: 0; }
-        }
-        @keyframes dotRing {
-          0%   { transform: scale(1);   opacity: 0.8; }
-          100% { transform: scale(1.6); opacity: 0; }
-        }
-
-        .exp-card:hover {
-          border-color: rgba(255,255,255,0.15) !important;
-          transform: translateY(-4px) !important;
-          box-shadow: 0 24px 60px rgba(0,0,0,0.5) !important;
-        }
-
-        .connector {
-          position: absolute;
-          top: 50%;
-          height: 2px;
-          width: 48px;
-          transform: translateY(-50%);
-        }
-
-        .cta-btn-primary {
-          background: linear-gradient(135deg, #38bdf8, #818cf8);
-          color: white;
-          transition: all 0.28s ease;
-          position: relative; overflow: hidden;
-        }
-        .cta-btn-primary::before {
-          content: ''; position: absolute; inset: 0;
-          background: linear-gradient(135deg, #818cf8, #f472b6);
-          opacity: 0; transition: opacity 0.28s;
-        }
-        .cta-btn-primary:hover::before { opacity: 1; }
-        .cta-btn-primary:hover { transform: translateY(-2px); box-shadow: 0 12px 32px rgba(56,189,248,0.35); }
-        .cta-btn-primary span { position: relative; z-index: 1; }
-      `}</style>
-
       <section
-        id="experience"
+        id={SECTION_IDS.EXPERIENCE}
         ref={sectionRef}
         className="relative py-28 overflow-hidden"
-        style={{ background: '#060811' }}
+        style={{ background: BACKGROUND_DARK }}
       >
         {/* Background */}
         <div className="absolute inset-0 grid-subtle pointer-events-none" />
@@ -550,7 +477,7 @@ export default function Experience() {
                 {experience.cta.description}
               </p>
               <button
-                onClick={() => document.getElementById('contact')?.scrollIntoView({ behavior: 'smooth' })}
+                onClick={() => document.getElementById(SECTION_IDS.CONTACT)?.scrollIntoView({ behavior: 'smooth' })}
                 className="cta-btn-primary inline-flex items-center justify-center px-8 py-3.5 rounded-full font-semibold text-sm"
               >
                 <span>{experience.cta.buttonText}</span>
@@ -563,7 +490,7 @@ export default function Experience() {
         {/* Edge fade */}
         <div
           className="absolute bottom-0 left-0 right-0 h-32 pointer-events-none"
-          style={{ background: 'linear-gradient(to top, #060811, transparent)' }}
+          style={{ background: `linear-gradient(to top, ${BACKGROUND_DARK}, transparent)` }}
         />
       </section>
     </>

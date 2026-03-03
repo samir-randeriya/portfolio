@@ -3,6 +3,8 @@ import React, { lazy, Suspense } from 'react';
 // Critical components - loaded immediately
 import Navbar from '../components/Navbar';
 import Home from './Home';
+import ErrorBoundary from '../components/ErrorBoundary';
+import { BACKGROUND_DARK } from '../constants';
 
 // Non-critical components - lazy loaded
 const Footer = lazy(() => import('../components/Footer'));
@@ -13,13 +15,12 @@ const About = lazy(() => import('./About'));
 const Skills = lazy(() => import('./Skills'));
 const Projects = lazy(() => import('./Projects'));
 const Process = lazy(() => import('./Process'));
-// const ProofOfWork = lazy(() => import('./ProofOfWork'));
 const Experience = lazy(() => import('./Experience'));
 const Contact = lazy(() => import('./Contact'));
 
 // Section loading fallback - matches portfolio dark theme (seamless, no breakdown)
 const SectionFallback = () => (
-  <div className="py-20 relative" style={{ background: '#060811' }}>
+  <div className="py-20 relative" style={{ background: BACKGROUND_DARK }}>
     <div
       className="absolute inset-0 pointer-events-none opacity-30"
       style={{
@@ -60,9 +61,11 @@ const PortfolioHome = () => {
       </a>
 
       {/* Social Sidebar */}
-      <Suspense fallback={null}>
-        <SocialSidebar />
-      </Suspense>
+      <ErrorBoundary>
+        <Suspense fallback={null}>
+          <SocialSidebar />
+        </Suspense>
+      </ErrorBoundary>
 
       {/* Navbar */}
       <Navbar />
@@ -72,47 +75,61 @@ const PortfolioHome = () => {
         <Home />
 
         {/* All Portfolio Sections */}
-        <Suspense fallback={<SectionFallback />}>
-          <StatsCounter />
-        </Suspense>
+        <ErrorBoundary>
+          <Suspense fallback={<SectionFallback />}>
+            <StatsCounter />
+          </Suspense>
+        </ErrorBoundary>
 
-        <Suspense fallback={<SectionFallback />}>
-          <About />
-        </Suspense>
+        <ErrorBoundary>
+          <Suspense fallback={<SectionFallback />}>
+            <About />
+          </Suspense>
+        </ErrorBoundary>
 
-        <Suspense fallback={<SectionFallback />}>
-          <Skills />
-        </Suspense>
+        <ErrorBoundary>
+          <Suspense fallback={<SectionFallback />}>
+            <Skills />
+          </Suspense>
+        </ErrorBoundary>
 
-        <Suspense fallback={<SectionFallback />}>
-          <Projects />
-        </Suspense>
+        <ErrorBoundary>
+          <Suspense fallback={<SectionFallback />}>
+            <Projects />
+          </Suspense>
+        </ErrorBoundary>
 
-        <Suspense fallback={<SectionFallback />}>
-          <Process />
-        </Suspense>
+        <ErrorBoundary>
+          <Suspense fallback={<SectionFallback />}>
+            <Process />
+          </Suspense>
+        </ErrorBoundary>
 
-        {/* <Suspense fallback={<SectionFallback />}>
-          <ProofOfWork />
-        </Suspense> */}
+        <ErrorBoundary>
+          <Suspense fallback={<SectionFallback />}>
+            <Testimonials />
+          </Suspense>
+        </ErrorBoundary>
 
-        <Suspense fallback={<SectionFallback />}>
-          <Testimonials />
-        </Suspense>
+        <ErrorBoundary>
+          <Suspense fallback={<SectionFallback />}>
+            <Experience />
+          </Suspense>
+        </ErrorBoundary>
 
-        <Suspense fallback={<SectionFallback />}>
-          <Experience />
-        </Suspense>
-
-        <Suspense fallback={<SectionFallback />}>
-          <Contact />
-        </Suspense>
+        <ErrorBoundary>
+          <Suspense fallback={<SectionFallback />}>
+            <Contact />
+          </Suspense>
+        </ErrorBoundary>
       </main>
 
       {/* Footer */}
-      <Suspense fallback={null}>
-        <Footer />
-      </Suspense>
+      <ErrorBoundary>
+        <Suspense fallback={null}>
+          <Footer />
+        </Suspense>
+      </ErrorBoundary>
     </div>
   );
 };

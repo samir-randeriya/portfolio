@@ -1,40 +1,7 @@
-import { useState, useEffect, useRef } from 'react';
 import portfolioData from '../data/portfolioContent.json';
-
-// ─── useInView hook ────────────────────────────────────────────────────────────
-function useInView(threshold = 0.15) {
-  const ref = useRef(null);
-  const [inView, setInView] = useState(false);
-  useEffect(() => {
-    const el = ref.current;
-    if (!el) return;
-    const observer = new IntersectionObserver(
-      ([entry]) => { if (entry.isIntersecting) setInView(true); },
-      { threshold }
-    );
-    observer.observe(el);
-    return () => observer.unobserve(el);
-  }, [threshold]);
-  return [ref, inView];
-}
-
-// ─── Presentation-layer theme per category index ──────────────────────────────
-// Content (title, description, skills) comes from JSON; colours live here
-const CATEGORY_THEMES = [
-  { from: '#38bdf8', to: '#6366f1', iconBg: 'rgba(56,189,248,0.15)',  border: 'rgba(56,189,248,0.25)'  }, // Frontend
-  { from: '#34d399', to: '#38bdf8', iconBg: 'rgba(52,211,153,0.15)',  border: 'rgba(52,211,153,0.25)'  }, // Backend
-  { from: '#a78bfa', to: '#f472b6', iconBg: 'rgba(167,139,250,0.15)', border: 'rgba(167,139,250,0.25)' }, // Database
-  { from: '#fb923c', to: '#f43f5e', iconBg: 'rgba(251,146,60,0.15)',  border: 'rgba(251,146,60,0.25)'  }, // DevOps
-  { from: '#6366f1', to: '#38bdf8', iconBg: 'rgba(99,102,241,0.15)',  border: 'rgba(99,102,241,0.25)'  }, // Tools
-  { from: '#facc15', to: '#fb923c', iconBg: 'rgba(250,204,21,0.15)',  border: 'rgba(250,204,21,0.25)'  }, // Testing
-];
-
-const PROFICIENCY_THEMES = [
-  { from: '#34d399', to: '#38bdf8' }, // Expert
-  { from: '#38bdf8', to: '#6366f1' }, // Advanced
-  { from: '#facc15', to: '#fb923c' }, // Intermediate
-  { from: '#a78bfa', to: '#f472b6' }, // Learning
-];
+import { useInView } from '../hooks/useInView';
+import { SECTION_IDS, BACKGROUND_DARK } from '../constants';
+import { CATEGORY_THEMES, PROFICIENCY_THEMES } from '../constants/themes';
 
 // ─── Category Card ─────────────────────────────────────────────────────────────
 function CategoryCard({ category, theme, index, inView }) {
@@ -174,71 +141,10 @@ export default function Skills() {
 
   return (
     <>
-      <style>{`
-        @import url('https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500&display=swap');
-
-        #skills * { font-family: 'DM Sans', sans-serif; }
-        #skills .font-display { font-family: 'Syne', sans-serif; }
-
-        .grid-subtle {
-          background-image:
-            linear-gradient(rgba(255,255,255,0.02) 1px, transparent 1px),
-            linear-gradient(90deg, rgba(255,255,255,0.02) 1px, transparent 1px);
-          background-size: 60px 60px;
-        }
-
-        .skill-card:hover {
-          border-color: rgba(255,255,255,0.14) !important;
-          transform: translateY(-5px) scale(1) !important;
-          box-shadow: 0 24px 60px rgba(0,0,0,0.45);
-        }
-
-        .skill-tag:hover {
-          border-color: rgba(255,255,255,0.2);
-          background: rgba(255,255,255,0.09);
-          color: white;
-        }
-
-        .proficiency-card:hover {
-          border-color: rgba(255,255,255,0.14) !important;
-          transform: translateY(-4px) !important;
-          box-shadow: 0 20px 50px rgba(0,0,0,0.4);
-        }
-
-        .learn-pill {
-          transition: all 0.22s ease;
-          cursor: default;
-        }
-        .learn-pill:hover {
-          border-color: rgba(56,189,248,0.4);
-          background: rgba(56,189,248,0.1);
-          color: #38bdf8;
-          transform: translateY(-2px);
-        }
-
-        .cta-btn-primary {
-          background: white;
-          color: #0f172a;
-          transition: all 0.25s ease;
-        }
-        .cta-btn-primary:hover { background: #f1f5f9; transform: translateY(-2px); }
-
-        .cta-btn-secondary {
-          border: 1.5px solid rgba(255,255,255,0.3);
-          color: white;
-          transition: all 0.25s ease;
-        }
-        .cta-btn-secondary:hover {
-          background: rgba(255,255,255,0.1);
-          border-color: rgba(255,255,255,0.5);
-          transform: translateY(-2px);
-        }
-      `}</style>
-
       <section
-        id="skills"
+        id={SECTION_IDS.SKILLS}
         className="relative py-28 overflow-hidden"
-        style={{ background: '#060811' }}
+        style={{ background: BACKGROUND_DARK }}
       >
         {/* Background */}
         <div className="absolute inset-0 grid-subtle pointer-events-none" />
@@ -435,7 +341,7 @@ export default function Skills() {
         {/* Edge fade */}
         <div
           className="absolute bottom-0 left-0 right-0 h-32 pointer-events-none"
-          style={{ background: 'linear-gradient(to top, #060811, transparent)' }}
+          style={{ background: `linear-gradient(to top, ${BACKGROUND_DARK}, transparent)` }}
         />
       </section>
     </>

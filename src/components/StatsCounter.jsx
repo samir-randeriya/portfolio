@@ -1,5 +1,7 @@
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect } from 'react';
 import portfolioData from '../data/portfolioContent.json';
+import { useInView } from '../hooks/useInView';
+import { SECTION_IDS, BACKGROUND_DARK } from '../constants';
 
 // ─── Helpers ──────────────────────────────────────────────────────────────────
 function useCountUp(target, isVisible, duration = 2000, delay = 0) {
@@ -162,80 +164,15 @@ export default function StatsCounter() {
   const { about } = portfolioData;
   const stats = about.personalStats;
 
-  const [isVisible, setIsVisible] = useState(false);
-  const sectionRef = useRef(null);
-
-  useEffect(() => {
-    const el = sectionRef.current;
-    if (!el) return;
-    const observer = new IntersectionObserver(
-      ([entry]) => { if (entry.isIntersecting) setIsVisible(true); },
-      { threshold: 0.15 }
-    );
-    observer.observe(el);
-    return () => observer.unobserve(el);
-  }, []);
+  const [sectionRef, isVisible] = useInView(0.15);
 
   return (
     <>
-      <style>{`
-        @import url('https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500&display=swap');
-
-        #stats * { font-family: 'DM Sans', sans-serif; }
-        #stats .font-display { font-family: 'Syne', sans-serif; }
-
-        @keyframes statsSlideUp {
-          from { opacity: 0; transform: translateY(32px); }
-          to   { opacity: 1; transform: translateY(0); }
-        }
-        @keyframes statsReveal {
-          from { opacity: 0; transform: translateY(16px); }
-          to   { opacity: 1; transform: translateY(0); }
-        }
-        @keyframes accentPulse {
-          0%, 100% { opacity: 0.5; transform: scale(1); }
-          50%       { opacity: 1;   transform: scale(1.08); }
-        }
-
-        .stats-visible .stat-card {
-          animation: statsSlideUp 0.6s cubic-bezier(.22,1,.36,1) both;
-        }
-        .stats-visible .stats-footer {
-          animation: statsReveal 0.6s cubic-bezier(.22,1,.36,1) 0.5s both;
-        }
-
-        .stat-card:hover {
-          transform: translateY(-4px);
-          border-color: rgba(255,255,255,0.15) !important;
-          box-shadow: 0 20px 60px rgba(0,0,0,0.4);
-        }
-        .stat-card:hover .stat-card-glow { opacity: 1; }
-
-        .achievement-pill {
-          transition: all 0.2s ease;
-          cursor: default;
-        }
-        .achievement-pill:hover {
-          background: rgba(255,255,255,0.08);
-          border-color: rgba(255,255,255,0.2);
-          transform: translateY(-1px);
-        }
-
-        .grid-subtle {
-          background-image:
-            linear-gradient(rgba(255,255,255,0.02) 1px, transparent 1px),
-            linear-gradient(90deg, rgba(255,255,255,0.02) 1px, transparent 1px);
-          background-size: 60px 60px;
-        }
-
-        .accent-pulse { animation: accentPulse 3s ease-in-out infinite; }
-      `}</style>
-
       <section
-        id="stats"
+        id={SECTION_IDS.STATS}
         ref={sectionRef}
         className={`relative py-28 overflow-hidden ${isVisible ? 'stats-visible' : ''}`}
-        style={{ background: '#060811' }}
+        style={{ background: BACKGROUND_DARK }}
       >
         {/* Background */}
         <div className="absolute inset-0 grid-subtle pointer-events-none" />
@@ -330,7 +267,7 @@ export default function StatsCounter() {
         {/* Edge fade */}
         <div
           className="absolute bottom-0 left-0 right-0 h-32 pointer-events-none"
-          style={{ background: 'linear-gradient(to top, #060811, transparent)' }}
+          style={{ background: `linear-gradient(to top, ${BACKGROUND_DARK}, transparent)` }}
         />
       </section>
     </>

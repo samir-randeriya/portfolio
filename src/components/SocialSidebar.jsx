@@ -10,6 +10,7 @@ import {
   FaTimes
 } from 'react-icons/fa';
 import { SiUpwork } from 'react-icons/si';
+import { SOCIAL_URLS } from '../constants';
 
 export default function SocialSidebar() {
   const [hoveredIndex, setHoveredIndex] = useState(null);
@@ -59,7 +60,7 @@ export default function SocialSidebar() {
     {
       name: 'GitHub',
       icon: FaGithub,
-      url: 'https://github.com/samir-randeriya',
+      url: SOCIAL_URLS.GITHUB,
       color: '#333',
       darkColor: '#fff',
       hoverColor: '#4F46E5',
@@ -68,7 +69,7 @@ export default function SocialSidebar() {
     {
       name: 'Upwork',
       icon: SiUpwork,
-      url: 'https://www.upwork.com/freelancers/~014e94a19f6e639b39',
+      url: SOCIAL_URLS.UPWORK,
       color: '#14A800',
       darkColor: '#14A800',
       hoverColor: '#14A800',
@@ -77,7 +78,7 @@ export default function SocialSidebar() {
     {
       name: 'LinkedIn',
       icon: FaLinkedin,
-      url: 'https://www.linkedin.com/in/samir-randeriya-578a17185/',
+      url: SOCIAL_URLS.LINKEDIN,
       color: '#0077B5',
       darkColor: '#0077B5',
       hoverColor: '#0077B5',
@@ -86,7 +87,7 @@ export default function SocialSidebar() {
     {
       name: 'WhatsApp',
       icon: FaWhatsapp,
-      url: 'https://wa.me/9190999400550',
+      url: SOCIAL_URLS.WHATSAPP,
       color: '#25D366',
       darkColor: '#25D366',
       hoverColor: '#25D366',
@@ -95,7 +96,7 @@ export default function SocialSidebar() {
     {
       name: 'Instagram',
       icon: FaInstagram,
-      url: 'https://www.instagram.com/sam_randeriya__/',
+      url: SOCIAL_URLS.INSTAGRAM,
       color: '#E4405F',
       darkColor: '#E4405F',
       hoverColor: '#E4405F',
@@ -104,7 +105,7 @@ export default function SocialSidebar() {
     {
       name: 'Twitter',
       icon: FaTwitter,
-      url: 'https://x.com/s_randeriya',
+      url: SOCIAL_URLS.TWITTER,
       color: '#1DA1F2',
       darkColor: '#1DA1F2',
       hoverColor: '#1DA1F2',

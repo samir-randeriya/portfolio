@@ -1,47 +1,16 @@
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect } from 'react';
 import portfolioData from '../data/portfolioContent.json';
 import ImagePreviewModal from '../components/ImagePreviewModal';
+import { useInView } from '../hooks/useInView';
+import { SECTION_IDS, BACKGROUND_DARK } from '../constants';
 import { 
   FaGithub, 
   FaExternalLinkAlt,
   // FaEye
 } from 'react-icons/fa';
 import { SiUpwork } from 'react-icons/si';
-
-// ─── useInView hook ────────────────────────────────────────────────────────────
-function useInView(threshold = 0.1) {
-  const ref = useRef(null);
-  const [inView, setInView] = useState(false);
-  useEffect(() => {
-    const el = ref.current;
-    if (!el) return;
-    const observer = new IntersectionObserver(
-      ([entry]) => { if (entry.isIntersecting) setInView(true); },
-      { threshold }
-    );
-    observer.observe(el);
-    return () => observer.unobserve(el);
-  }, [threshold]);
-  return [ref, inView];
-}
-
-// ─── Parse **bold** markdown strings ─────────────────────────────────────────
-function parseBold(text) {
-  if (!text) return null;
-  return text.split('**').map((part, i) =>
-    i % 2 === 0
-      ? part
-      : <strong key={i} className="text-white font-semibold">{part}</strong>
-  );
-}
-
-// ─── Presentation-layer accent themes per project index ──────────────────────
-const PROJECT_THEMES = [
-  { from: '#38bdf8', to: '#6366f1', glow: 'rgba(56,189,248,0.25)'  },
-  { from: '#a78bfa', to: '#f472b6', glow: 'rgba(167,139,250,0.25)' },
-  { from: '#fb923c', to: '#facc15', glow: 'rgba(251,146,60,0.25)'  },
-  { from: '#34d399', to: '#38bdf8', glow: 'rgba(52,211,153,0.25)'  },
-];
+import { parseBold } from '../utils/parseBold';
+import { PROJECT_THEMES } from '../constants/themes';
 
 function getTheme(index) {
   return PROJECT_THEMES[index % PROJECT_THEMES.length];
@@ -83,7 +52,7 @@ function FeaturedProject({ project, index, inView }) {
 
         {/* Description — parses **Challenge** **Solution** **Impact** */}
         <p className="text-slate-400 text-sm sm:text-base leading-relaxed">
-          {parseBold(project.description)}
+          {parseBold(project.description, 'text-accent font-semibold')}
         </p>
 
         {/* Technologies */}
@@ -293,7 +262,7 @@ function OtherProjectCard({ project, index, inView }) {
 
         {/* Description — strip markdown, show plain */}
         <p className="text-slate-500 text-sm leading-relaxed mb-5 flex-1">
-          {parseBold(project.description)}
+          {parseBold(project.description, 'text-accent font-semibold')}
         </p>
 
         {/* Tech tags */}
@@ -383,6 +352,7 @@ function OtherProjectCard({ project, index, inView }) {
   );
 }
 
+// ProjectSlider — defined inline; src/components/ProjectSlider.jsx has been removed
 // ─── Simple Project Slider ────────────────────────────────────────────────────
 function ProjectSlider({ projects, inView }) {
   const [current, setCurrent] = useState(0);
@@ -461,7 +431,7 @@ export default function Projects() {
   const otherProjects    = projects.projects.filter(p => !p.featured);
 
   const scrollToContact = () =>
-    document.getElementById('contact')?.scrollIntoView({ behavior: 'smooth' });
+    document.getElementById(SECTION_IDS.CONTACT)?.scrollIntoView({ behavior: 'smooth' });
   const openGithub = () =>
     window.open(personal.github, '_blank');
 
@@ -474,48 +444,10 @@ export default function Projects() {
 
   return (
     <>
-      <style>{`
-        @import url('https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500&display=swap');
-
-        #projects * { font-family: 'DM Sans', sans-serif; }
-        #projects .font-display { font-family: 'Syne', sans-serif; }
-
-        .grid-subtle {
-          background-image:
-            linear-gradient(rgba(255,255,255,0.02) 1px, transparent 1px),
-            linear-gradient(90deg, rgba(255,255,255,0.02) 1px, transparent 1px);
-          background-size: 60px 60px;
-        }
-
-        .other-card:hover {
-          border-color: rgba(255,255,255,0.14) !important;
-          transform: translateY(-4px) !important;
-          box-shadow: 0 20px 50px rgba(0,0,0,0.45);
-        }
-
-        .cta-btn-primary {
-          background: white;
-          color: #0f172a;
-          transition: all 0.25s ease;
-        }
-        .cta-btn-primary:hover { background: #f1f5f9; transform: translateY(-2px); box-shadow: 0 8px 24px rgba(0,0,0,0.3); }
-
-        .cta-btn-secondary {
-          border: 1.5px solid rgba(255,255,255,0.25);
-          color: white;
-          transition: all 0.25s ease;
-        }
-        .cta-btn-secondary:hover {
-          background: rgba(255,255,255,0.08);
-          border-color: rgba(255,255,255,0.45);
-          transform: translateY(-2px);
-        }
-      `}</style>
-
       <section
-        id="projects"
+        id={SECTION_IDS.PROJECTS}
         className="relative py-28 overflow-hidden"
-        style={{ background: '#060811' }}
+        style={{ background: BACKGROUND_DARK }}
       >
         {/* Background */}
         <div className="absolute inset-0 grid-subtle pointer-events-none" />
@@ -651,7 +583,7 @@ export default function Projects() {
         {/* Edge fade */}
         <div
           className="absolute bottom-0 left-0 right-0 h-32 pointer-events-none"
-          style={{ background: 'linear-gradient(to top, #060811, transparent)' }}
+          style={{ background: `linear-gradient(to top, ${BACKGROUND_DARK}, transparent)` }}
         />
       </section>
     </>

@@ -1,4 +1,5 @@
 import portfolioData from '../data/portfolioContent.json';
+import { NAV_ANCHORS, BACKGROUND_DARK } from '../constants';
 
 export default function Footer() {
   const currentYear = new Date().getFullYear();
@@ -13,11 +14,13 @@ export default function Footer() {
     }
   };
 
+  const [firstName, ...rest] = footer.brand.name.split(' ');
+
   return (
     <>
       <style>{`
         .footer-grid-bg {
-          background-color: #060811;
+          background-color: ${BACKGROUND_DARK};
           background-image:
             linear-gradient(rgba(255,255,255,0.018) 1px, transparent 1px),
             linear-gradient(90deg, rgba(255,255,255,0.018) 1px, transparent 1px);
@@ -30,17 +33,9 @@ export default function Footer() {
           <div className="grid md:grid-cols-4 gap-8 mb-8">
             {/* Brand Section */}
             <div className="md:col-span-2">
-              <h3 className="text-2xl font-bold text-blue-400 mb-4">
-                {footer.brand.name.split('').map((char, index) => 
-                  char === 'P' ? (
-                    <span key={index}>
-                      <span className="text-blue-400">{char}</span>
-                      <span className="text-white">ortfolio</span>
-                    </span>
-                  ) : char === 'Y' ? (
-                    <span key={index} className="text-blue-400">{char}our</span>
-                  ) : ''
-                )}
+              <h3 className="text-2xl font-bold mb-4">
+                <span className="text-blue-400">{firstName}</span>
+                {rest.length > 0 && <span className="text-white"> {rest.join(' ')}</span>}
               </h3>
               <p className="text-gray-300 mb-6 leading-relaxed max-w-md">
                 {footer.brand.description}
@@ -110,7 +105,7 @@ export default function Footer() {
                   </a>
                 ))}
                 <button
-                  onClick={() => scrollToSection('#home')}
+                  onClick={() => scrollToSection(NAV_ANCHORS.HOME)}
                   className="hover:text-blue-400 transition-colors duration-200"
                 >
                   Back to Top ↑

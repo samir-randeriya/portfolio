@@ -1,5 +1,6 @@
 import { motion, useInView } from 'framer-motion';
 import { useRef, useEffect, useState } from 'react';
+import { COLOR_CLASSES } from '../constants/tailwind';
 
 // Hook to detect scroll direction
 const useScrollDirection = () => {
@@ -435,7 +436,7 @@ export const AnimatedProgressBar = ({ percentage, delay = 0, className = "", col
         initial="hidden"
         animate={isInView ? "visible" : "exit"}
         variants={progressVariants}
-        className={`bg-gradient-to-r from-${color}-500 to-${color}-600 h-2 rounded-full`}
+        className={`${COLOR_CLASSES[color] ?? COLOR_CLASSES.blue} h-2 rounded-full`}
         style={{ transformOrigin: "left" }}
       >
         <motion.div

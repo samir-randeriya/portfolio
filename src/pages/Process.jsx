@@ -1,20 +1,6 @@
-import { useState, useEffect, useRef } from 'react';
-
-function useInView(threshold = 0.1) {
-  const ref = useRef(null);
-  const [inView, setInView] = useState(false);
-  useEffect(() => {
-    const el = ref.current;
-    if (!el) return;
-    const observer = new IntersectionObserver(
-      ([entry]) => { if (entry.isIntersecting) setInView(true); },
-      { threshold }
-    );
-    observer.observe(el);
-    return () => observer.unobserve(el);
-  }, [threshold]);
-  return [ref, inView];
-}
+import { useState } from 'react';
+import { useInView } from '../hooks/useInView';
+import { NAV_ANCHORS, SECTION_IDS, BACKGROUND_DARK } from '../constants';
 
 /* ─────────────────────────────────────────────
    6 process steps
@@ -203,33 +189,7 @@ export default function Process() {
 
   return (
     <>
-      <style>{`
-        @import url('https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500&display=swap');
-        #process * { font-family:'DM Sans',sans-serif; box-sizing:border-box; }
-        #process .syne { font-family:'Syne',sans-serif; }
-        .grid-subtle {
-          background-image:
-            linear-gradient(rgba(255,255,255,.018) 1px,transparent 1px),
-            linear-gradient(90deg,rgba(255,255,255,.018) 1px,transparent 1px);
-          background-size:60px 60px;
-        }
-        .proc-cta-p {
-          background:linear-gradient(135deg,#38bdf8,#818cf8);
-          color:white; transition:all .28s; position:relative; overflow:hidden;
-        }
-        .proc-cta-p::before { content:''; position:absolute; inset:0;
-          background:linear-gradient(135deg,#818cf8,#f472b6); opacity:0; transition:opacity .28s; }
-        .proc-cta-p:hover::before { opacity:1; }
-        .proc-cta-p:hover { transform:translateY(-2px); box-shadow:0 12px 32px rgba(56,189,248,.35); }
-        .proc-cta-p span { position:relative; z-index:1; }
-        .proc-cta-s {
-          border:1.5px solid rgba(255,255,255,.2); color:white;
-          transition:all .28s; background:transparent;
-        }
-        .proc-cta-s:hover { border-color:rgba(255,255,255,.4); background:rgba(255,255,255,.06); transform:translateY(-2px); }
-      `}</style>
-
-      <section id="process" className="relative py-28 overflow-hidden" style={{background:'#060811'}}>
+      <section id={SECTION_IDS.PROCESS} className="relative py-28 overflow-hidden" style={{ background: BACKGROUND_DARK }}>
         <div className="absolute inset-0 grid-subtle pointer-events-none"/>
         <div className="absolute top-0 left-0 w-96 h-96 rounded-full opacity-10 pointer-events-none"
           style={{background:'radial-gradient(circle,#38bdf8,transparent 70%)',filter:'blur(80px)',transform:'translate(-30%,-30%)'}}/>
@@ -432,10 +392,10 @@ export default function Process() {
                 Let's discuss how this proven process can bring your ideas to life with quality, speed, and reliability.
               </p>
               <div className="flex flex-col sm:flex-row gap-4 justify-center">
-                <a href="#contact" className="proc-cta-p inline-flex items-center justify-center px-8 py-3.5 rounded-full font-semibold text-sm">
+                <a href={NAV_ANCHORS.CONTACT} className="proc-cta-p inline-flex items-center justify-center px-8 py-3.5 rounded-full font-semibold text-sm">
                   <span>Let's Talk</span>
                 </a>
-                <a href="#projects" className="proc-cta-s inline-flex items-center justify-center px-8 py-3.5 rounded-full font-semibold text-sm">
+                <a href={NAV_ANCHORS.PROJECTS} className="proc-cta-s inline-flex items-center justify-center px-8 py-3.5 rounded-full font-semibold text-sm">
                   View My Work
                 </a>
               </div>
@@ -445,7 +405,7 @@ export default function Process() {
         </div>
 
         <div className="absolute bottom-0 left-0 right-0 h-32 pointer-events-none"
-          style={{background:'linear-gradient(to top,#060811,transparent)'}}/>
+          style={{ background: `linear-gradient(to top, ${BACKGROUND_DARK}, transparent)` }}/>
       </section>
     </>
   );

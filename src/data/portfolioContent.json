@@ -22,7 +22,7 @@
     "email": "sam.randeriya121@gmail.com",
     "phone": "+91 909 9940 0550",
     "location": "Surat, Gujarat, India",
-    "linkedin": "linkedin.com/in/samir-randeriya-578a17185/",
+    "linkedin": "https://linkedin.com/in/samir-randeriya/",
     "github": "https://github.com/samir-randeriya",
     "twitter": "https://x.com/s_randeriya",
     "resumeUrl": "/resume.pdf"
@@ -384,7 +384,7 @@
           "/asset-management/image3.png"
         ],
         "liveUrl": "",
-        "githubUrl": "http://github.com/samir-randeriya/laravel-asset-management",
+        "githubUrl": "https://github.com/samir-randeriya/laravel-asset-management",
         "upworkUrl": "https://www.upwork.com/freelancers/~014e94a19f6e639b39?p=1822539884965969920",
         "featured": true
       },
@@ -961,10 +961,6 @@
         "href": "#projects"
       },
       {
-        "name": "Proof",
-        "href": "#proof"
-      },
-      {
         "name": "Experience",
         "href": "#experience"
       },
@@ -1021,10 +1017,6 @@
       {
         "name": "Projects",
         "href": "#projects"
-      },
-      {
-        "name": "Proof",
-        "href": "#proof"
       },
       {
         "name": "Contact",

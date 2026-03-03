@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 // import DarkModeToggle from './DarkModeToggle'; // Hidden - default dark mode
 import portfolioData from '../data/portfolioContent.json';
+import { NAV_ANCHORS } from '../constants';
 
 export default function Navbar() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -77,7 +78,7 @@ export default function Navbar() {
     setIsMenuOpen(false);
     
     // Handle AI page navigation
-    if (href === '#chat') {
+    if (href === NAV_ANCHORS.CHAT) {
       navigate('/ai');
       return;
     }
@@ -101,7 +102,7 @@ export default function Navbar() {
 
   const scrollToContact = () => {
     setIsMenuOpen(false);
-    const element = document.querySelector('#contact');
+    const element = document.querySelector(NAV_ANCHORS.CONTACT);
     if (element) {
       element.scrollIntoView({ behavior: 'smooth' });
     }
@@ -126,7 +127,7 @@ export default function Navbar() {
                 if (location.pathname === '/ai') {
                   navigate('/');
                 } else {
-                  scrollToSection('#home');
+                  scrollToSection(NAV_ANCHORS.HOME);
                 }
               }}
               className="group flex items-center space-x-3 cursor-pointer focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 dark:focus:ring-offset-gray-900 rounded-xl"
