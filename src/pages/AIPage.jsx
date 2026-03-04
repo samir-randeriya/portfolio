@@ -1,203 +1,239 @@
-/**
- * AI Page - Production-Grade Layout Architecture
- * 
- * LAYOUT STRUCTURE:
- * - Fixed viewport container (100vh/dvh)
- * - Navbar: Fixed at top
- * - MessageList: Scrollable area (flex-1)
- * - InputBar: Fixed at bottom
- * 
- * Key principles:
- * - Body scroll is locked when this page is active
- * - Only the message list scrolls
- * - Layout uses proper flexbox constraints
- * - Mobile-responsive with keyboard handling
- * 
- * TODO: Future Integration Points
- * - Connect to real AI API
- * - Implement persistent message storage
- * - Add user authentication
- * - Integrate with portfolio data
- */
-
-import { useState, useEffect, useCallback } from 'react';
-import Navbar from '../components/Navbar';
+import { useState, useEffect, useRef, useCallback } from 'react';
 import MessageList from '../components/ai/MessageList';
-import InputBar from '../components/ai/InputBar';
+import InputBar    from '../components/ai/InputBar';
+import {
+  getInitialMessage,
+  getAIResponse,
+  resetConversationState,
+} from '../data/aiResponses';
+import portfolioData from '../data/portfolioContent.json';
 import '../styles/ai.css';
 
-const AIPage = () => {
-  // TODO: Replace with real message storage (database, context, etc.)
-  const [messages, setMessages] = useState([]);
-  const [isTyping, setIsTyping] = useState(false);
+const { personal, navigation } = portfolioData;
 
-  // Show initial greeting on mount
-  useEffect(() => {
-    // TODO: Fetch initial greeting from API or portfolio data
-    const initialMessage = {
-      id: crypto.randomUUID(),
-      type: 'assistant',
-      content: {
-        intro: "Hi! I'm Samir's AI assistant. 👋",
-        bullets: [
-          'Ask about his **technical skills** and expertise',
-          'Learn about his **work experience** and achievements',
-          'Explore his **portfolio projects**',
-          'Get his **contact information**',
-        ],
-        followUp: 'What would you like to know?',
-      },
-      timestamp: new Date(),
-    };
-    setMessages([initialMessage]);
-  }, []);
-
-  // Simulate typing delay for natural feel
-  // TODO: Remove this when connecting to real AI - use actual response time
-  const simulateTypingDelay = useCallback(() => {
-    const delay = 700 + Math.random() * 700; // 700-1400ms
-    return new Promise((resolve) => setTimeout(resolve, delay));
-  }, []);
-
-  // Handle sending messages
-  // TODO: Replace with real AI API call
-  const handleSendMessage = useCallback(
-    async (content) => {
-      // Add user message to UI
-      const userMessage = {
-        id: crypto.randomUUID(),
-        type: 'user',
-        content,
-        timestamp: new Date(),
-      };
-
-      setMessages((prev) => [...prev, userMessage]);
-      setIsTyping(true);
-
-      // TODO: Replace this simulation with real AI API call
-      // Example:
-      // const response = await fetch('/api/ai/chat', {
-      //   method: 'POST',
-      //   body: JSON.stringify({ message: content }),
-      // });
-      // const data = await response.json();
-
-      await simulateTypingDelay();
-
-      // TODO: Replace mock response with real AI response
-      const mockResponse = {
-        id: crypto.randomUUID(),
-        type: 'assistant',
-        content: {
-          intro: 'This is a placeholder response. Real AI logic will be integrated here.',
-          bullets: [
-            '**TODO**: Connect to AI response engine',
-            '**TODO**: Implement out-of-scope detection',
-            '**TODO**: Add response variations',
-          ],
-          followUp: 'Ask another question to test the UI!',
-        },
-        timestamp: new Date(),
-      };
-
-      setIsTyping(false);
-      setMessages((prev) => [...prev, mockResponse]);
-
-      // TODO: Handle errors from AI API
-      // TODO: Implement retry logic
-      // TODO: Add loading states
-    },
-    [simulateTypingDelay]
+// ─── Background — pixel-perfect copy of Home.jsx layers ───────────────────────
+// Same grid, same orbs (top-left cyan, bottom-right violet, mid-right pink)
+function AIBackground() {
+  return (
+    <div className="ai-bg-layer">
+      <div className="ai-bg-grid" />
+      <div className="ai-bg-noise" />
+      <div className="ai-bg-orb ai-bg-orb-1" />
+      <div className="ai-bg-orb ai-bg-orb-2" />
+      <div className="ai-bg-orb ai-bg-orb-3" />
+    </div>
   );
+}
 
-  const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
-
-  // Lock body scroll when AI page is active (prevents mobile scroll issues)
-  useEffect(() => {
-    // Save original overflow value
-    const originalOverflow = document.body.style.overflow;
-    const originalPosition = document.body.style.position;
-    
-    // Lock scroll
-    document.body.style.overflow = 'hidden';
-    document.body.style.position = 'fixed';
-    document.body.style.width = '100%';
-    document.body.style.height = '100%';
-    
-    // Cleanup on unmount
-    return () => {
-      document.body.style.overflow = originalOverflow;
-      document.body.style.position = originalPosition;
-      document.body.style.width = '';
-      document.body.style.height = '';
-    };
-  }, []);
-
-  // Track mouse position for dynamic background
-  useEffect(() => {
-    const handleMouseMove = (e) => {
-      setMousePosition({
-        x: (e.clientX / window.innerWidth) * 100,
-        y: (e.clientY / window.innerHeight) * 100,
-      });
-    };
-
-    window.addEventListener('mousemove', handleMouseMove);
-    return () => window.removeEventListener('mousemove', handleMouseMove);
-  }, []);
+// ─── Navbar — mirrors Navbar.jsx exactly ──────────────────────────────────────
+function AINavbar() {
+  const navigate = (href) => {
+    if (href === '#chat') return;
+    sessionStorage.setItem('ai_scrollTo', href.replace('#', ''));
+    window.location.href = '/';
+  };
 
   return (
-    // PAGE SHELL: Fixed viewport container, no body scroll
-    <div className="ai-page-shell">
-      {/* BACKGROUND LAYER: Decorative elements behind everything */}
-      <div className="ai-background-layer">
-        <div 
-          className="absolute inset-0 bg-gradient-to-br from-white/5 to-blue-50/10 dark:from-gray-900/50 dark:to-blue-900/10 transition-all duration-1000"
-          style={{
-            transform: `translate(${mousePosition.x * 0.02}px, ${mousePosition.y * 0.02}px)`,
-          }}
-        />
-        <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-gradient-to-r from-blue-500/20 to-cyan-500/20 rounded-full blur-3xl animate-pulse" />
-        <div className="absolute bottom-1/4 right-1/4 w-96 h-96 bg-gradient-to-r from-purple-500/20 to-pink-500/20 rounded-full blur-3xl animate-pulse" style={{ animationDelay: '2s' }} />
-        <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-gradient-conic from-blue-500/10 via-purple-500/10 via-pink-500/10 to-cyan-500/10 rounded-full blur-3xl animate-spin" style={{ animationDuration: '20s' }} />
-        <div className="absolute inset-0">
-          {[...Array(6)].map((_, i) => (
-            <div
-              key={i}
-              className="absolute w-1 h-1 bg-white/30 rounded-full animate-ping"
-              style={{
-                top: `${Math.random() * 100}%`,
-                left: `${Math.random() * 100}%`,
-                animationDelay: `${i * 0.5}s`,
-                animationDuration: `${2 + Math.random() * 2}s`,
-              }}
-            />
+    <div className="ai-navbar-slot">
+      <div className="ai-navbar-inner">
+
+        {/* Brand */}
+        <button className="ai-navbar-brand" onClick={() => (window.location.href = '/')}>
+          <div className="ai-navbar-avatar">{personal.initials}</div>
+          <div className="ai-navbar-brand-text">
+            <div className="ai-navbar-name">{personal.name}</div>
+            <div className="ai-navbar-subtitle">{personal.title}</div>
+          </div>
+        </button>
+
+        {/* Nav items */}
+        <nav className="ai-navbar-nav">
+          {navigation.menuItems.map((item) => (
+            <button
+              key={item.name}
+              className={`ai-nav-btn${item.name === 'AI Chat' ? ' active' : ''}`}
+              onClick={() => navigate(item.href)}
+            >
+              {item.name}
+            </button>
           ))}
+        </nav>
+
+      </div>
+    </div>
+  );
+}
+
+// ─── Chat header ──────────────────────────────────────────────────────────────
+function ChatHeader({ msgCount }) {
+  return (
+    <div className="ai-chat-header">
+      <div className="ai-chat-header-left">
+        <div className="ai-bot-avatar">
+          🤖
+          <span className="ai-bot-avatar-dot" />
         </div>
-        <div className="absolute inset-0 bg-gradient-to-t from-black/10 via-transparent to-transparent pointer-events-none" />
+        <div>
+          <div className="ai-bot-name">Samir's AI Assistant</div>
+          <div className="ai-bot-status">● Online · Powered by Claude AI</div>
+        </div>
       </div>
 
-      {/* NAVBAR: Fixed at top */}
-      <Navbar />
-
-      {/* MAIN CONTENT AREA: Contains centered chat surface */}
-      <div className="ai-main-content">
-        {/* CHAT SURFACE: Visible bounded container for all chat UI */}
-        <div className="ai-chat-surface">
-          {/* MESSAGE AREA: Scrollable message list (flex: 1) */}
-          <div className="ai-message-area">
-            <MessageList messages={messages} isTyping={isTyping} />
-          </div>
-
-          {/* INPUT AREA: Pinned at bottom of chat surface */}
-          <div className="ai-input-area">
-            <InputBar onSend={handleSendMessage} disabled={isTyping} />
-          </div>
+      <div className="ai-chat-header-right">
+        <div className="ai-header-badge">
+          <svg viewBox="0 0 20 20" fill="currentColor" style={{ width: 11, height: 11 }}>
+            <path d="M2 5a2 2 0 012-2h7a2 2 0 012 2v4a2 2 0 01-2 2H9l-3 3v-3H4a2 2 0 01-2-2V5z" />
+            <path d="M15 7v2a4 4 0 01-4 4H9.828l-1.766 1.767c.28.149.599.233.938.233h2l3 3v-3h2a2 2 0 002-2V9a2 2 0 00-2-2h-1z" />
+          </svg>
+          {msgCount} messages
+        </div>
+        <div className="ai-header-badge">
+          <span style={{
+            width: 7, height: 7, borderRadius: '50%',
+            background: '#34d399', display: 'inline-block',
+            boxShadow: '0 0 6px #34d399',
+          }} />
+          Available for hire
         </div>
       </div>
     </div>
   );
-};
+}
 
-export default AIPage;
+// ─── Main AIPage ──────────────────────────────────────────────────────────────
+export default function AIPage() {
+  const [messages,   setMessages]   = useState(() => [getInitialMessage()]);
+  const [isTyping,   setIsTyping]   = useState(false);
+  const [isFarewell, setIsFarewell] = useState(false);
+  const [error,      setError]      = useState(null);
 
+  const historyRef = useRef([]);
+
+  // Lock body scroll while AI page is open
+  useEffect(() => {
+    const prev = {
+      overflow: document.body.style.overflow,
+      position: document.body.style.position,
+      width:    document.body.style.width,
+    };
+    document.body.style.overflow = 'hidden';
+    document.body.style.position = 'fixed';
+    document.body.style.width    = '100%';
+
+    return () => {
+      document.body.style.overflow = prev.overflow;
+      document.body.style.position = prev.position;
+      document.body.style.width    = prev.width;
+      resetConversationState();
+    };
+  }, []);
+
+  // Scroll-to-section after navigating back to home
+  useEffect(() => {
+    const target = sessionStorage.getItem('ai_scrollTo');
+    if (target) {
+      sessionStorage.removeItem('ai_scrollTo');
+      setTimeout(() => {
+        document.getElementById(target)?.scrollIntoView({ behavior: 'smooth' });
+      }, 400);
+    }
+  }, []);
+
+  const handleSend = useCallback(async (content) => {
+    if (isFarewell || isTyping) return;
+    setError(null);
+
+    const userMsg = {
+      id: `u_${Date.now()}`,
+      type: 'user',
+      content,
+      timestamp: new Date(),
+    };
+    setMessages(prev => [...prev, userMsg]);
+
+    const historySnapshot = [...historyRef.current];
+    historyRef.current    = [...historyRef.current, { type: 'user', content }];
+    setIsTyping(true);
+
+    try {
+      const reply = await getAIResponse(content, historySnapshot);
+      historyRef.current = [...historyRef.current, { type: 'assistant', content: reply.content }];
+      setMessages(prev => [...prev, reply]);
+      if (reply.isFarewell) setIsFarewell(true);
+    } catch (err) {
+      console.error('[AIPage]', err);
+      const fallback = {
+        id:            `err_${Date.now()}`,
+        type:          'assistant',
+        content:       `Something went wrong. Reach Samir directly:\n\n• **Email:** ${personal.email}\n• **LinkedIn:** ${personal.linkedin}`,
+        timestamp:     new Date(),
+        infoCollected: null,
+        isFarewell:    false,
+      };
+      setMessages(prev => [...prev, fallback]);
+      setError('Could not fetch response — try again.');
+      historyRef.current = historyRef.current.slice(0, -1);
+    } finally {
+      setIsTyping(false);
+    }
+  }, [isFarewell, isTyping]);
+
+  const showSuggestions = messages.length <= 1 && !isTyping;
+
+  return (
+    <div className="ai-page-shell">
+
+      {/* Background — identical to Home */}
+      <AIBackground />
+
+      {/* Navbar */}
+      <AINavbar />
+
+      {/* Chat */}
+      <div className="ai-main-content">
+        <div className="ai-chat-surface">
+
+          <ChatHeader msgCount={messages.length} />
+
+          <MessageList
+            messages={messages}
+            isTyping={isTyping}
+            resumeUrl={personal.resumeUrl}
+          />
+
+          {error && (
+            <div className="ai-error-banner">⚠️ {error}</div>
+          )}
+
+          {isFarewell && (
+            <div className="ai-farewell-banner">
+              👋 Conversation ended.{' '}
+              <a href={`mailto:${personal.email}`}>Email Samir</a>
+              {' '}or{' '}
+              <button
+                onClick={() => window.location.reload()}
+                style={{
+                  background: 'none', border: 'none', padding: 0,
+                  color: 'var(--ai-cyan)', cursor: 'pointer',
+                  font: 'inherit', textDecoration: 'underline',
+                }}
+              >
+                start a new chat
+              </button>.
+            </div>
+          )}
+
+          {!isFarewell && (
+            <InputBar
+              onSend={handleSend}
+              disabled={isTyping}
+              showSuggestions={showSuggestions}
+            />
+          )}
+
+        </div>
+      </div>
+
+    </div>
+  );
+}
