@@ -1,7 +1,7 @@
 import { useState, useEffect, useRef, useCallback } from 'react';
 import portfolioData from '../data/portfolioContent.json';
 import { useInView } from '../hooks/useInView';
-import { SECTION_IDS, BACKGROUND_DARK } from '../constants';
+import { SECTION_IDS } from '../constants';
 import { EXP_THEMES } from '../constants/themes';
 
 function getTheme(index) {
@@ -92,10 +92,7 @@ function ExperienceCard({ exp, index, active, theme, inView }) {
 
         {/* Header row */}
         <div className="flex flex-wrap items-center gap-2 mb-4">
-          <span
-            className="px-3 py-1 rounded-full text-xs font-bold text-white"
-            style={{ background: `linear-gradient(135deg, ${theme.from}, ${theme.to})` }}
-          >
+          <span className="px-3 py-1 rounded-full text-xs font-bold border border-white/15 bg-white/5 text-slate-200">
             {exp.period}
           </span>
           <span className="px-2.5 py-1 rounded-full text-xs font-medium text-slate-400 border border-white/10 bg-white/5">
@@ -199,7 +196,6 @@ export default function Experience() {
 
   const [headerRef, headerInView] = useInView(0.2);
   const [cardsRef,  cardsInView]  = useInView(0.05);
-  const [ctaRef,    ctaInView]    = useInView(0.2);
 
   // ── Scroll handler ──────────────────────────────────────────────────────────
   const handleScroll = useCallback(() => {
@@ -246,16 +242,8 @@ export default function Experience() {
       <section
         id={SECTION_IDS.EXPERIENCE}
         ref={sectionRef}
-        className="relative py-28 overflow-hidden"
-        style={{ background: BACKGROUND_DARK }}
+        className="relative py-14 overflow-hidden"
       >
-        {/* Background */}
-        <div className="absolute inset-0 grid-subtle pointer-events-none" />
-        <div className="absolute top-0 left-0 w-[500px] h-[500px] rounded-full opacity-10 pointer-events-none"
-          style={{ background: 'radial-gradient(circle, #34d399, transparent 70%)', filter: 'blur(80px)', transform: 'translate(-30%, -30%)' }} />
-        <div className="absolute bottom-0 right-0 w-[400px] h-[400px] rounded-full opacity-10 pointer-events-none"
-          style={{ background: 'radial-gradient(circle, #38bdf8, transparent 70%)', filter: 'blur(80px)', transform: 'translate(30%, 30%)' }} />
-
         <div className="relative z-10 max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
 
           {/* ── Header ── */}
@@ -449,48 +437,12 @@ export default function Experience() {
             </div>
           </div>
 
-          {/* ── CTA ── */}
-          <div
-            ref={ctaRef}
-            className="mt-24 relative rounded-3xl overflow-hidden p-10 sm:p-14 text-center"
-            style={{
-              background: 'linear-gradient(135deg, #1a2744 0%, #0d3321 50%, #1a2744 100%)',
-              border: '1px solid rgba(255,255,255,0.1)',
-              opacity: ctaInView ? 1 : 0,
-              transform: ctaInView ? 'translateY(0)' : 'translateY(24px)',
-              transition: 'opacity 0.7s ease 0.1s, transform 0.7s cubic-bezier(.22,1,.36,1) 0.1s',
-            }}
-          >
-            <div
-              className="absolute inset-0 pointer-events-none"
-              style={{ background: 'linear-gradient(135deg, rgba(52,211,153,0.1), rgba(56,189,248,0.12), rgba(129,140,248,0.08))' }}
-            />
-            <div
-              className="absolute top-0 left-1/2 -translate-x-1/2 w-72 h-72 rounded-full pointer-events-none"
-              style={{ background: 'radial-gradient(circle, rgba(52,211,153,0.2), transparent 70%)', filter: 'blur(40px)' }}
-            />
-            <div className="relative z-10">
-              <h3 className="font-display text-2xl sm:text-3xl font-black text-white mb-3">
-                {experience.cta.title}
-              </h3>
-              <p className="text-slate-300 mb-8 max-w-xl mx-auto text-base leading-relaxed">
-                {experience.cta.description}
-              </p>
-              <button
-                onClick={() => document.getElementById(SECTION_IDS.CONTACT)?.scrollIntoView({ behavior: 'smooth' })}
-                className="cta-btn-primary inline-flex items-center justify-center px-8 py-3.5 rounded-full font-semibold text-sm"
-              >
-                <span>{experience.cta.buttonText}</span>
-              </button>
-            </div>
-          </div>
-
         </div>
 
         {/* Edge fade */}
         <div
           className="absolute bottom-0 left-0 right-0 h-32 pointer-events-none"
-          style={{ background: `linear-gradient(to top, ${BACKGROUND_DARK}, transparent)` }}
+          style={{ background: 'linear-gradient(to top, rgba(6,8,17,0.6), transparent)' }}
         />
       </section>
     </>

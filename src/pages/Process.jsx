@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { useInView } from '../hooks/useInView';
-import { NAV_ANCHORS, SECTION_IDS, BACKGROUND_DARK } from '../constants';
+import { NAV_ANCHORS, SECTION_IDS } from '../constants';
 
 /* ─────────────────────────────────────────────
    6 process steps
@@ -189,13 +189,7 @@ export default function Process() {
 
   return (
     <>
-      <section id={SECTION_IDS.PROCESS} className="relative py-28 overflow-hidden" style={{ background: BACKGROUND_DARK }}>
-        <div className="absolute inset-0 grid-subtle pointer-events-none"/>
-        <div className="absolute top-0 left-0 w-96 h-96 rounded-full opacity-10 pointer-events-none"
-          style={{background:'radial-gradient(circle,#38bdf8,transparent 70%)',filter:'blur(80px)',transform:'translate(-30%,-30%)'}}/>
-        <div className="absolute bottom-0 right-0 w-80 h-80 rounded-full opacity-10 pointer-events-none"
-          style={{background:'radial-gradient(circle,#f472b6,transparent 70%)',filter:'blur(80px)',transform:'translate(30%,30%)'}}/>
-
+      <section id={SECTION_IDS.PROCESS} className="relative py-14 overflow-hidden">
         <div className="relative z-10 max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
 
           {/* Header */}
@@ -405,7 +399,7 @@ export default function Process() {
         </div>
 
         <div className="absolute bottom-0 left-0 right-0 h-32 pointer-events-none"
-          style={{ background: `linear-gradient(to top, ${BACKGROUND_DARK}, transparent)` }}/>
+          style={{ background: `linear-gradient(to top, transparent)` }}/>
       </section>
     </>
   );

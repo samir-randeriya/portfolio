@@ -4,23 +4,21 @@ import React, { lazy, Suspense } from 'react';
 import Navbar from '../components/Navbar';
 import Home from './Home';
 import ErrorBoundary from '../components/ErrorBoundary';
-import { BACKGROUND_DARK } from '../constants';
+import PageBackgroundWrapper from '../components/PageBackgroundWrapper';
 
 // Non-critical components - lazy loaded
 const Footer = lazy(() => import('../components/Footer'));
 const SocialSidebar = lazy(() => import('../components/SocialSidebar'));
-const StatsCounter = lazy(() => import('../components/StatsCounter'));
 const Testimonials = lazy(() => import('../components/Testimonials'));
 const About = lazy(() => import('./About'));
 const Skills = lazy(() => import('./Skills'));
 const Projects = lazy(() => import('./Projects'));
-const Process = lazy(() => import('./Process'));
 const Experience = lazy(() => import('./Experience'));
 const Contact = lazy(() => import('./Contact'));
 
 // Section loading fallback - matches portfolio dark theme (seamless, no breakdown)
 const SectionFallback = () => (
-  <div className="py-20 relative" style={{ background: BACKGROUND_DARK }}>
+  <div className="py-20 relative">
     <div
       className="absolute inset-0 pointer-events-none opacity-30"
       style={{
@@ -51,86 +49,76 @@ const SectionFallback = () => (
  */
 const PortfolioHome = () => {
   return (
-    <div className="bg-white dark:bg-gray-900 text-gray-800 dark:text-white transition-all duration-300">
-      {/* Skip to Content Link */}
-      <a
-        href="#main-content"
-        className="sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-4 focus:z-[100] focus:px-6 focus:py-3 focus:bg-blue-600 focus:text-white focus:rounded-lg focus:font-semibold focus:shadow-lg focus:outline-none focus:ring-4 focus:ring-blue-300 dark:focus:ring-blue-800 transition-all"
-      >
-        Skip to main content
-      </a>
+    <PageBackgroundWrapper>
+      <div className="page-container bg-transparent text-gray-800 dark:text-white transition-all duration-300">
+        {/* Skip to Content Link */}
+        <a
+          href="#main-content"
+          className="sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-4 focus:z-[100] focus:px-6 focus:py-3 focus:bg-blue-600 focus:text-white focus:rounded-lg focus:font-semibold focus:shadow-lg focus:outline-none focus:ring-4 focus:ring-blue-300 dark:focus:ring-blue-800 transition-all"
+        >
+          Skip to main content
+        </a>
 
-      {/* Social Sidebar */}
-      <ErrorBoundary>
-        <Suspense fallback={null}>
-          <SocialSidebar />
-        </Suspense>
-      </ErrorBoundary>
-
-      {/* Navbar */}
-      <Navbar />
-
-      <main id="main-content" role="main">
-        {/* Hero Section */}
-        <Home />
-
-        {/* All Portfolio Sections */}
+        {/* Social Sidebar */}
         <ErrorBoundary>
-          <Suspense fallback={<SectionFallback />}>
-            <StatsCounter />
+          <Suspense fallback={null}>
+            <SocialSidebar />
           </Suspense>
         </ErrorBoundary>
 
+        {/* Navbar */}
+        <Navbar />
+
+        <main id="main-content" role="main">
+          {/* Hero Section */}
+          <Home />
+
+          {/* All Portfolio Sections */}
+          <ErrorBoundary>
+            <Suspense fallback={<SectionFallback />}>
+              <About />
+            </Suspense>
+          </ErrorBoundary>
+
+          <ErrorBoundary>
+            <Suspense fallback={<SectionFallback />}>
+              <Skills />
+            </Suspense>
+          </ErrorBoundary>
+
+          <ErrorBoundary>
+            <Suspense fallback={<SectionFallback />}>
+              <Projects />
+            </Suspense>
+          </ErrorBoundary>
+
+          <ErrorBoundary>
+            <Suspense fallback={<SectionFallback />}>
+              <Testimonials />
+            </Suspense>
+          </ErrorBoundary>
+
+          <ErrorBoundary>
+            <Suspense fallback={<SectionFallback />}>
+              <Experience />
+            </Suspense>
+          </ErrorBoundary>
+
+          <ErrorBoundary>
+            <Suspense fallback={<SectionFallback />}>
+              <Contact />
+            </Suspense>
+          </ErrorBoundary>
+        </main>
+
+        {/* Footer */}
         <ErrorBoundary>
-          <Suspense fallback={<SectionFallback />}>
-            <About />
+          <Suspense fallback={null}>
+            <Footer />
           </Suspense>
         </ErrorBoundary>
-
-        <ErrorBoundary>
-          <Suspense fallback={<SectionFallback />}>
-            <Skills />
-          </Suspense>
-        </ErrorBoundary>
-
-        <ErrorBoundary>
-          <Suspense fallback={<SectionFallback />}>
-            <Projects />
-          </Suspense>
-        </ErrorBoundary>
-
-        <ErrorBoundary>
-          <Suspense fallback={<SectionFallback />}>
-            <Process />
-          </Suspense>
-        </ErrorBoundary>
-
-        <ErrorBoundary>
-          <Suspense fallback={<SectionFallback />}>
-            <Testimonials />
-          </Suspense>
-        </ErrorBoundary>
-
-        <ErrorBoundary>
-          <Suspense fallback={<SectionFallback />}>
-            <Experience />
-          </Suspense>
-        </ErrorBoundary>
-
-        <ErrorBoundary>
-          <Suspense fallback={<SectionFallback />}>
-            <Contact />
-          </Suspense>
-        </ErrorBoundary>
-      </main>
-
-      {/* Footer */}
-      <ErrorBoundary>
-        <Suspense fallback={null}>
-          <Footer />
-        </Suspense>
-      </ErrorBoundary>
-    </div>
+      </div>
+    </PageBackgroundWrapper>
   );
 };
 

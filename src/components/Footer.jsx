@@ -1,5 +1,5 @@
 import portfolioData from '../data/portfolioContent.json';
-import { NAV_ANCHORS, BACKGROUND_DARK } from '../constants';
+import { NAV_ANCHORS } from '../constants';
 
 export default function Footer() {
   const currentYear = new Date().getFullYear();
@@ -20,10 +20,6 @@ export default function Footer() {
     <>
       <style>{`
         .footer-grid-bg {
-          background-color: ${BACKGROUND_DARK};
-          background-image:
-            linear-gradient(rgba(255,255,255,0.018) 1px, transparent 1px),
-            linear-gradient(90deg, rgba(255,255,255,0.018) 1px, transparent 1px);
           background-size: 60px 60px;
         }
       `}</style>

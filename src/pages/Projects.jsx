@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import portfolioData from '../data/portfolioContent.json';
 import ImagePreviewModal from '../components/ImagePreviewModal';
 import { useInView } from '../hooks/useInView';
-import { SECTION_IDS, BACKGROUND_DARK } from '../constants';
+import { SECTION_IDS } from '../constants';
 import { 
   FaGithub, 
   FaExternalLinkAlt,
@@ -38,8 +38,8 @@ function FeaturedProject({ project, index, inView }) {
         {/* Category badge */}
         <div>
           <span
-            className="inline-flex items-center px-3 py-1 rounded-full text-xs font-semibold text-white"
-            style={{ background: `linear-gradient(135deg, ${theme.from}, ${theme.to})` }}
+            className="inline-flex items-center px-3 py-1 rounded-full text-xs font-semibold border"
+            style={{ borderColor: `${theme.from}55`, color: theme.from, background: `${theme.from}10` }}
           >
             {project.category}
           </span>
@@ -77,17 +77,9 @@ function FeaturedProject({ project, index, inView }) {
           {project.metrics.map((metric) => (
             <div
               key={metric.label}
-              className="rounded-xl border border-white/8 bg-white/3 px-3 py-3 text-center"
+              className="rounded-xl border border-white/10 bg-white/3 px-3 py-3 text-center"
             >
-              <div
-                className="text-base font-black leading-none mb-1"
-                style={{
-                  background: `linear-gradient(135deg, ${theme.from}, ${theme.to})`,
-                  WebkitBackgroundClip: 'text',
-                  WebkitTextFillColor: 'transparent',
-                  backgroundClip: 'text',
-                }}
-              >
+              <div className="text-base font-black leading-none mb-1 text-white">
                 {metric.value}
               </div>
               <div className="text-slate-500 text-xs">{metric.label}</div>
@@ -239,17 +231,18 @@ function OtherProjectCard({ project, index, inView }) {
         {/* Icon + category */}
         <div className="flex items-center justify-between mb-5">
           <div
-            className="w-12 h-12 rounded-xl flex items-center justify-center text-2xl group-hover:scale-110 transition-transform duration-300"
+            className="w-12 h-12 rounded-xl flex items-center justify-center font-black text-xl group-hover:scale-110 transition-transform duration-300 select-none"
             style={{
-              background: `linear-gradient(135deg, ${theme.from}22, ${theme.to}22)`,
-              border: `1px solid ${theme.from}33`,
+              background: 'rgba(255,255,255,0.05)',
+              border: '1px solid rgba(255,255,255,0.1)',
+              color: theme.from,
             }}
           >
-            {project.image}
+            {project.title.charAt(0)}
           </div>
           <span
-            className="px-2.5 py-1 rounded-full text-xs font-semibold text-white"
-            style={{ background: `linear-gradient(135deg, ${theme.from}, ${theme.to})` }}
+            className="px-2.5 py-1 rounded-full text-xs font-semibold border"
+            style={{ borderColor: `${theme.from}55`, color: theme.from, background: `${theme.from}10` }}
           >
             {project.category}
           </span>
@@ -425,37 +418,21 @@ function ProjectSlider({ projects, inView }) {
 
 // ─── Main Component ────────────────────────────────────────────────────────────
 export default function Projects() {
-  const { projects, personal } = portfolioData;
+  const { projects } = portfolioData;
 
   const featuredProjects = projects.projects.filter(p => p.featured);
   const otherProjects    = projects.projects.filter(p => !p.featured);
 
-  const scrollToContact = () =>
-    document.getElementById(SECTION_IDS.CONTACT)?.scrollIntoView({ behavior: 'smooth' });
-  const openGithub = () =>
-    window.open(personal.github, '_blank');
-
-  const buttonActions = { scrollToContact, openGithub };
-
   const [headerRef, headerInView]   = useInView(0.2);
   const [featuredRef, featuredInView] = useInView(0.05);
   const [otherRef,  otherInView]    = useInView(0.1);
-  const [ctaRef,    ctaInView]      = useInView(0.2);
 
   return (
     <>
       <section
         id={SECTION_IDS.PROJECTS}
-        className="relative py-28 overflow-hidden"
-        style={{ background: BACKGROUND_DARK }}
+        className="relative py-14 overflow-hidden"
       >
-        {/* Background */}
-        <div className="absolute inset-0 grid-subtle pointer-events-none" />
-        <div className="absolute top-0 left-0 w-[500px] h-[500px] rounded-full opacity-10 pointer-events-none"
-          style={{ background: 'radial-gradient(circle, #38bdf8, transparent 70%)', filter: 'blur(80px)', transform: 'translate(-30%, -30%)' }} />
-        <div className="absolute bottom-0 right-0 w-[400px] h-[400px] rounded-full opacity-10 pointer-events-none"
-          style={{ background: 'radial-gradient(circle, #a78bfa, transparent 70%)', filter: 'blur(80px)', transform: 'translate(30%, 30%)' }} />
-
         <div className="relative z-10 max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
 
           {/* ── Section header ── */}
@@ -533,57 +510,12 @@ export default function Projects() {
             </div>
           )}
 
-          {/* ── CTA — from projects.cta ── */}
-          <div
-            ref={ctaRef}
-            className="relative rounded-3xl overflow-hidden p-10 sm:p-14 text-center"
-            style={{
-              background: 'linear-gradient(135deg, #1a2744 0%, #2d1b69 50%, #1a2744 100%)',
-              border: '1px solid rgba(255,255,255,0.1)',
-              opacity: ctaInView ? 1 : 0,
-              transform: ctaInView ? 'translateY(0)' : 'translateY(24px)',
-              transition: 'opacity 0.7s ease 0.1s, transform 0.7s cubic-bezier(.22,1,.36,1) 0.1s',
-            }}
-          >
-            {/* Overlay mesh */}
-            <div
-              className="absolute inset-0 pointer-events-none"
-              style={{ background: 'linear-gradient(135deg, rgba(56,189,248,0.1) 0%, rgba(129,140,248,0.15) 50%, rgba(244,114,182,0.08) 100%)' }}
-            />
-            <div
-              className="absolute top-0 left-1/2 -translate-x-1/2 w-72 h-72 rounded-full pointer-events-none"
-              style={{ background: 'radial-gradient(circle, rgba(99,102,241,0.25), transparent 70%)', filter: 'blur(40px)' }}
-            />
-
-            <div className="relative z-10">
-              <h3 className="font-display text-2xl sm:text-3xl font-black text-white mb-3">
-                {projects.cta.title}
-              </h3>
-              <p className="text-slate-300 mb-8 max-w-xl mx-auto text-base leading-relaxed">
-                {projects.cta.description}
-              </p>
-              <div className="flex flex-col sm:flex-row gap-4 justify-center">
-                {projects.cta.buttons.map((btn, i) => (
-                  <button
-                    key={i}
-                    onClick={btn.action ? buttonActions[btn.action] : undefined}
-                    className={`inline-flex items-center justify-center px-8 py-3.5 rounded-full font-semibold text-sm cursor-pointer ${
-                      btn.type === 'primary' ? 'cta-btn-primary' : 'cta-btn-secondary'
-                    }`}
-                  >
-                    {btn.text}
-                  </button>
-                ))}
-              </div>
-            </div>
-          </div>
-
         </div>
 
         {/* Edge fade */}
         <div
           className="absolute bottom-0 left-0 right-0 h-32 pointer-events-none"
-          style={{ background: `linear-gradient(to top, ${BACKGROUND_DARK}, transparent)` }}
+          style={{ background: 'linear-gradient(to top, rgba(6,8,17,0.6), transparent)' }}
         />
       </section>
     </>

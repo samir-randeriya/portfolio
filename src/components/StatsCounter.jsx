@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import portfolioData from '../data/portfolioContent.json';
 import { useInView } from '../hooks/useInView';
-import { SECTION_IDS, BACKGROUND_DARK } from '../constants';
+import { SECTION_IDS } from '../constants';
 
 // ─── Helpers ──────────────────────────────────────────────────────────────────
 function useCountUp(target, isVisible, duration = 2000, delay = 0) {
@@ -72,16 +72,16 @@ const STAT_META = [
     description: 'Building scalable systems for startups & enterprises',
   },
   {
-    key: 'passion',
+    key: 'projectsDelivered',
     icon: (
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={1.5} className="w-7 h-7">
         <path strokeLinecap="round" strokeLinejoin="round"
-          d="M9.813 15.904L9 18.75l-.813-2.846a4.5 4.5 0 00-3.09-3.09L2.25 12l2.846-.813a4.5 4.5 0 003.09-3.09L9 5.25l.813 2.846a4.5 4.5 0 003.09 3.09L15.75 12l-2.846.813a4.5 4.5 0 00-3.09 3.09z" />
+          d="M9 12.75L11.25 15 15 9.75M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
       </svg>
     ),
     accent: '#fb923c',
     accent2: '#f43f5e',
-    description: 'Clean, maintainable, security-first code on every project',
+    description: 'Projects delivered to production for startups and enterprises',
   },
 ];
 
@@ -171,15 +171,14 @@ export default function StatsCounter() {
       <section
         id={SECTION_IDS.STATS}
         ref={sectionRef}
-        className={`relative py-28 overflow-hidden ${isVisible ? 'stats-visible' : ''}`}
-        style={{ background: BACKGROUND_DARK }}
+        className={`relative py-14 overflow-hidden ${isVisible ? 'stats-visible' : ''}`}
       >
         {/* Background */}
-        <div className="absolute inset-0 grid-subtle pointer-events-none" />
+        {/* <div className="absolute inset-0 grid-subtle pointer-events-none" />
         <div className="absolute top-0 left-1/3 w-[500px] h-[500px] rounded-full opacity-10 pointer-events-none accent-pulse"
           style={{ background: 'radial-gradient(circle, #38bdf8, transparent 70%)', filter: 'blur(80px)' }} />
         <div className="absolute bottom-0 right-1/4 w-[400px] h-[400px] rounded-full opacity-10 pointer-events-none accent-pulse"
-          style={{ background: 'radial-gradient(circle, #818cf8, transparent 70%)', filter: 'blur(80px)', animationDelay: '1.5s' }} />
+          style={{ background: 'radial-gradient(circle, #818cf8, transparent 70%)', filter: 'blur(80px)', animationDelay: '1.5s' }} /> */}
 
         <div className="relative z-10 max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
 
@@ -267,7 +266,7 @@ export default function StatsCounter() {
         {/* Edge fade */}
         <div
           className="absolute bottom-0 left-0 right-0 h-32 pointer-events-none"
-          style={{ background: `linear-gradient(to top, ${BACKGROUND_DARK}, transparent)` }}
+          style={{ background: `linear-gradient(to top, transparent)` }}
         />
       </section>
     </>

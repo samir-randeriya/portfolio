@@ -3,6 +3,7 @@
     "name": "Samir Randeriya",
     "firstName": "Samir",
     "lastName": "Randeriya",
+    "avatar": "/profile.PNG",
     "initials": "SR",
     "title": "Laravel Backend Specialist",
     "roles": [
@@ -30,43 +31,25 @@
   "hero": {
     "greeting": "Hi, I'm",
     "rolePrefix": "I'm a ",
-    "description": "I help **startups and enterprises** ship **secure, scalable web applications** faster specializing in **Laravel backend systems** and **modern full-stack solutions** that drive real growth and business impact.",
+    "description": "I help **startups and enterprises** ship **secure, scalable web applications** with Laravel backends and modern full-stack solutions that drive real impact.",
     "techStack": [
       "PHP",
       "Laravel",
       "React.js",
       "Vue.js",
-      "Nuxt.js",
-      "Next.js",
-      "REST APIs",
-      "Payment Integration",
-      "Redis",
       "MySQL",
-      "PostgreSQL",
-      "Docker",
-      "Cloud Services",
-      "Tailwind CSS",
-      "TypeScript",
-      "Git"
+      "Docker"
     ],
     "buttons": [
       {
         "text": "View My Work",
-        "icon": "🚀",
         "action": "scrollToProjects",
         "type": "primary"
       },
       {
         "text": "Download Resume",
-        "icon": "📄",
         "action": "downloadResume",
         "type": "secondary"
-      },
-      {
-        "text": "Let's Talk",
-        "icon": "💬",
-        "action": "scrollToContact",
-        "type": "ghost"
       }
     ]
   },
@@ -112,8 +95,8 @@
         "color": "from-pink-500 to-red-500"
       },
       {
-        "number": "100%",
-        "label": "Code Passion",
+        "number": "30+",
+        "label": "Projects Delivered",
         "color": "from-green-500 to-emerald-500"
       }
     ],
@@ -292,7 +275,7 @@
     ],
     "cta": {
       "title": "Let's Build Future-Ready Solutions",
-      "description": "If you're looking to work with someone who combines experience with modern tools to create impactful digital products—I'm your developer.",
+      "description": "If you're looking to work with someone who combines experience with modern tools to create impactful digital products, I'm your developer.",
       "buttons": [
         {
           "text": "View My Projects",
@@ -309,7 +292,7 @@
   },
   "projects": {
     "title": "Projects That Solve Real Problems",
-    "subtitle": "From concept to deployment—here's how I've helped businesses ship better software faster.",
+    "subtitle": "From concept to deployment, here's how I've helped businesses ship better software faster.",
     "projects": [
       {
         "id": "01",
@@ -963,10 +946,6 @@
       {
         "name": "Experience",
         "href": "#experience"
-      },
-      {
-        "name": "AI Chat",
-        "href": "#chat"
       },
       {
         "name": "Contact",

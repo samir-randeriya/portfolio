@@ -2,7 +2,7 @@ import { useState } from 'react';
 import portfolioData from '../data/portfolioContent.json';
 import { useInView } from '../hooks/useInView';
 import { parseBold } from '../utils/parseBold';
-import { SECTION_IDS, BACKGROUND_DARK } from '../constants';
+import { SECTION_IDS } from '../constants';
 import { COLOR_MAP, QUALITY_ACCENTS } from '../constants/themes';
 import { QUALITY_ICON_MAP } from '../constants/icons';
 
@@ -23,7 +23,7 @@ function ProgressBar({ skill, index, animate }) {
             width: animate ? `${skill.percentage}%` : '0%',
             background: `linear-gradient(to right, ${colors.from}, ${colors.to})`,
             transitionDelay: `${index * 0.12}s`,
-            boxShadow: `0 0 8px ${colors.from}55`,
+            boxShadow: `0 0 3px ${colors.from}22`,
           }}
         />
       </div>
@@ -48,21 +48,14 @@ function QualityCard({ quality, index, inView }) {
 
   return (
     <div
-      className="quality-card group relative rounded-2xl border p-6 flex flex-col overflow-hidden"
+      className="quality-card group relative rounded-2xl border border-white/10 p-6 flex flex-col overflow-hidden hover:border-white/25"
       style={{
         background: 'rgba(255,255,255,0.03)',
-        borderColor: 'rgba(255,255,255,0.08)',
         opacity: inView ? 1 : 0,
         transform: inView ? 'translateY(0)' : 'translateY(24px)',
-        transition: `opacity 0.6s ease ${0.2 + index * 0.1}s, transform 0.6s cubic-bezier(.22,1,.36,1) ${0.2 + index * 0.1}s`,
+        transition: `opacity 0.6s ease ${0.2 + index * 0.1}s, transform 0.6s cubic-bezier(.22,1,.36,1) ${0.2 + index * 0.1}s, border-color 0.25s ease`,
       }}
     >
-      {/* Hover glow */}
-      <div
-        className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none rounded-2xl"
-        style={{ background: `radial-gradient(180px circle at 50% 0%, ${accent}15, transparent 70%)` }}
-      />
-
       {/* Icon */}
       <div
         className="w-11 h-11 rounded-xl flex items-center justify-center flex-shrink-0 relative z-10 mb-4"
@@ -145,24 +138,14 @@ export default function About() {
   const [headerRef, headerInView] = useInView(0.2);
   const [leftRef,   leftInView]   = useInView(0.2);
   const [rightRef,  rightInView]  = useInView(0.2);
-  const [statsRef,  statsInView]  = useInView(0.15);
   const [qualRef,   qualInView]   = useInView(0.15);
-  const [ctaRef,    ctaInView]    = useInView(0.2);
 
   return (
     <>
       <section
         id={SECTION_IDS.ABOUT}
-        className="relative py-28 overflow-hidden"
-        style={{ background: BACKGROUND_DARK }}
+        className="relative py-14 overflow-hidden"
       >
-        {/* Background */}
-        <div className="absolute inset-0 grid-subtle pointer-events-none" />
-        <div className="absolute top-0 right-0 w-[500px] h-[500px] rounded-full opacity-10 pointer-events-none"
-          style={{ background: 'radial-gradient(circle, #818cf8, transparent 70%)', filter: 'blur(80px)', transform: 'translate(30%, -30%)' }} />
-        <div className="absolute bottom-0 left-0 w-[400px] h-[400px] rounded-full opacity-10 pointer-events-none"
-          style={{ background: 'radial-gradient(circle, #38bdf8, transparent 70%)', filter: 'blur(80px)', transform: 'translate(-30%, 30%)' }} />
-
         <div className="relative z-10 max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
 
           {/* ── Section header ── */}
@@ -241,42 +224,6 @@ export default function About() {
             </div>
           </div>
 
-          {/* ── Stats row — full width, 4 columns desktop / 2×2 tablet / 1 col mobile ── */}
-          <div ref={statsRef} className="stats-grid mb-24">
-            {about.personalStats.map((stat, i) => (
-              <div
-                key={stat.label}
-                className="stat-card rounded-xl border border-white/8 bg-white/3 px-6 py-5"
-                style={{
-                  opacity: statsInView ? 1 : 0,
-                  transform: statsInView ? 'translateY(0)' : 'translateY(20px)',
-                  transition: `opacity 0.55s ease ${0.1 + i * 0.09}s, transform 0.55s cubic-bezier(.22,1,.36,1) ${0.1 + i * 0.09}s`,
-                }}
-              >
-                {/* Subtle top accent */}
-                <div style={{
-                  height: '2px',
-                  width: '32px',
-                  borderRadius: '2px',
-                  marginBottom: '14px',
-                  background: `linear-gradient(to right, ${QUALITY_ACCENTS[i % 4]}, ${QUALITY_ACCENTS[(i + 1) % 4]})`,
-                }} />
-                <div
-                  className="text-3xl font-black leading-none mb-2"
-                  style={{
-                    background: `linear-gradient(135deg, ${QUALITY_ACCENTS[i % 4]}, ${QUALITY_ACCENTS[(i + 1) % 4]})`,
-                    WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', backgroundClip: 'text',
-                  }}
-                >
-                  {stat.number}
-                </div>
-                <div className="text-slate-500 text-xs font-medium uppercase tracking-wider">
-                  {stat.label}
-                </div>
-              </div>
-            ))}
-          </div>
-
           {/* ── What Makes Me Different ── */}
           <div ref={qualRef}>
             <div
@@ -308,49 +255,30 @@ export default function About() {
             </div>
           </div>
 
-          {/* ── CTA Banner ── */}
-          <div
-            ref={ctaRef}
-            className="mt-16 relative rounded-3xl overflow-hidden p-10 sm:p-14 text-center"
-            style={{
-              background: 'linear-gradient(135deg, #1e3a5f 0%, #2d1b69 50%, #1e3a5f 100%)',
-              border: '1px solid rgba(255,255,255,0.1)',
-              opacity: ctaInView ? 1 : 0,
-              transform: ctaInView ? 'translateY(0)' : 'translateY(24px)',
-              transition: 'opacity 0.7s ease 0.1s, transform 0.7s cubic-bezier(.22,1,.36,1) 0.1s',
-            }}
-          >
-            <div className="absolute inset-0 pointer-events-none"
-              style={{ background: 'linear-gradient(135deg, rgba(56,189,248,0.12) 0%, rgba(129,140,248,0.18) 50%, rgba(244,114,182,0.1) 100%)' }} />
-            <div className="absolute top-0 left-1/2 -translate-x-1/2 w-64 h-64 rounded-full pointer-events-none"
-              style={{ background: 'radial-gradient(circle, rgba(129,140,248,0.3), transparent 70%)', filter: 'blur(40px)' }} />
-            <div className="relative z-10">
-              <h3 className="font-display text-2xl sm:text-3xl font-black text-white mb-3">
-                {about.cta.title}
-              </h3>
-              <p className="text-slate-300 mb-8 max-w-xl mx-auto text-base leading-relaxed">
-                {about.cta.description}
-              </p>
-              <div className="flex flex-col sm:flex-row gap-4 justify-center">
-                {about.cta.buttons.map((btn, i) => (
-                  <a
-                    key={i}
-                    href={btn.href}
-                    className={`inline-flex items-center justify-center px-8 py-3.5 rounded-full font-semibold text-sm ${
-                      btn.type === 'primary' ? 'cta-btn-primary' : 'cta-btn-secondary'
-                    }`}
-                  >
-                    {btn.text}
-                  </a>
-                ))}
-              </div>
-            </div>
+          {/* ── Inline stats row (bottom of About) ── */}
+          <div className="mt-16 pt-8 border-t border-white/8 flex flex-wrap items-center justify-center gap-x-8 gap-y-2 text-slate-400 text-sm">
+            {about.personalStats.map((stat, i) => (
+              <span key={stat.label} className="inline-flex items-baseline gap-1.5">
+                <span
+                  className="font-bold tabular-nums"
+                  style={{
+                    background: `linear-gradient(135deg, ${QUALITY_ACCENTS[i % 4]}, ${QUALITY_ACCENTS[(i + 1) % 4]})`,
+                    WebkitBackgroundClip: 'text',
+                    WebkitTextFillColor: 'transparent',
+                    backgroundClip: 'text',
+                  }}
+                >
+                  {stat.number}
+                </span>
+                <span className="text-slate-500">{stat.label}</span>
+              </span>
+            ))}
           </div>
 
         </div>
 
         <div className="absolute bottom-0 left-0 right-0 h-32 pointer-events-none"
-          style={{ background: `linear-gradient(to top, ${BACKGROUND_DARK}, transparent)` }} />
+          style={{ background: 'linear-gradient(to top, rgba(6,8,17,0.6), transparent)' }} />
       </section>
     </>
   );

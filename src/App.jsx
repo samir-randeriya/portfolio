@@ -2,7 +2,6 @@ import React, { lazy, Suspense } from 'react';
 import { Routes, Route, useLocation } from 'react-router-dom';
 import { AnimatePresence, motion } from 'framer-motion';
 import { SpeedInsights } from "@vercel/speed-insights/react";
-import { BACKGROUND_DARK } from './constants';
 
 // AI Page - Modern UI from Lovable demo-ui
 import AIPage from './pages/AIPage';
@@ -11,7 +10,6 @@ import AIPage from './pages/AIPage';
 const PortfolioHome = lazy(() => import('./pages/PortfolioHome'));
 
 // Shared page background - matches portfolio dark theme for seamless transitions
-const PAGE_BG = BACKGROUND_DARK;
 const gridStyle = {
   backgroundImage: `
     linear-gradient(rgba(255,255,255,0.03) 1px, transparent 1px),
@@ -24,7 +22,6 @@ const gridStyle = {
 const LoadingFallback = () => (
   <div
     className="flex items-center justify-center min-h-screen transition-opacity duration-300"
-    style={{ background: PAGE_BG }}
   >
     <div className="absolute inset-0 pointer-events-none" style={gridStyle} />
     <div className="relative z-10 text-center">

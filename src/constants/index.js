@@ -19,7 +19,6 @@ export const SECTION_IDS = {
   PROJECTS: 'projects',
   PROCESS: 'process',
   CONTACT: 'contact',
-  STATS: 'stats',
 };
 
 // ─── External URLs ───────────────────────────────────────────────────────────

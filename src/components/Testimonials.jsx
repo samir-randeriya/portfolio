@@ -1,7 +1,6 @@
 import portfolioData from '../data/portfolioContent.json';
 import { SiUpwork } from 'react-icons/si';
 import { useInView } from '../hooks/useInView';
-import { NAV_ANCHORS, SECTION_IDS, BACKGROUND_DARK } from '../constants';
 import { CARD_ACCENTS, STAT_ACCENTS } from '../constants/themes';
 
 // ─── Star Rating ──────────────────────────────────────────────────────────────
@@ -131,36 +130,6 @@ function TestimonialCard({ testimonial, index, inView }) {
   );
 }
 
-// ─── "Coming soon" placeholder card ──────────────────────────────────────────
-function PlaceholderCard({ index, inView }) {
-  return (
-    <div
-      className="relative rounded-2xl border flex flex-col items-center justify-center p-7 overflow-hidden"
-      style={{
-        background: 'rgba(255,255,255,0.015)',
-        borderColor: 'rgba(255,255,255,0.06)',
-        borderStyle: 'dashed',
-        minHeight: '280px',
-        opacity: inView ? 1 : 0,
-        transform: inView ? 'translateY(0)' : 'translateY(28px)',
-        transition: `opacity 0.6s ease ${index * 0.1}s, transform 0.6s cubic-bezier(.22,1,.36,1) ${index * 0.1}s`,
-      }}
-    >
-      <div
-        className="w-12 h-12 rounded-xl flex items-center justify-center mb-4"
-        style={{ background: 'rgba(56,189,248,0.08)', border: '1px dashed rgba(56,189,248,0.2)' }}
-      >
-        <svg viewBox="0 0 24 24" fill="none" stroke="#38bdf8" strokeWidth={1.5} className="w-5 h-5 opacity-50">
-          <path strokeLinecap="round" strokeLinejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
-        </svg>
-      </div>
-      <p className="text-slate-600 text-sm text-center leading-relaxed max-w-[180px]">
-        More reviews coming soon from happy clients
-      </p>
-    </div>
-  );
-}
-
 // ─── Stats row — from reviews.stats in JSON ───────────────────────────────────
 function StatCard({ stat, index, inView }) {
   const accent = STAT_ACCENTS[index % STAT_ACCENTS.length];
@@ -204,33 +173,16 @@ export default function Testimonials() {
   const { reviews } = portfolioData;
   const testimonials = reviews.reviews;
 
-  // How many placeholder cards to fill the grid (min 3 visible slots)
-  const GRID_MIN = 3;
-  const placeholderCount = Math.max(0, GRID_MIN - testimonials.length);
-
   const [headerRef, headerInView] = useInView(0.2);
   const [gridRef,   gridInView]   = useInView(0.05);
   const [statsRef,  statsInView]  = useInView(0.1);
-  const [ctaRef,    ctaInView]    = useInView(0.2);
 
   return (
     <>
       <section
         id="proof"
-        className="relative py-28 overflow-hidden"
-        style={{ background: BACKGROUND_DARK }}
+        className="relative py-14 overflow-hidden"
       >
-        {/* Background */}
-        <div className="absolute inset-0 grid-subtle pointer-events-none" />
-        <div
-          className="absolute top-1/2 left-0 w-[500px] h-[500px] rounded-full opacity-10 pointer-events-none"
-          style={{ background: 'radial-gradient(circle, #facc15, transparent 70%)', filter: 'blur(80px)', transform: 'translate(-40%, -50%)' }}
-        />
-        <div
-          className="absolute top-1/2 right-0 w-[400px] h-[400px] rounded-full opacity-10 pointer-events-none"
-          style={{ background: 'radial-gradient(circle, #a78bfa, transparent 70%)', filter: 'blur(80px)', transform: 'translate(40%, -50%)' }}
-        />
-
         <div className="relative z-10 max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
 
           {/* ── Header ── */}
@@ -265,90 +217,35 @@ export default function Testimonials() {
             </p>
           </div>
 
-          {/* ── Testimonial grid — from reviews.reviews in JSON ── */}
+          {/* ── Testimonial grid — real reviews only, no placeholders ── */}
           <div
             ref={gridRef}
-            className={`grid gap-5 mb-16 ${
+            className={`mb-16 ${
               testimonials.length === 1
-                ? 'md:grid-cols-3'          // 1 real + 2 placeholders
+                ? 'flex justify-center'
                 : testimonials.length === 2
-                ? 'md:grid-cols-3'          // 2 real + 1 placeholder
-                : 'md:grid-cols-2 lg:grid-cols-3' // 3+ real reviews
+                ? 'grid md:grid-cols-2 gap-5 max-w-2xl mx-auto'
+                : 'grid md:grid-cols-2 lg:grid-cols-3 gap-5'
             }`}
           >
             {testimonials.map((t, i) => (
-              <TestimonialCard key={i} testimonial={t} index={i} inView={gridInView} />
-            ))}
-            {/* Placeholder cards to fill the row */}
-            {Array.from({ length: placeholderCount }, (_, i) => (
-              <PlaceholderCard key={`ph-${i}`} index={testimonials.length + i} inView={gridInView} />
+              <div
+                key={i}
+                className={testimonials.length === 1 ? 'w-full max-w-md' : ''}
+              >
+                <TestimonialCard testimonial={t} index={i} inView={gridInView} />
+              </div>
             ))}
           </div>
 
           {/* ── Stats row — from reviews.stats in JSON ── */}
           <div
             ref={statsRef}
-            className="grid grid-cols-2 sm:grid-cols-4 gap-4 mb-16"
+            className="grid grid-cols-2 sm:grid-cols-4 gap-4"
           >
             {reviews.stats.map((stat, i) => (
               <StatCard key={stat.label} stat={stat} index={i} inView={statsInView} />
             ))}
-          </div>
-
-          {/* ── CTA ── */}
-          <div
-            ref={ctaRef}
-            className="relative rounded-3xl overflow-hidden p-10 sm:p-14 text-center"
-            style={{
-              background: 'linear-gradient(135deg, #1a2744 0%, #2d1b69 50%, #1a2744 100%)',
-              border: '1px solid rgba(255,255,255,0.1)',
-              opacity: ctaInView ? 1 : 0,
-              transform: ctaInView ? 'translateY(0)' : 'translateY(24px)',
-              transition: 'opacity 0.7s ease 0.1s, transform 0.7s cubic-bezier(.22,1,.36,1) 0.1s',
-            }}
-          >
-            <div
-              className="absolute inset-0 pointer-events-none"
-              style={{ background: 'linear-gradient(135deg, rgba(250,204,21,0.08), rgba(129,140,248,0.14), rgba(244,114,182,0.07))' }}
-            />
-            <div
-              className="absolute top-0 left-1/2 -translate-x-1/2 w-72 h-72 rounded-full pointer-events-none"
-              style={{ background: 'radial-gradient(circle, rgba(250,204,21,0.15), transparent 70%)', filter: 'blur(40px)' }}
-            />
-
-            <div className="relative z-10">
-              <h3 className="font-display text-2xl sm:text-3xl font-black text-white mb-3">
-                {reviews.cta.title}
-              </h3>
-              <p className="text-slate-300 mb-8 max-w-xl mx-auto text-base leading-relaxed">
-                {reviews.cta.description}
-              </p>
-              <div className="flex flex-col sm:flex-row gap-4 justify-center">
-                {reviews.cta.buttons.map((btn, i) => (
-                  btn.action === 'scrollToContact' ? (
-                    <button
-                      key={i}
-                      onClick={() => document.getElementById(SECTION_IDS.CONTACT)?.scrollIntoView({ behavior: 'smooth' })}
-                      className={`inline-flex items-center justify-center px-8 py-3.5 rounded-full font-semibold text-sm cursor-pointer ${
-                        btn.type === 'primary' ? 'cta-btn-primary' : 'cta-btn-secondary'
-                      }`}
-                    >
-                      {btn.text}
-                    </button>
-                  ) : (
-                    <a
-                      key={i}
-                      href={btn.href || NAV_ANCHORS.PROJECTS}
-                      className={`inline-flex items-center justify-center px-8 py-3.5 rounded-full font-semibold text-sm ${
-                        btn.type === 'primary' ? 'cta-btn-primary' : 'cta-btn-secondary'
-                      }`}
-                    >
-                      {btn.text}
-                    </a>
-                  )
-                ))}
-              </div>
-            </div>
           </div>
 
         </div>
@@ -356,7 +253,7 @@ export default function Testimonials() {
         {/* Edge fade */}
         <div
           className="absolute bottom-0 left-0 right-0 h-32 pointer-events-none"
-          style={{ background: `linear-gradient(to top, ${BACKGROUND_DARK}, transparent)` }}
+          style={{ background: 'linear-gradient(to top, rgba(6,8,17,0.6), transparent)' }}
         />
       </section>
     </>

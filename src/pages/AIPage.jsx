@@ -64,6 +64,51 @@ function AINavbar() {
   );
 }
 
+// ─── Under progress — placeholder when AI chat is not yet live ─────────────────
+function AIUnderProgress() {
+  useEffect(() => {
+    const prev = {
+      overflow: document.body.style.overflow,
+      position: document.body.style.position,
+      width: document.body.style.width,
+    };
+    document.body.style.overflow = 'hidden';
+    document.body.style.position = 'fixed';
+    document.body.style.width = '100%';
+    return () => {
+      document.body.style.overflow = prev.overflow;
+      document.body.style.position = prev.position;
+      document.body.style.width = prev.width;
+    };
+  }, []);
+
+  return (
+    <div className="ai-page-shell">
+      <AIBackground />
+      <AINavbar />
+
+      <div className="ai-main-content">
+        <div className="ai-under-progress-content">
+          <div className="ai-under-progress-icon">🚧</div>
+          <h2 className="ai-under-progress-title">Under progress</h2>
+          <p className="ai-under-progress-text">
+            AI Chat is being built. Check back soon or reach out directly.
+          </p>
+          <a href={`mailto:${personal.email}`} className="ai-under-progress-cta">
+            Contact Samir
+          </a>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+// ─── Export: show Under progress; full chat implementation commented below ──────
+export default function AIPage() {
+  return <AIUnderProgress />;
+}
+
+/* ─── COMMENTED: Full AI Chat implementation (do not remove) ──────────────────
 // ─── Chat header ──────────────────────────────────────────────────────────────
 function ChatHeader({ msgCount }) {
   return (
@@ -100,8 +145,8 @@ function ChatHeader({ msgCount }) {
   );
 }
 
-// ─── Main AIPage ──────────────────────────────────────────────────────────────
-export default function AIPage() {
+// ─── Main AIPage (full chat) ───────────────────────────────────────────────────
+function AIPageFull() {
   const [messages,   setMessages]   = useState(() => [getInitialMessage()]);
   const [isTyping,   setIsTyping]   = useState(false);
   const [isFarewell, setIsFarewell] = useState(false);
@@ -109,7 +154,6 @@ export default function AIPage() {
 
   const historyRef = useRef([]);
 
-  // Lock body scroll while AI page is open
   useEffect(() => {
     const prev = {
       overflow: document.body.style.overflow,
@@ -128,7 +172,6 @@ export default function AIPage() {
     };
   }, []);
 
-  // Scroll-to-section after navigating back to home
   useEffect(() => {
     const target = sessionStorage.getItem('ai_scrollTo');
     if (target) {
@@ -182,29 +225,19 @@ export default function AIPage() {
 
   return (
     <div className="ai-page-shell">
-
-      {/* Background — identical to Home */}
       <AIBackground />
-
-      {/* Navbar */}
       <AINavbar />
-
-      {/* Chat */}
       <div className="ai-main-content">
         <div className="ai-chat-surface">
-
           <ChatHeader msgCount={messages.length} />
-
           <MessageList
             messages={messages}
             isTyping={isTyping}
             resumeUrl={personal.resumeUrl}
           />
-
           {error && (
             <div className="ai-error-banner">⚠️ {error}</div>
           )}
-
           {isFarewell && (
             <div className="ai-farewell-banner">
               👋 Conversation ended.{' '}
@@ -222,7 +255,6 @@ export default function AIPage() {
               </button>.
             </div>
           )}
-
           {!isFarewell && (
             <InputBar
               onSend={handleSend}
@@ -230,10 +262,9 @@ export default function AIPage() {
               showSuggestions={showSuggestions}
             />
           )}
-
         </div>
       </div>
-
     </div>
   );
 }
+──────────────────────────────────────────────────────────────────────────────── */
