@@ -1,4 +1,3 @@
-import { useCallback, useState } from 'react';
 import portfolioData from '../data/portfolioContent.json';
 import { useInView } from '../hooks/useInView';
 import { SECTION_IDS, BACKGROUND_DARK } from '../constants';

@@ -12,13 +12,6 @@ const PortfolioHome = lazy(() => import('./pages/PortfolioHome'));
 
 // Shared page background - matches portfolio dark theme for seamless transitions
 const PAGE_BG = BACKGROUND_DARK;
-const gridStyle = {
-  backgroundImage: `
-    linear-gradient(rgba(255,255,255,0.03) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(255,255,255,0.03) 1px, transparent 1px)
-  `,
-  backgroundSize: '60px 60px',
-};
 
 // Loading fallback — skeleton that mirrors the portfolio layout
 const LoadingFallback = () => (

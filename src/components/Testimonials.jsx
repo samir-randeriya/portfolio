@@ -1,7 +1,7 @@
 import portfolioData from '../data/portfolioContent.json';
 import { SiUpwork } from 'react-icons/si';
 import { useInView } from '../hooks/useInView';
-import { NAV_ANCHORS, SECTION_IDS, BACKGROUND_DARK } from '../constants';
+import { BACKGROUND_DARK } from '../constants';
 import { CARD_ACCENTS, STAT_ACCENTS } from '../constants/themes';
 
 // ─── Star Rating ──────────────────────────────────────────────────────────────

@@ -465,17 +465,17 @@ function ProjectSlider({ projects, inView }) {
 
 // ─── Main Component ────────────────────────────────────────────────────────────
 export default function Projects() {
-  const { projects, personal } = portfolioData;
+  const { projects } = portfolioData;
 
   const featuredProjects = projects.projects.filter(p => p.featured);
   const otherProjects = projects.projects.filter(p => !p.featured);
 
-  const scrollToContact = () =>
-    document.getElementById(SECTION_IDS.CONTACT)?.scrollIntoView({ behavior: 'smooth' });
-  const openGithub = () =>
-    window.open(personal.github, '_blank');
+  // const scrollToContact = () =>
+  //   document.getElementById(SECTION_IDS.CONTACT)?.scrollIntoView({ behavior: 'smooth' });
+  // const openGithub = () =>
+  //   window.open(personal.github, '_blank');
 
-  const buttonActions = { scrollToContact, openGithub };
+  // const buttonActions = { scrollToContact, openGithub };
 
   const [headerRef, headerInView] = useInView(0.2);
   const [featuredRef, featuredInView] = useInView(0.05);

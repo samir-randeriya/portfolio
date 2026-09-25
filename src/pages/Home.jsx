@@ -3,22 +3,12 @@ import portfolioData from '../data/portfolioContent.json';
 import { parseBold } from '../utils/parseBold';
 import { SECTION_IDS, BACKGROUND_DARK } from '../constants';
 
-// ─── Stat Badge ────────────────────────────────────────────────────────────────
-function StatBadge({ number, label }) {
-  return (
-    <div className="flex flex-col items-center px-6 py-4 rounded-2xl border border-white/10 bg-white/5 backdrop-blur-sm">
-      <span className="text-2xl font-black text-white leading-none">{number}</span>
-      <span className="text-xs text-slate-400 mt-1 font-medium tracking-wide uppercase">{label}</span>
-    </div>
-  );
-}
-
 // ─── Main Component ────────────────────────────────────────────────────────────
 export default function Home() {
-  const { personal, hero, about } = portfolioData;
+  const { personal, hero } = portfolioData;
   const roles = personal.roles;
 
-  const [isLoaded, setIsLoaded] = useState(false);
+  // const [isLoaded, setIsLoaded] = useState(false);
   const [displayedText, setDisplayedText] = useState('');
   const [currentRole, setCurrentRole] = useState(0);
   const [isTyping, setIsTyping] = useState(false);
@@ -53,7 +43,7 @@ export default function Home() {
   // Mount + start typing
   useEffect(() => {
     const t = setTimeout(() => {
-      setIsLoaded(true);
+      // setIsLoaded(true);
       setTimeout(() => {
         setAnimationStarted(true);
         setIsTyping(true);

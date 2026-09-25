@@ -1,7 +1,7 @@
 import portfolioData from '../data/portfolioContent.json';
 import { useInView } from '../hooks/useInView';
 import { SECTION_IDS, BACKGROUND_DARK } from '../constants';
-import { CATEGORY_THEMES, PROFICIENCY_THEMES } from '../constants/themes';
+import { CATEGORY_THEMES } from '../constants/themes';
 
 // ─── Category Card ─────────────────────────────────────────────────────────────
 function CategoryCard({ category, theme, index, inView }) {
@@ -73,61 +73,61 @@ function CategoryCard({ category, theme, index, inView }) {
 }
 
 // ─── Proficiency Card ─────────────────────────────────────────────────────────
-function ProficiencyCard({ level, theme, index, inView }) {
-  return (
-    <div
-      className="proficiency-card group relative rounded-2xl border p-6 flex flex-col items-center text-center overflow-hidden"
-      style={{
-        background: 'rgba(255,255,255,0.03)',
-        borderColor: 'rgba(255,255,255,0.08)',
-        opacity: inView ? 1 : 0,
-        transform: inView ? 'translateY(0)' : 'translateY(24px)',
-        transition: `opacity 0.55s ease ${0.1 + index * 0.1}s, transform 0.55s cubic-bezier(.22,1,.36,1) ${0.1 + index * 0.1}s`,
-      }}
-    >
-      {/* Glow on hover */}
-      <div
-        className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none rounded-2xl"
-        style={{ background: `radial-gradient(160px circle at 50% 0%, ${theme.from}18, transparent 70%)` }}
-      />
+// function ProficiencyCard({ level, theme, index, inView }) {
+//   return (
+//     <div
+//       className="proficiency-card group relative rounded-2xl border p-6 flex flex-col items-center text-center overflow-hidden"
+//       style={{
+//         background: 'rgba(255,255,255,0.03)',
+//         borderColor: 'rgba(255,255,255,0.08)',
+//         opacity: inView ? 1 : 0,
+//         transform: inView ? 'translateY(0)' : 'translateY(24px)',
+//         transition: `opacity 0.55s ease ${0.1 + index * 0.1}s, transform 0.55s cubic-bezier(.22,1,.36,1) ${0.1 + index * 0.1}s`,
+//       }}
+//     >
+//       {/* Glow on hover */}
+//       <div
+//         className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none rounded-2xl"
+//         style={{ background: `radial-gradient(160px circle at 50% 0%, ${theme.from}18, transparent 70%)` }}
+//       />
 
-      {/* Count bubble */}
-      <div
-        className="relative z-10 w-14 h-14 rounded-full flex items-center justify-center text-white font-black text-xl mb-4 group-hover:scale-110 transition-transform duration-300"
-        style={{ background: `linear-gradient(135deg, ${theme.from}, ${theme.to})`, boxShadow: `0 4px 20px ${theme.from}40` }}
-      >
-        {level.count}
-      </div>
+//       {/* Count bubble */}
+//       <div
+//         className="relative z-10 w-14 h-14 rounded-full flex items-center justify-center text-white font-black text-xl mb-4 group-hover:scale-110 transition-transform duration-300"
+//         style={{ background: `linear-gradient(135deg, ${theme.from}, ${theme.to})`, boxShadow: `0 4px 20px ${theme.from}40` }}
+//       >
+//         {level.count}
+//       </div>
 
-      {/* Level name */}
-      <h4 className="text-white font-semibold text-base mb-3 relative z-10">{level.name}</h4>
+//       {/* Level name */}
+//       <h4 className="text-white font-semibold text-base mb-3 relative z-10">{level.name}</h4>
 
-      {/* Progress bar */}
-      <div className="w-full h-1.5 rounded-full bg-white/8 overflow-hidden mb-2 relative z-10">
-        <div
-          className="h-full rounded-full transition-all duration-1000 ease-out"
-          style={{
-            width: inView ? `${level.percentage}%` : '0%',
-            background: `linear-gradient(to right, ${theme.from}, ${theme.to})`,
-            transitionDelay: `${0.3 + index * 0.1}s`,
-            boxShadow: `0 0 8px ${theme.from}66`,
-          }}
-        />
-      </div>
+//       {/* Progress bar */}
+//       <div className="w-full h-1.5 rounded-full bg-white/8 overflow-hidden mb-2 relative z-10">
+//         <div
+//           className="h-full rounded-full transition-all duration-1000 ease-out"
+//           style={{
+//             width: inView ? `${level.percentage}%` : '0%',
+//             background: `linear-gradient(to right, ${theme.from}, ${theme.to})`,
+//             transitionDelay: `${0.3 + index * 0.1}s`,
+//             boxShadow: `0 0 8px ${theme.from}66`,
+//           }}
+//         />
+//       </div>
 
-      {/* Confidence label */}
-      <p className="text-slate-500 text-xs font-medium relative z-10">
-        {level.percentage}% Confidence
-      </p>
+//       {/* Confidence label */}
+//       <p className="text-slate-500 text-xs font-medium relative z-10">
+//         {level.percentage}% Confidence
+//       </p>
 
-      {/* Bottom accent */}
-      <div
-        className="absolute bottom-0 left-0 h-[2px] w-0 group-hover:w-full transition-all duration-500 rounded-full"
-        style={{ background: `linear-gradient(to right, ${theme.from}, ${theme.to})` }}
-      />
-    </div>
-  );
-}
+//       {/* Bottom accent */}
+//       <div
+//         className="absolute bottom-0 left-0 h-[2px] w-0 group-hover:w-full transition-all duration-500 rounded-full"
+//         style={{ background: `linear-gradient(to right, ${theme.from}, ${theme.to})` }}
+//       />
+//     </div>
+//   );
+// }
 
 // ─── Main Component ────────────────────────────────────────────────────────────
 export default function Skills() {

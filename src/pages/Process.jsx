@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { useInView } from '../hooks/useInView';
-import { NAV_ANCHORS, SECTION_IDS, BACKGROUND_DARK } from '../constants';
+import { SECTION_IDS, BACKGROUND_DARK } from '../constants';
 
 /* ─────────────────────────────────────────────
    6 process steps
@@ -188,7 +188,6 @@ function DownArrow({ fromColor, toColor, inView, delay }) {
 export default function Process() {
   const [headerRef, headerInView] = useInView(0.2);
   const [roadRef, roadInView] = useInView(0.05);
-  const [ctaRef, ctaInView] = useInView(0.2);
   const [hov, setHov] = useState(null);
 
   /*
