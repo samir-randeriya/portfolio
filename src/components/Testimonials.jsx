@@ -209,15 +209,14 @@ export default function Testimonials() {
   const placeholderCount = Math.max(0, GRID_MIN - testimonials.length);
 
   const [headerRef, headerInView] = useInView(0.2);
-  const [gridRef,   gridInView]   = useInView(0.05);
-  const [statsRef,  statsInView]  = useInView(0.1);
-  const [ctaRef,    ctaInView]    = useInView(0.2);
+  const [gridRef, gridInView] = useInView(0.05);
+  const [statsRef, statsInView] = useInView(0.1);
 
   return (
     <>
       <section
         id="proof"
-        className="relative py-28 overflow-hidden"
+        className="relative py-4 overflow-hidden"
         style={{ background: BACKGROUND_DARK }}
       >
         {/* Background */}
@@ -268,13 +267,12 @@ export default function Testimonials() {
           {/* ── Testimonial grid — from reviews.reviews in JSON ── */}
           <div
             ref={gridRef}
-            className={`grid gap-5 mb-16 ${
-              testimonials.length === 1
-                ? 'md:grid-cols-3'          // 1 real + 2 placeholders
-                : testimonials.length === 2
+            className={`grid gap-5 mb-16 ${testimonials.length === 1
+              ? 'md:grid-cols-3'          // 1 real + 2 placeholders
+              : testimonials.length === 2
                 ? 'md:grid-cols-3'          // 2 real + 1 placeholder
                 : 'md:grid-cols-2 lg:grid-cols-3' // 3+ real reviews
-            }`}
+              }`}
           >
             {testimonials.map((t, i) => (
               <TestimonialCard key={i} testimonial={t} index={i} inView={gridInView} />
@@ -293,62 +291,6 @@ export default function Testimonials() {
             {reviews.stats.map((stat, i) => (
               <StatCard key={stat.label} stat={stat} index={i} inView={statsInView} />
             ))}
-          </div>
-
-          {/* ── CTA ── */}
-          <div
-            ref={ctaRef}
-            className="relative rounded-3xl overflow-hidden p-10 sm:p-14 text-center"
-            style={{
-              background: 'linear-gradient(135deg, #1a2744 0%, #2d1b69 50%, #1a2744 100%)',
-              border: '1px solid rgba(255,255,255,0.1)',
-              opacity: ctaInView ? 1 : 0,
-              transform: ctaInView ? 'translateY(0)' : 'translateY(24px)',
-              transition: 'opacity 0.7s ease 0.1s, transform 0.7s cubic-bezier(.22,1,.36,1) 0.1s',
-            }}
-          >
-            <div
-              className="absolute inset-0 pointer-events-none"
-              style={{ background: 'linear-gradient(135deg, rgba(250,204,21,0.08), rgba(129,140,248,0.14), rgba(244,114,182,0.07))' }}
-            />
-            <div
-              className="absolute top-0 left-1/2 -translate-x-1/2 w-72 h-72 rounded-full pointer-events-none"
-              style={{ background: 'radial-gradient(circle, rgba(250,204,21,0.15), transparent 70%)', filter: 'blur(40px)' }}
-            />
-
-            <div className="relative z-10">
-              <h3 className="font-display text-2xl sm:text-3xl font-black text-white mb-3">
-                {reviews.cta.title}
-              </h3>
-              <p className="text-slate-300 mb-8 max-w-xl mx-auto text-base leading-relaxed">
-                {reviews.cta.description}
-              </p>
-              <div className="flex flex-col sm:flex-row gap-4 justify-center">
-                {reviews.cta.buttons.map((btn, i) => (
-                  btn.action === 'scrollToContact' ? (
-                    <button
-                      key={i}
-                      onClick={() => document.getElementById(SECTION_IDS.CONTACT)?.scrollIntoView({ behavior: 'smooth' })}
-                      className={`inline-flex items-center justify-center px-8 py-3.5 rounded-full font-semibold text-sm cursor-pointer ${
-                        btn.type === 'primary' ? 'cta-btn-primary' : 'cta-btn-secondary'
-                      }`}
-                    >
-                      {btn.text}
-                    </button>
-                  ) : (
-                    <a
-                      key={i}
-                      href={btn.href || NAV_ANCHORS.PROJECTS}
-                      className={`inline-flex items-center justify-center px-8 py-3.5 rounded-full font-semibold text-sm ${
-                        btn.type === 'primary' ? 'cta-btn-primary' : 'cta-btn-secondary'
-                      }`}
-                    >
-                      {btn.text}
-                    </a>
-                  )
-                ))}
-              </div>
-            </div>
           </div>
 
         </div>

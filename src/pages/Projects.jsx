@@ -3,17 +3,35 @@ import portfolioData from '../data/portfolioContent.json';
 import ImagePreviewModal from '../components/ImagePreviewModal';
 import { useInView } from '../hooks/useInView';
 import { SECTION_IDS, BACKGROUND_DARK } from '../constants';
-import { 
-  FaGithub, 
+import {
+  FaGithub,
   FaExternalLinkAlt,
+  FaCheckCircle,
   // FaEye
 } from 'react-icons/fa';
 import { SiUpwork } from 'react-icons/si';
-import { parseBold } from '../utils/parseBold';
 import { PROJECT_THEMES } from '../constants/themes';
 
 function getTheme(index) {
   return PROJECT_THEMES[index % PROJECT_THEMES.length];
+}
+
+// ─── Domain icon map ───────────────────────────────────────────────────────────
+function getDomainIcon(domain = '') {
+  const d = domain.toLowerCase();
+  if (d.includes('marketing') || d.includes('campaign')) return '📣';
+  if (d.includes('travel') || d.includes('hotel') || d.includes('hospitality')) return '✈️';
+  if (d.includes('cyber') || d.includes('security')) return '🔐';
+  if (d.includes('legal')) return '⚖️';
+  if (d.includes('social') || d.includes('dating')) return '💬';
+  if (d.includes('food') || d.includes('recipe')) return '🍜';
+  if (d.includes('ecommerce') || d.includes('e-commerce') || d.includes('shop')) return '🛒';
+  if (d.includes('inventory')) return '📦';
+  if (d.includes('file') || d.includes('document')) return '📂';
+  if (d.includes('non-profit') || d.includes('prison') || d.includes('data management')) return '🏛️';
+  if (d.includes('api') || d.includes('product management')) return '⚙️';
+  if (d.includes('web application')) return '🌐';
+  return '🚀';
 }
 
 // ─── Featured Project Row ─────────────────────────────────────────────────────
@@ -22,6 +40,7 @@ function FeaturedProject({ project, index, inView }) {
   const theme = getTheme(index);
   const hasImages = project.images && project.images.length > 0;
   const [showPreview, setShowPreview] = useState(false);
+  const icon = getDomainIcon(project.domain);
 
   return (
     <div
@@ -35,14 +54,31 @@ function FeaturedProject({ project, index, inView }) {
       {/* ── Info ── */}
       <div className={`space-y-6 ${isEven ? 'md:order-1' : 'md:order-2'}`}>
 
-        {/* Category badge */}
-        <div>
-          <span
-            className="inline-flex items-center px-3 py-1 rounded-full text-xs font-semibold text-white"
-            style={{ background: `linear-gradient(135deg, ${theme.from}, ${theme.to})` }}
-          >
-            {project.category}
-          </span>
+        {/* Category + Domain + Role */}
+        <div className="flex flex-wrap items-center gap-2">
+          {project.category && (
+            <span
+              className="inline-flex items-center px-3 py-1 rounded-full text-xs font-semibold text-white"
+              style={{
+                background: `linear-gradient(135deg, ${theme.from}, ${theme.to})`,
+              }}
+            >
+              {project.category}
+            </span>
+          )}
+
+          {project.domain && (
+            <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-medium text-slate-300 border border-white/10 bg-white/5">
+              <span>{icon}</span>
+              {project.domain}
+            </span>
+          )}
+
+          {project.role && (
+            <span className="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium text-slate-300 border border-white/10 bg-white/5">
+              {project.role}
+            </span>
+          )}
         </div>
 
         {/* Title */}
@@ -50,10 +86,30 @@ function FeaturedProject({ project, index, inView }) {
           {project.title}
         </h3>
 
-        {/* Description — parses **Challenge** **Solution** **Impact** */}
+        {/* Description */}
         <p className="text-slate-400 text-sm sm:text-base leading-relaxed">
-          {parseBold(project.description, 'text-accent font-semibold')}
+          {project.description}
         </p>
+
+        {/* Key Contributions */}
+        {project.keyContributions && project.keyContributions.length > 0 && (
+          <div>
+            <p className="text-slate-500 text-xs font-semibold uppercase tracking-widest mb-3">
+              Key Contributions
+            </p>
+            <ul className="space-y-2">
+              {project.keyContributions.map((point, i) => (
+                <li key={i} className="flex items-start gap-2.5 text-slate-400 text-sm leading-relaxed">
+                  <FaCheckCircle
+                    className="mt-0.5 shrink-0 text-xs"
+                    style={{ color: theme.from }}
+                  />
+                  {point}
+                </li>
+              ))}
+            </ul>
+          </div>
+        )}
 
         {/* Technologies */}
         <div>
@@ -70,29 +126,6 @@ function FeaturedProject({ project, index, inView }) {
               </span>
             ))}
           </div>
-        </div>
-
-        {/* Metrics */}
-        <div className="grid grid-cols-3 gap-3">
-          {project.metrics.map((metric) => (
-            <div
-              key={metric.label}
-              className="rounded-xl border border-white/8 bg-white/3 px-3 py-3 text-center"
-            >
-              <div
-                className="text-base font-black leading-none mb-1"
-                style={{
-                  background: `linear-gradient(135deg, ${theme.from}, ${theme.to})`,
-                  WebkitBackgroundClip: 'text',
-                  WebkitTextFillColor: 'transparent',
-                  backgroundClip: 'text',
-                }}
-              >
-                {metric.value}
-              </div>
-              <div className="text-slate-500 text-xs">{metric.label}</div>
-            </div>
-          ))}
         </div>
 
         {/* Action buttons */}
@@ -128,7 +161,7 @@ function FeaturedProject({ project, index, inView }) {
         </div>
       </div>
 
-      {/* ── Visual ── */}
+      {/* ── Visual panel ── */}
       <div className={`${isEven ? 'md:order-2' : 'md:order-1'}`}>
         <div className="group relative">
           {/* Card */}
@@ -148,34 +181,30 @@ function FeaturedProject({ project, index, inView }) {
               }}
             />
 
-            {/* Clickable preview area */}
+            {/* Center content */}
             <button
               type="button"
               onClick={hasImages ? () => setShowPreview(true) : undefined}
-              className={`relative z-10 flex items-center justify-center w-full h-full ${hasImages ? 'cursor-zoom-in' : 'cursor-default'}`}
+              className={`relative z-10 flex flex-col items-center justify-center gap-4 w-full h-full px-8 ${hasImages ? 'cursor-zoom-in' : 'cursor-default'}`}
             >
-              {/* {hasImages ? (
-                <img
-                  src={project.images[0]}
-                  alt={project.title}
-                  className="max-h-[80%] max-w-[90%] object-contain transition-transform duration-500 group-hover:scale-110 group-hover:rotate-3"
-                  style={{ filter: 'drop-shadow(0 8px 24px rgba(0,0,0,0.4))' }}
-                  loading="lazy"
-                />
-              ) : (
-                <span
-                  className="text-8xl sm:text-9xl transition-transform duration-500 group-hover:scale-110 group-hover:rotate-6 select-none"
-                  style={{ filter: 'drop-shadow(0 8px 24px rgba(0,0,0,0.4))' }}
-                >
-                  {project.image}
-                  </span>
-              )} */}
               <span
-                className="relative z-10 text-8xl sm:text-9xl transition-transform duration-500 group-hover:scale-110 group-hover:rotate-6 select-none"
+                className="text-7xl sm:text-8xl transition-transform duration-500 group-hover:scale-110 group-hover:rotate-6 select-none"
                 style={{ filter: 'drop-shadow(0 8px 24px rgba(0,0,0,0.4))' }}
               >
-                {project.image}
+                {icon}
               </span>
+              {project.domain && (
+                <span
+                  className="text-xs font-semibold uppercase tracking-widest px-3 py-1 rounded-full border"
+                  style={{
+                    color: theme.from,
+                    borderColor: `${theme.from}44`,
+                    background: `${theme.from}12`,
+                  }}
+                >
+                  {project.domain}
+                </span>
+              )}
             </button>
 
             {/* Floating dots */}
@@ -190,16 +219,16 @@ function FeaturedProject({ project, index, inView }) {
             className="absolute inset-0 rounded-3xl -z-10 scale-110 opacity-0 group-hover:opacity-100 transition-opacity duration-500 blur-2xl"
             style={{ background: `linear-gradient(135deg, ${theme.from}30, ${theme.to}30)` }}
           />
-          </div>
+        </div>
 
-          {/* Image preview modal */}
-          {hasImages && showPreview && (
-            <ImagePreviewModal
-              images={project.images}
-              initialIndex={0}
-              onClose={() => setShowPreview(false)}
-            />
-          )}
+        {/* Image preview modal */}
+        {hasImages && showPreview && (
+          <ImagePreviewModal
+            images={project.images}
+            initialIndex={0}
+            onClose={() => setShowPreview(false)}
+          />
+        )}
       </div>
     </div>
   );
@@ -210,6 +239,7 @@ function OtherProjectCard({ project, index, inView }) {
   const theme = getTheme(index + 2); // offset so colours differ from featured
   const hasImages = project.images && project.images.length > 0;
   const [showPreview, setShowPreview] = useState(false);
+  const icon = getDomainIcon(project.domain);
 
   return (
     <div
@@ -220,7 +250,7 @@ function OtherProjectCard({ project, index, inView }) {
         opacity: inView ? 1 : 0,
         transform: inView ? 'translateY(0)' : 'translateY(24px)',
         transition: `opacity 0.6s ease ${index * 0.12}s, transform 0.6s cubic-bezier(.22,1,.36,1) ${index * 0.12}s`,
-        minHeight: '380px',
+        minHeight: '400px',
       }}
     >
       {/* Top accent on hover */}
@@ -245,7 +275,7 @@ function OtherProjectCard({ project, index, inView }) {
               border: `1px solid ${theme.from}33`,
             }}
           >
-            {project.image}
+            {icon}
           </div>
           <span
             className="px-2.5 py-1 rounded-full text-xs font-semibold text-white"
@@ -256,17 +286,39 @@ function OtherProjectCard({ project, index, inView }) {
         </div>
 
         {/* Title */}
-        <h4 className="text-white font-bold text-lg mb-3 leading-snug">
+        <h4 className="text-white font-bold text-lg mb-1 leading-snug">
           {project.title}
         </h4>
 
-        {/* Description — strip markdown, show plain */}
-        <p className="text-slate-500 text-sm leading-relaxed mb-5 flex-1">
-          {parseBold(project.description, 'text-accent font-semibold')}
+        {/* Role */}
+        {project.role && (
+          <p className="text-xs font-medium mb-3" style={{ color: theme.from }}>
+            {project.role}
+          </p>
+        )}
+
+        {/* Description */}
+        <p className="text-slate-500 text-sm leading-relaxed mb-4 flex-1">
+          {project.description}
         </p>
 
+        {/* Key contributions — first 2 */}
+        {project.keyContributions && project.keyContributions.length > 0 && (
+          <ul className="space-y-1.5 mb-4">
+            {project.keyContributions.slice(0, 2).map((point, i) => (
+              <li key={i} className="flex items-start gap-2 text-slate-500 text-xs leading-relaxed">
+                <FaCheckCircle
+                  className="mt-0.5 shrink-0"
+                  style={{ color: theme.from }}
+                />
+                {point}
+              </li>
+            ))}
+          </ul>
+        )}
+
         {/* Tech tags */}
-        <div className="flex flex-wrap gap-1.5 mb-5">
+        <div className="flex flex-wrap gap-1.5 mb-4">
           {project.technologies.slice(0, 4).map((tech) => (
             <span
               key={tech}
@@ -284,18 +336,6 @@ function OtherProjectCard({ project, index, inView }) {
 
         {/* Action buttons */}
         <div className="flex gap-2.5 mt-auto">
-          {/* Image preview trigger */}
-          {/* <button
-            type="button"
-            onClick={hasImages ? () => setShowPreview(true) : undefined}
-            disabled={!hasImages}
-            className="flex-1 flex items-center justify-center gap-1.5 px-3 py-2 rounded-xl text-xs font-semibold border bg-white/5 transition-all duration-200
-                       text-slate-300 border-white/10 hover:border-white/20 hover:text-white disabled:opacity-40 disabled:cursor-not-allowed"
-          >
-            <FaEye />
-            Preview
-          </button> */}
-
           {/* Upwork URL */}
           {project.upworkUrl && (
             <a
@@ -332,7 +372,7 @@ function OtherProjectCard({ project, index, inView }) {
               Code
             </a>
           )}
-          {!project.liveUrl && !project.githubUrl && (
+          {!project.liveUrl && !project.githubUrl && !project.upworkUrl && (
             <span className="flex-1 flex items-center justify-center px-3 py-2 rounded-xl text-xs font-medium text-slate-600 border border-white/5">
               Private Project
             </span>
@@ -428,7 +468,7 @@ export default function Projects() {
   const { projects, personal } = portfolioData;
 
   const featuredProjects = projects.projects.filter(p => p.featured);
-  const otherProjects    = projects.projects.filter(p => !p.featured);
+  const otherProjects = projects.projects.filter(p => !p.featured);
 
   const scrollToContact = () =>
     document.getElementById(SECTION_IDS.CONTACT)?.scrollIntoView({ behavior: 'smooth' });
@@ -437,16 +477,15 @@ export default function Projects() {
 
   const buttonActions = { scrollToContact, openGithub };
 
-  const [headerRef, headerInView]   = useInView(0.2);
+  const [headerRef, headerInView] = useInView(0.2);
   const [featuredRef, featuredInView] = useInView(0.05);
-  const [otherRef,  otherInView]    = useInView(0.1);
-  const [ctaRef,    ctaInView]      = useInView(0.2);
+  const [otherRef, otherInView] = useInView(0.1);
 
   return (
     <>
       <section
         id={SECTION_IDS.PROJECTS}
-        className="relative py-28 overflow-hidden"
+        className="relative py-4 overflow-hidden"
         style={{ background: BACKGROUND_DARK }}
       >
         {/* Background */}
@@ -532,51 +571,6 @@ export default function Projects() {
               <ProjectSlider projects={otherProjects} inView={otherInView} />
             </div>
           )}
-
-          {/* ── CTA — from projects.cta ── */}
-          <div
-            ref={ctaRef}
-            className="relative rounded-3xl overflow-hidden p-10 sm:p-14 text-center"
-            style={{
-              background: 'linear-gradient(135deg, #1a2744 0%, #2d1b69 50%, #1a2744 100%)',
-              border: '1px solid rgba(255,255,255,0.1)',
-              opacity: ctaInView ? 1 : 0,
-              transform: ctaInView ? 'translateY(0)' : 'translateY(24px)',
-              transition: 'opacity 0.7s ease 0.1s, transform 0.7s cubic-bezier(.22,1,.36,1) 0.1s',
-            }}
-          >
-            {/* Overlay mesh */}
-            <div
-              className="absolute inset-0 pointer-events-none"
-              style={{ background: 'linear-gradient(135deg, rgba(56,189,248,0.1) 0%, rgba(129,140,248,0.15) 50%, rgba(244,114,182,0.08) 100%)' }}
-            />
-            <div
-              className="absolute top-0 left-1/2 -translate-x-1/2 w-72 h-72 rounded-full pointer-events-none"
-              style={{ background: 'radial-gradient(circle, rgba(99,102,241,0.25), transparent 70%)', filter: 'blur(40px)' }}
-            />
-
-            <div className="relative z-10">
-              <h3 className="font-display text-2xl sm:text-3xl font-black text-white mb-3">
-                {projects.cta.title}
-              </h3>
-              <p className="text-slate-300 mb-8 max-w-xl mx-auto text-base leading-relaxed">
-                {projects.cta.description}
-              </p>
-              <div className="flex flex-col sm:flex-row gap-4 justify-center">
-                {projects.cta.buttons.map((btn, i) => (
-                  <button
-                    key={i}
-                    onClick={btn.action ? buttonActions[btn.action] : undefined}
-                    className={`inline-flex items-center justify-center px-8 py-3.5 rounded-full font-semibold text-sm cursor-pointer ${
-                      btn.type === 'primary' ? 'cta-btn-primary' : 'cta-btn-secondary'
-                    }`}
-                  >
-                    {btn.text}
-                  </button>
-                ))}
-              </div>
-            </div>
-          </div>
 
         </div>
 

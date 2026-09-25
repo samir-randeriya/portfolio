@@ -242,28 +242,14 @@ export default function Home() {
           </div>
 
           {/* Stats — from about.personalStats */}
-          <div
+          {/* <div
             className="mt-16 grid grid-cols-2 sm:grid-cols-4 gap-3 w-full max-w-xl animate-fadeUp"
             style={{ animationDelay: '1s' }}
           >
             {about.personalStats.map((stat) => (
               <StatBadge key={stat.label} number={stat.number} label={stat.label} />
             ))}
-          </div>
-        </div>
-
-        {/* Scroll indicator */}
-        <div
-          className={`absolute bottom-8 right-8 flex flex-col items-center gap-2 text-slate-500 transition-opacity duration-1000 ${isLoaded ? 'opacity-100' : 'opacity-0'
-            }`}
-        >
-          <span className="text-xs tracking-widest uppercase">Scroll</span>
-          <div className="relative w-px h-14 bg-slate-700/50 overflow-hidden rounded-full">
-            <span
-              className="absolute top-0 left-0 w-full h-5 rounded-full animate-scrollDot"
-              style={{ background: 'linear-gradient(to bottom, transparent, var(--accent), transparent)' }}
-            />
-          </div>
+          </div> */}
         </div>
 
         {/* Bottom gradient fade into next section */}

@@ -56,7 +56,7 @@ function CategoryCard({ category, theme, index, inView }) {
         </p>
 
         {/* Skill tags */}
-        <div className="flex flex-wrap gap-2 mt-auto">
+        <div className="flex flex-wrap gap-2">
           {category.skills.map((skill) => (
             <span
               key={skill}
@@ -133,17 +133,15 @@ function ProficiencyCard({ level, theme, index, inView }) {
 export default function Skills() {
   const { skills } = portfolioData;
 
-  const [headerRef, headerInView]   = useInView(0.2);
-  const [gridRef,   gridInView]     = useInView(0.05);
-  const [profRef,   profInView]     = useInView(0.1);
-  const [learnRef,  learnInView]    = useInView(0.2);
-  const [ctaRef,    ctaInView]      = useInView(0.2);
+  const [headerRef, headerInView] = useInView(0.2);
+  const [gridRef, gridInView] = useInView(0.05);
+  const [learnRef, learnInView] = useInView(0.2);
 
   return (
     <>
       <section
         id={SECTION_IDS.SKILLS}
-        className="relative py-28 overflow-hidden"
+        className="relative py-4 overflow-hidden"
         style={{ background: BACKGROUND_DARK }}
       >
         {/* Background */}
@@ -203,49 +201,6 @@ export default function Skills() {
             ))}
           </div>
 
-          {/* ── Proficiency overview — from skills.proficiencyLevels ── */}
-          <div ref={profRef}>
-            {/* Sub-header */}
-            <div
-              className="text-center mb-10"
-              style={{
-                opacity: profInView ? 1 : 0,
-                transform: profInView ? 'translateY(0)' : 'translateY(20px)',
-                transition: 'opacity 0.6s ease, transform 0.6s cubic-bezier(.22,1,.36,1)',
-              }}
-            >
-              <h3 className="font-display text-3xl sm:text-4xl font-black text-white mb-3">
-                Proficiency{' '}
-                <span
-                  style={{
-                    background: 'linear-gradient(135deg, #34d399, #38bdf8)',
-                    WebkitBackgroundClip: 'text',
-                    WebkitTextFillColor: 'transparent',
-                    backgroundClip: 'text',
-                  }}
-                >
-                  Overview
-                </span>
-              </h3>
-              <p className="text-slate-400 max-w-xl mx-auto text-base">
-                A breakdown of my expertise levels across different technologies and frameworks.
-              </p>
-            </div>
-
-            {/* Proficiency cards */}
-            <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-5 mb-16">
-              {skills.proficiencyLevels.map((level, i) => (
-                <ProficiencyCard
-                  key={level.name}
-                  level={level}
-                  theme={PROFICIENCY_THEMES[i] || PROFICIENCY_THEMES[0]}
-                  index={i}
-                  inView={profInView}
-                />
-              ))}
-            </div>
-          </div>
-
           {/* ── Currently learning — from skills.currentlyLearning ── */}
           <div
             ref={learnRef}
@@ -290,52 +245,6 @@ export default function Skills() {
               </div>
             </div>
           </div>
-
-          {/* ── CTA — from skills.cta ── */}
-          <div
-            ref={ctaRef}
-            className="relative rounded-3xl overflow-hidden p-10 sm:p-14 text-center"
-            style={{
-              background: 'linear-gradient(135deg, #1e3a5f 0%, #2d1b69 50%, #1e3a5f 100%)',
-              border: '1px solid rgba(255,255,255,0.1)',
-              opacity: ctaInView ? 1 : 0,
-              transform: ctaInView ? 'translateY(0)' : 'translateY(24px)',
-              transition: 'opacity 0.7s ease 0.1s, transform 0.7s cubic-bezier(.22,1,.36,1) 0.1s',
-            }}
-          >
-            {/* Overlay */}
-            <div
-              className="absolute inset-0 pointer-events-none"
-              style={{ background: 'linear-gradient(135deg, rgba(56,189,248,0.12) 0%, rgba(129,140,248,0.18) 50%, rgba(244,114,182,0.1) 100%)' }}
-            />
-            <div
-              className="absolute top-0 left-1/2 -translate-x-1/2 w-64 h-64 rounded-full pointer-events-none"
-              style={{ background: 'radial-gradient(circle, rgba(129,140,248,0.3), transparent 70%)', filter: 'blur(40px)' }}
-            />
-
-            <div className="relative z-10">
-              <h3 className="font-display text-2xl sm:text-3xl font-black text-white mb-3">
-                {skills.cta.title}
-              </h3>
-              <p className="text-slate-300 mb-8 max-w-xl mx-auto text-base leading-relaxed">
-                {skills.cta.description}
-              </p>
-              <div className="flex flex-col sm:flex-row gap-4 justify-center">
-                {skills.cta.buttons.map((btn, i) => (
-                  <a
-                    key={i}
-                    href={btn.href}
-                    className={`inline-flex items-center justify-center px-8 py-3.5 rounded-full font-semibold text-sm ${
-                      btn.type === 'primary' ? 'cta-btn-primary' : 'cta-btn-secondary'
-                    }`}
-                  >
-                    {btn.text}
-                  </a>
-                ))}
-              </div>
-            </div>
-          </div>
-
         </div>
 
         {/* Edge fade */}
