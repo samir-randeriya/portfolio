@@ -1,7 +1,7 @@
 import portfolioData from '../data/portfolioContent.json';
 import { useInView } from '../hooks/useInView';
 import { SECTION_IDS, BACKGROUND_DARK } from '../constants';
-import { CATEGORY_THEMES, PROFICIENCY_THEMES } from '../constants/themes';
+import { CATEGORY_THEMES } from '../constants/themes';
 
 // ─── Category Card ─────────────────────────────────────────────────────────────
 function CategoryCard({ category, theme, index, inView }) {
@@ -56,7 +56,7 @@ function CategoryCard({ category, theme, index, inView }) {
         </p>
 
         {/* Skill tags */}
-        <div className="flex flex-wrap gap-2 mt-auto">
+        <div className="flex flex-wrap gap-2">
           {category.skills.map((skill) => (
             <span
               key={skill}
@@ -73,77 +73,75 @@ function CategoryCard({ category, theme, index, inView }) {
 }
 
 // ─── Proficiency Card ─────────────────────────────────────────────────────────
-function ProficiencyCard({ level, theme, index, inView }) {
-  return (
-    <div
-      className="proficiency-card group relative rounded-2xl border p-6 flex flex-col items-center text-center overflow-hidden"
-      style={{
-        background: 'rgba(255,255,255,0.03)',
-        borderColor: 'rgba(255,255,255,0.08)',
-        opacity: inView ? 1 : 0,
-        transform: inView ? 'translateY(0)' : 'translateY(24px)',
-        transition: `opacity 0.55s ease ${0.1 + index * 0.1}s, transform 0.55s cubic-bezier(.22,1,.36,1) ${0.1 + index * 0.1}s`,
-      }}
-    >
-      {/* Glow on hover */}
-      <div
-        className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none rounded-2xl"
-        style={{ background: `radial-gradient(160px circle at 50% 0%, ${theme.from}18, transparent 70%)` }}
-      />
+// function ProficiencyCard({ level, theme, index, inView }) {
+//   return (
+//     <div
+//       className="proficiency-card group relative rounded-2xl border p-6 flex flex-col items-center text-center overflow-hidden"
+//       style={{
+//         background: 'rgba(255,255,255,0.03)',
+//         borderColor: 'rgba(255,255,255,0.08)',
+//         opacity: inView ? 1 : 0,
+//         transform: inView ? 'translateY(0)' : 'translateY(24px)',
+//         transition: `opacity 0.55s ease ${0.1 + index * 0.1}s, transform 0.55s cubic-bezier(.22,1,.36,1) ${0.1 + index * 0.1}s`,
+//       }}
+//     >
+//       {/* Glow on hover */}
+//       <div
+//         className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none rounded-2xl"
+//         style={{ background: `radial-gradient(160px circle at 50% 0%, ${theme.from}18, transparent 70%)` }}
+//       />
 
-      {/* Count bubble */}
-      <div
-        className="relative z-10 w-14 h-14 rounded-full flex items-center justify-center text-white font-black text-xl mb-4 group-hover:scale-110 transition-transform duration-300"
-        style={{ background: `linear-gradient(135deg, ${theme.from}, ${theme.to})`, boxShadow: `0 4px 20px ${theme.from}40` }}
-      >
-        {level.count}
-      </div>
+//       {/* Count bubble */}
+//       <div
+//         className="relative z-10 w-14 h-14 rounded-full flex items-center justify-center text-white font-black text-xl mb-4 group-hover:scale-110 transition-transform duration-300"
+//         style={{ background: `linear-gradient(135deg, ${theme.from}, ${theme.to})`, boxShadow: `0 4px 20px ${theme.from}40` }}
+//       >
+//         {level.count}
+//       </div>
 
-      {/* Level name */}
-      <h4 className="text-white font-semibold text-base mb-3 relative z-10">{level.name}</h4>
+//       {/* Level name */}
+//       <h4 className="text-white font-semibold text-base mb-3 relative z-10">{level.name}</h4>
 
-      {/* Progress bar */}
-      <div className="w-full h-1.5 rounded-full bg-white/8 overflow-hidden mb-2 relative z-10">
-        <div
-          className="h-full rounded-full transition-all duration-1000 ease-out"
-          style={{
-            width: inView ? `${level.percentage}%` : '0%',
-            background: `linear-gradient(to right, ${theme.from}, ${theme.to})`,
-            transitionDelay: `${0.3 + index * 0.1}s`,
-            boxShadow: `0 0 8px ${theme.from}66`,
-          }}
-        />
-      </div>
+//       {/* Progress bar */}
+//       <div className="w-full h-1.5 rounded-full bg-white/8 overflow-hidden mb-2 relative z-10">
+//         <div
+//           className="h-full rounded-full transition-all duration-1000 ease-out"
+//           style={{
+//             width: inView ? `${level.percentage}%` : '0%',
+//             background: `linear-gradient(to right, ${theme.from}, ${theme.to})`,
+//             transitionDelay: `${0.3 + index * 0.1}s`,
+//             boxShadow: `0 0 8px ${theme.from}66`,
+//           }}
+//         />
+//       </div>
 
-      {/* Confidence label */}
-      <p className="text-slate-500 text-xs font-medium relative z-10">
-        {level.percentage}% Confidence
-      </p>
+//       {/* Confidence label */}
+//       <p className="text-slate-500 text-xs font-medium relative z-10">
+//         {level.percentage}% Confidence
+//       </p>
 
-      {/* Bottom accent */}
-      <div
-        className="absolute bottom-0 left-0 h-[2px] w-0 group-hover:w-full transition-all duration-500 rounded-full"
-        style={{ background: `linear-gradient(to right, ${theme.from}, ${theme.to})` }}
-      />
-    </div>
-  );
-}
+//       {/* Bottom accent */}
+//       <div
+//         className="absolute bottom-0 left-0 h-[2px] w-0 group-hover:w-full transition-all duration-500 rounded-full"
+//         style={{ background: `linear-gradient(to right, ${theme.from}, ${theme.to})` }}
+//       />
+//     </div>
+//   );
+// }
 
 // ─── Main Component ────────────────────────────────────────────────────────────
 export default function Skills() {
   const { skills } = portfolioData;
 
-  const [headerRef, headerInView]   = useInView(0.2);
-  const [gridRef,   gridInView]     = useInView(0.05);
-  const [profRef,   profInView]     = useInView(0.1);
-  const [learnRef,  learnInView]    = useInView(0.2);
-  const [ctaRef,    ctaInView]      = useInView(0.2);
+  const [headerRef, headerInView] = useInView(0.2);
+  const [gridRef, gridInView] = useInView(0.05);
+  const [learnRef, learnInView] = useInView(0.2);
 
   return (
     <>
       <section
         id={SECTION_IDS.SKILLS}
-        className="relative py-28 overflow-hidden"
+        className="relative py-4 overflow-hidden"
         style={{ background: BACKGROUND_DARK }}
       >
         {/* Background */}
@@ -203,49 +201,6 @@ export default function Skills() {
             ))}
           </div>
 
-          {/* ── Proficiency overview — from skills.proficiencyLevels ── */}
-          <div ref={profRef}>
-            {/* Sub-header */}
-            <div
-              className="text-center mb-10"
-              style={{
-                opacity: profInView ? 1 : 0,
-                transform: profInView ? 'translateY(0)' : 'translateY(20px)',
-                transition: 'opacity 0.6s ease, transform 0.6s cubic-bezier(.22,1,.36,1)',
-              }}
-            >
-              <h3 className="font-display text-3xl sm:text-4xl font-black text-white mb-3">
-                Proficiency{' '}
-                <span
-                  style={{
-                    background: 'linear-gradient(135deg, #34d399, #38bdf8)',
-                    WebkitBackgroundClip: 'text',
-                    WebkitTextFillColor: 'transparent',
-                    backgroundClip: 'text',
-                  }}
-                >
-                  Overview
-                </span>
-              </h3>
-              <p className="text-slate-400 max-w-xl mx-auto text-base">
-                A breakdown of my expertise levels across different technologies and frameworks.
-              </p>
-            </div>
-
-            {/* Proficiency cards */}
-            <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-5 mb-16">
-              {skills.proficiencyLevels.map((level, i) => (
-                <ProficiencyCard
-                  key={level.name}
-                  level={level}
-                  theme={PROFICIENCY_THEMES[i] || PROFICIENCY_THEMES[0]}
-                  index={i}
-                  inView={profInView}
-                />
-              ))}
-            </div>
-          </div>
-
           {/* ── Currently learning — from skills.currentlyLearning ── */}
           <div
             ref={learnRef}
@@ -290,52 +245,6 @@ export default function Skills() {
               </div>
             </div>
           </div>
-
-          {/* ── CTA — from skills.cta ── */}
-          <div
-            ref={ctaRef}
-            className="relative rounded-3xl overflow-hidden p-10 sm:p-14 text-center"
-            style={{
-              background: 'linear-gradient(135deg, #1e3a5f 0%, #2d1b69 50%, #1e3a5f 100%)',
-              border: '1px solid rgba(255,255,255,0.1)',
-              opacity: ctaInView ? 1 : 0,
-              transform: ctaInView ? 'translateY(0)' : 'translateY(24px)',
-              transition: 'opacity 0.7s ease 0.1s, transform 0.7s cubic-bezier(.22,1,.36,1) 0.1s',
-            }}
-          >
-            {/* Overlay */}
-            <div
-              className="absolute inset-0 pointer-events-none"
-              style={{ background: 'linear-gradient(135deg, rgba(56,189,248,0.12) 0%, rgba(129,140,248,0.18) 50%, rgba(244,114,182,0.1) 100%)' }}
-            />
-            <div
-              className="absolute top-0 left-1/2 -translate-x-1/2 w-64 h-64 rounded-full pointer-events-none"
-              style={{ background: 'radial-gradient(circle, rgba(129,140,248,0.3), transparent 70%)', filter: 'blur(40px)' }}
-            />
-
-            <div className="relative z-10">
-              <h3 className="font-display text-2xl sm:text-3xl font-black text-white mb-3">
-                {skills.cta.title}
-              </h3>
-              <p className="text-slate-300 mb-8 max-w-xl mx-auto text-base leading-relaxed">
-                {skills.cta.description}
-              </p>
-              <div className="flex flex-col sm:flex-row gap-4 justify-center">
-                {skills.cta.buttons.map((btn, i) => (
-                  <a
-                    key={i}
-                    href={btn.href}
-                    className={`inline-flex items-center justify-center px-8 py-3.5 rounded-full font-semibold text-sm ${
-                      btn.type === 'primary' ? 'cta-btn-primary' : 'cta-btn-secondary'
-                    }`}
-                  >
-                    {btn.text}
-                  </a>
-                ))}
-              </div>
-            </div>
-          </div>
-
         </div>
 
         {/* Edge fade */}

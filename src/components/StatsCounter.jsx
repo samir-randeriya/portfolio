@@ -34,7 +34,19 @@ function useCountUp(target, isVisible, duration = 2000, delay = 0) {
 }
 
 // ─── Stat definitions (icons & descriptions come from here; numbers from JSON) ─
-const STAT_META = [
+export const STAT_META = [
+  {
+    key: 'experience',
+    icon: (
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={1.5} className="w-7 h-7">
+        <path strokeLinecap="round" strokeLinejoin="round"
+          d="M12 6v6h4.5m4.5 0a9 9 0 11-18 0 9 9 0 0118 0z" />
+      </svg>
+    ),
+    accent: '#38bdf8',
+    accent2: '#818cf8',
+    description: 'Building scalable systems for startups & enterprises',
+  },
   {
     key: 'projects',
     icon: (
@@ -43,9 +55,33 @@ const STAT_META = [
           d="M3.75 12h16.5m-16.5 3.75h16.5M3.75 19.5h16.5M5.625 4.5h12.75a1.875 1.875 0 010 3.75H5.625a1.875 1.875 0 010-3.75z" />
       </svg>
     ),
-    accent: '#38bdf8',
-    accent2: '#818cf8',
+    accent: '#818cf8',
+    accent2: '#c084fc',
     description: 'Full-stack apps, SaaS platforms & APIs shipped to production',
+  },
+  {
+    key: 'mentored',
+    icon: (
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={1.5} className="w-7 h-7">
+        <path strokeLinecap="round" strokeLinejoin="round"
+          d="M18 18.72a9.094 9.094 0 003.741-.479 3 3 0 00-4.682-2.72m.94 3.198l.001.031c0 .225-.012.447-.037.666A11.944 11.944 0 0112 21c-2.17 0-4.207-.576-5.963-1.584A6.062 6.062 0 016 18.719m12 0a5.971 5.971 0 00-.941-3.197m0 0A5.995 5.995 0 0012 12.75a5.995 5.995 0 00-5.058 2.772m0 0a3 3 0 00-4.681 2.72 8.986 8.986 0 003.74.477m.94-3.197a5.971 5.971 0 00-.94 3.197M15 6.75a3 3 0 11-6 0 3 3 0 016 0zm6 3a2.25 2.25 0 11-4.5 0 2.25 2.25 0 014.5 0zm-13.5 0a2.25 2.25 0 11-4.5 0 2.25 2.25 0 014.5 0z" />
+      </svg>
+    ),
+    accent: '#f472b6',
+    accent2: '#fb7185',
+    description: 'Mentoring junior developers, code reviews & technical guidance',
+  },
+  {
+    key: 'ownership',
+    icon: (
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={1.5} className="w-7 h-7">
+        <path strokeLinecap="round" strokeLinejoin="round"
+          d="M9 12.75L11.25 15 15 9.75m-3-7.036A11.959 11.959 0 013.598 6 11.99 11.99 0 003 9.749c0 5.592 3.824 10.29 9 11.623 5.176-1.332 9-6.03 9-11.622 0-1.31-.21-2.571-.598-3.751h-.152c-3.196 0-6.1-1.248-8.25-3.285z" />
+      </svg>
+    ),
+    accent: '#34d399',
+    accent2: '#10b981',
+    description: 'Direct ownership of products from architecture to deployment',
   },
   {
     key: 'technologies',
@@ -58,18 +94,6 @@ const STAT_META = [
     accent: '#34d399',
     accent2: '#38bdf8',
     description: 'Frontend, backend, databases, DevOps & cloud infrastructure',
-  },
-  {
-    key: 'experience',
-    icon: (
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={1.5} className="w-7 h-7">
-        <path strokeLinecap="round" strokeLinejoin="round"
-          d="M12 6v6h4.5m4.5 0a9 9 0 11-18 0 9 9 0 0118 0z" />
-      </svg>
-    ),
-    accent: '#a78bfa',
-    accent2: '#f472b6',
-    description: 'Building scalable systems for startups & enterprises',
   },
   {
     key: 'passion',
@@ -93,67 +117,90 @@ const ACHIEVEMENTS = [
 ];
 
 // ─── Single Stat Card ─────────────────────────────────────────────────────────
-function StatCard({ stat, meta, index, isVisible }) {
-  const numericValue = parseInt(stat.number, 10);
-  const suffix = stat.number.replace(/[0-9]/g, '');
-  const count = useCountUp(numericValue, isVisible, 1800, index * 150);
+export function StatCard({ stat, meta, index, isVisible }) {
+  // Animate only simple numeric values such as 5+, 15+, 100%
+  const isAnimatedNumber = /^\d+(?:\.\d+)?[+%]?$/.test(stat.number);
+
+  const numericValue = isAnimatedNumber
+    ? parseInt(stat.number, 10)
+    : 0;
+
+  const suffix = isAnimatedNumber
+    ? stat.number.replace(/[\d.]/g, '')
+    : '';
+
+  const count = useCountUp(
+    numericValue,
+    isVisible,
+    1800,
+    index * 150
+  );
+
+  const displayValue = isAnimatedNumber
+    ? `${count}${suffix}`
+    : stat.number;
+
+  const cardMeta = meta || STAT_META.find(m => m.key === stat.key) || STAT_META[index % STAT_META.length];
 
   return (
     <div
-      className="stat-card group relative rounded-2xl border p-8 flex flex-col gap-5 overflow-hidden cursor-default"
+      className="stat-card group relative rounded-2xl border p-8 flex flex-col gap-5 overflow-hidden cursor-default transition-all duration-300 hover:border-white/20 hover:-translate-y-1 hover:shadow-xl"
       style={{
         background: 'rgba(255,255,255,0.03)',
         borderColor: 'rgba(255,255,255,0.08)',
-        transition: 'border-color 0.3s, transform 0.3s, box-shadow 0.3s',
         animationDelay: `${index * 0.1}s`,
       }}
     >
       {/* Hover glow */}
       <div
-        className="stat-card-glow absolute inset-0 opacity-0 transition-opacity duration-500 pointer-events-none rounded-2xl"
+        className="stat-card-glow absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none rounded-2xl"
         style={{
-          background: `radial-gradient(200px circle at 50% 0%, ${meta.accent}18, transparent 70%)`,
+          background: `radial-gradient(200px circle at 50% 0%, ${cardMeta.accent}18, transparent 70%)`,
         }}
       />
 
       {/* Top: icon + number */}
       <div className="relative z-10 flex items-start justify-between">
-        {/* Icon badge */}
         <div
           className="w-12 h-12 rounded-xl flex items-center justify-center flex-shrink-0"
           style={{
-            background: `linear-gradient(135deg, ${meta.accent}22, ${meta.accent2}22)`,
-            border: `1px solid ${meta.accent}33`,
-            color: meta.accent,
+            background: `linear-gradient(135deg, ${cardMeta.accent}22, ${cardMeta.accent2}22)`,
+            border: `1px solid ${cardMeta.accent}33`,
+            color: cardMeta.accent,
           }}
         >
-          {meta.icon}
+          {cardMeta.icon}
         </div>
 
-        {/* Animated number */}
         <span
           className="text-4xl lg:text-5xl font-black leading-none tabular-nums"
           style={{
-            background: `linear-gradient(135deg, ${meta.accent}, ${meta.accent2})`,
+            background: `linear-gradient(135deg, ${cardMeta.accent}, ${cardMeta.accent2})`,
             WebkitBackgroundClip: 'text',
             WebkitTextFillColor: 'transparent',
             backgroundClip: 'text',
           }}
         >
-          {count}{suffix}
+          {displayValue}
         </span>
       </div>
 
       {/* Label */}
       <div className="relative z-10">
-        <h3 className="text-white font-semibold text-base mb-1.5">{stat.label}</h3>
-        <p className="text-slate-500 text-sm leading-relaxed">{meta.description}</p>
+        <h3 className="text-white font-semibold text-base mb-1.5">
+          {stat.label}
+        </h3>
+        <p className="text-slate-500 text-sm leading-relaxed">
+          {cardMeta.description}
+        </p>
       </div>
 
       {/* Bottom accent line */}
       <div
         className="absolute bottom-0 left-0 h-[2px] w-0 group-hover:w-full transition-all duration-500 rounded-full"
-        style={{ background: `linear-gradient(to right, ${meta.accent}, ${meta.accent2})` }}
+        style={{
+          background: `linear-gradient(to right, ${cardMeta.accent}, ${cardMeta.accent2})`,
+        }}
       />
     </div>
   );
@@ -171,7 +218,7 @@ export default function StatsCounter() {
       <section
         id={SECTION_IDS.STATS}
         ref={sectionRef}
-        className={`relative py-28 overflow-hidden ${isVisible ? 'stats-visible' : ''}`}
+        className={`relative py-4 overflow-hidden ${isVisible ? 'stats-visible' : ''}`}
         style={{ background: BACKGROUND_DARK }}
       >
         {/* Background */}
@@ -242,7 +289,7 @@ export default function StatsCounter() {
                   Continuous Growth &amp; Learning
                 </h3>
                 <p className="text-slate-400 text-sm leading-relaxed max-w-lg">
-                  These numbers represent my journey so far — but I'm always growing. Every project
+                  These numbers represent my journey so far but I'm always growing. Every project
                   teaches me something new, and I stay current with the best practices in modern
                   software development.
                 </p>

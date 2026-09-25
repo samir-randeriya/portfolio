@@ -2,8 +2,8 @@
 
 .grid-subtle {
   background-image:
-    linear-gradient(rgba(255,255,255,0.02) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(255,255,255,0.02) 1px, transparent 1px);
+    linear-gradient(rgba(255, 255, 255, 0.02) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 255, 255, 0.02) 1px, transparent 1px);
   background-size: 60px 60px;
 }
 
@@ -17,7 +17,9 @@ html {
 }
 
 /* Base background - prevents white flash during route transitions */
-html, body, #root {
+html,
+body,
+#root {
   background-color: #060811;
   min-height: 100%;
 }
@@ -25,26 +27,35 @@ html, body, #root {
 /* Single seamless grid for entire portfolio - no section boundaries */
 .portfolio-grid {
   background-image:
-    linear-gradient(rgba(255,255,255,0.03) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(255,255,255,0.03) 1px, transparent 1px);
+    linear-gradient(rgba(255, 255, 255, 0.03) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
   background-size: 60px 60px;
 }
 
 /* Reset cursor globally - ensure default cursor everywhere */
-*, *::before, *::after {
+*,
+*::before,
+*::after {
   cursor: auto !important;
 }
 
 /* Override specific cursor styles for interactive elements */
-a, button, [role="button"], input[type="submit"], input[type="button"] {
+a,
+button,
+[role="button"],
+input[type="submit"],
+input[type="button"] {
   cursor: pointer !important;
 }
 
-input, textarea, select {
+input,
+textarea,
+select {
   cursor: text !important;
 }
 
-input[type="checkbox"], input[type="radio"] {
+input[type="checkbox"],
+input[type="radio"] {
   cursor: pointer !important;
 }
 
@@ -53,21 +64,27 @@ input[type="checkbox"], input[type="radio"] {
   0% {
     transform: translate(0px, 0px) scale(1);
   }
+
   33% {
     transform: translate(30px, -50px) scale(1.1);
   }
+
   66% {
     transform: translate(-20px, 20px) scale(0.9);
   }
+
   100% {
     transform: translate(0px, 0px) scale(1);
   }
 }
 
 @keyframes float {
-  0%, 100% {
+
+  0%,
+  100% {
     transform: translateY(0px);
   }
+
   50% {
     transform: translateY(-20px);
   }
@@ -78,6 +95,7 @@ input[type="checkbox"], input[type="radio"] {
     opacity: 0;
     transform: translateY(30px);
   }
+
   to {
     opacity: 1;
     transform: translateY(0);
@@ -88,15 +106,19 @@ input[type="checkbox"], input[type="radio"] {
   0% {
     background-position: -200% 0;
   }
+
   100% {
     background-position: 200% 0;
   }
 }
 
 @keyframes glow {
-  0%, 100% {
+
+  0%,
+  100% {
     box-shadow: 0 0 5px rgba(59, 130, 246, 0.5);
   }
+
   50% {
     box-shadow: 0 0 20px rgba(59, 130, 246, 0.8);
   }
@@ -155,7 +177,7 @@ input[type="checkbox"], input[type="radio"] {
     animation-iteration-count: 1 !important;
     transition-duration: 0.01ms !important;
   }
-  
+
   html {
     scroll-behavior: auto;
   }
@@ -293,10 +315,13 @@ body {
 
 /* Enhanced Header Animations */
 @keyframes gradient-x {
-  0%, 100% {
+
+  0%,
+  100% {
     background-size: 200% 200%;
     background-position: left center;
   }
+
   50% {
     background-size: 200% 200%;
     background-position: right center;
@@ -304,18 +329,27 @@ body {
 }
 
 @keyframes blink {
-  0%, 50% { opacity: 1; }
-  51%, 100% { opacity: 0; }
+
+  0%,
+  50% {
+    opacity: 1;
+  }
+
+  51%,
+  100% {
+    opacity: 0;
+  }
 }
 
 @keyframes fade-in {
-  from { 
-    opacity: 0; 
-    transform: translateY(20px); 
+  from {
+    opacity: 0;
+    transform: translateY(20px);
   }
-  to { 
-    opacity: 1; 
-    transform: translateY(0); 
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
   }
 }
 
@@ -324,12 +358,15 @@ body {
     transform: translate(-50%, 0);
     opacity: 0;
   }
+
   10% {
     opacity: 1;
   }
+
   90% {
     opacity: 1;
   }
+
   100% {
     transform: translate(-50%, 40px);
     opacity: 0;
@@ -341,14 +378,17 @@ body {
     transform: translate(-50%, 0) scale(0.8);
     opacity: 0;
   }
+
   15% {
     opacity: 1;
     transform: translate(-50%, 0) scale(1);
   }
+
   85% {
     opacity: 1;
     transform: translate(-50%, 56px) scale(1);
   }
+
   100% {
     transform: translate(-50%, 64px) scale(0.8);
     opacity: 0;
@@ -360,14 +400,17 @@ body {
     transform: translate(-50%, 0) scale(0.6);
     opacity: 0;
   }
+
   20% {
     opacity: 0.6;
     transform: translate(-50%, 4px) scale(0.8);
   }
+
   80% {
     opacity: 0.4;
     transform: translate(-50%, 52px) scale(0.8);
   }
+
   100% {
     transform: translate(-50%, 60px) scale(0.6);
     opacity: 0;
@@ -375,34 +418,89 @@ body {
 }
 
 @keyframes scroll-dot-1 {
-  0%, 20% { opacity: 0.3; transform: translate(-50%, 0) scale(1); }
-  10% { opacity: 1; transform: translate(-50%, 0) scale(1.5); }
-  100% { opacity: 0.3; transform: translate(-50%, 0) scale(1); }
+
+  0%,
+  20% {
+    opacity: 0.3;
+    transform: translate(-50%, 0) scale(1);
+  }
+
+  10% {
+    opacity: 1;
+    transform: translate(-50%, 0) scale(1.5);
+  }
+
+  100% {
+    opacity: 0.3;
+    transform: translate(-50%, 0) scale(1);
+  }
 }
 
 @keyframes scroll-dot-2 {
-  0%, 30% { opacity: 0.3; transform: translate(-50%, 0) scale(1); }
-  20% { opacity: 1; transform: translate(-50%, 0) scale(1.5); }
-  100% { opacity: 0.3; transform: translate(-50%, 0) scale(1); }
+
+  0%,
+  30% {
+    opacity: 0.3;
+    transform: translate(-50%, 0) scale(1);
+  }
+
+  20% {
+    opacity: 1;
+    transform: translate(-50%, 0) scale(1.5);
+  }
+
+  100% {
+    opacity: 0.3;
+    transform: translate(-50%, 0) scale(1);
+  }
 }
 
 @keyframes scroll-dot-3 {
-  0%, 40% { opacity: 0.3; transform: translate(-50%, 0) scale(1); }
-  30% { opacity: 1; transform: translate(-50%, 0) scale(1.5); }
-  100% { opacity: 0.3; transform: translate(-50%, 0) scale(1); }
+
+  0%,
+  40% {
+    opacity: 0.3;
+    transform: translate(-50%, 0) scale(1);
+  }
+
+  30% {
+    opacity: 1;
+    transform: translate(-50%, 0) scale(1.5);
+  }
+
+  100% {
+    opacity: 0.3;
+    transform: translate(-50%, 0) scale(1);
+  }
 }
 
 @keyframes scroll-dot-4 {
-  0%, 50% { opacity: 0.3; transform: translate(-50%, 0) scale(1); }
-  40% { opacity: 1; transform: translate(-50%, 0) scale(1.5); }
-  100% { opacity: 0.3; transform: translate(-50%, 0) scale(1); }
+
+  0%,
+  50% {
+    opacity: 0.3;
+    transform: translate(-50%, 0) scale(1);
+  }
+
+  40% {
+    opacity: 1;
+    transform: translate(-50%, 0) scale(1.5);
+  }
+
+  100% {
+    opacity: 0.3;
+    transform: translate(-50%, 0) scale(1);
+  }
 }
 
 @keyframes bounce-slow {
-  0%, 100% { 
+
+  0%,
+  100% {
     transform: translate(-50%, 0);
   }
-  50% { 
+
+  50% {
     transform: translate(-50%, -4px);
   }
 }

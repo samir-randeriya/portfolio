@@ -4,21 +4,15 @@
     "firstName": "Samir",
     "lastName": "Randeriya",
     "initials": "SR",
-    "title": "Laravel Backend Specialist",
+    "title": "Senior Full Stack Developer",
     "roles": [
-      "Senior Lead Software Engineer",
-      "Full Stack Developer",
-      "Laravel Developer",
+      "Senior Full Stack Developer",
+      "Senior Software Engineer",
       "React.js Developer",
-      "Vue.js Developer",
-      "Laravel Backend Specialist",
-      "Full-Stack Engineer",
-      "API Architect",
-      "Frontend Developer",
-      "Backend Developer",
-      "Scalable Systems Builder"
+      "Laravel Developer",
+      "Full Stack Engineer"
     ],
-    "bio": "Four years ago, I wrote my first Laravel API endpoint that crashed spectacularly. Today, I architect backend systems that handle thousands of users without breaking a sweat. **The difference?** I learned that great software isn't just about writing code—it's about **solving real problems** for real people. I've spent **4+ years** turning chaotic requirements into **clean, scalable systems** that businesses actually depend on. What drives me? **That moment when a client says their platform finally handles the growth they've been chasing.** I don't just build features—I build the **reliable foundation** that lets startups scale and enterprises move faster. When I'm not deep in Laravel backends or architecting APIs, I'm learning what's next, because standing still isn't an option in this field.",
+    "bio": "I am a Senior Full Stack Developer with around 5 Years of experience in the Sphere of SaaS, Enterprise Applications, and Web Solutions Development. I have extensive knowledge and experience of ReactJS, Next.js, Laravel, PHP, Node.js, TypeScript, REST API, databases, etc. My main skills are associated with project development, requirements definition, coding, architectural design, and deployment of solutions. In addition, I have years of experience in mentoring other developers and working with International clients. I aim to provide cost-effective solutions by building top-notch products that solve real-world problems, scale effectively, and are easy to maintain.",
     "email": "sam.randeriya121@gmail.com",
     "phone": "+91 909 9940 0550",
     "location": "Surat, Gujarat, India",
@@ -30,24 +24,14 @@
   "hero": {
     "greeting": "Hi, I'm",
     "rolePrefix": "I'm a ",
-    "description": "I help **startups and enterprises** ship **secure, scalable web applications** faster specializing in **Laravel backend systems** and **modern full-stack solutions** that drive real growth and business impact.",
+    "description": "I build secure, scalable SaaS and enterprise applications using React.js, Next.js, Laravel, Node.js, and REST APIs. I handle projects end-to-end, from requirements and architecture to development, testing, and deployment.",
     "techStack": [
-      "PHP",
-      "Laravel",
       "React.js",
-      "Vue.js",
-      "Nuxt.js",
       "Next.js",
-      "REST APIs",
-      "Payment Integration",
-      "Redis",
-      "MySQL",
-      "PostgreSQL",
-      "Docker",
-      "Cloud Services",
-      "Tailwind CSS",
       "TypeScript",
-      "Git"
+      "Laravel",
+      "Node.js",
+      "REST APIs"
     ],
     "buttons": [
       {
@@ -55,12 +39,6 @@
         "icon": "🚀",
         "action": "scrollToProjects",
         "type": "primary"
-      },
-      {
-        "text": "Download Resume",
-        "icon": "📄",
-        "action": "downloadResume",
-        "type": "secondary"
       },
       {
         "text": "Let's Talk",
@@ -71,12 +49,12 @@
     ]
   },
   "about": {
-    "title": "From Crashing Code to Leading Teams",
-    "subtitle": "The story of how 4+ years of building, breaking, and fixing systems taught me what truly matters: reliable software that drives real business impact.",
+    "title": "About Me",
+    "subtitle": "Senior Full Stack Developer with around 5 years of experience building SaaS platforms, enterprise applications, and scalable web solutions across frontend, backend, APIs, databases, and deployment.",
     "skills": [
       {
         "name": "Frontend Development",
-        "percentage": 95,
+        "percentage": 90,
         "color": "blue"
       },
       {
@@ -85,76 +63,64 @@
         "color": "purple"
       },
       {
-        "name": "Database Design",
+        "name": "API & Integration",
         "percentage": 85,
         "color": "green"
       },
       {
-        "name": "DevOps & Deployment",
-        "percentage": 80,
+        "name": "Database & Architecture",
+        "percentage": 85,
         "color": "orange"
       }
     ],
     "personalStats": [
       {
-        "number": "4+",
+        "key": "experience",
+        "number": "5+",
         "label": "Years Experience",
         "color": "from-blue-500 to-purple-500"
       },
       {
+        "key": "projects",
         "number": "15+",
-        "label": "Major Projects Led",
+        "label": "Projects Delivered",
         "color": "from-purple-500 to-pink-500"
       },
       {
-        "number": "20+",
-        "label": "Technologies Used",
+        "key": "mentored",
+        "number": "2+",
+        "label": "Developers Mentored",
         "color": "from-pink-500 to-red-500"
       },
       {
-        "number": "100%",
-        "label": "Code Passion",
+        "key": "ownership",
+        "number": "2",
+        "label": "SaaS Product Managed",
         "color": "from-green-500 to-emerald-500"
       }
     ],
     "qualities": [
       {
         "icon": "🛠️",
-        "title": "I Lead by Building",
-        "description": "Mentored few junior developers while shipping production code. Leadership isn't titles—it's showing up and solving problems together. With over 4+ years of experience, I've learned that the best way to lead is by building and being a part of the team."
+        "title": "End-to-End Ownership",
+        "description": "I work across the development lifecycle, from understanding requirements and designing solutions to development, testing, deployment, and ongoing improvements."
       },
       {
-        "icon": "🚀",
-        "title": "I Obsess Over Performance",
-        "description": "A 40% speed boost meant 3x the users could scale seamlessly. Every millisecond matters when growth is on the line."
+        "icon": "👥",
+        "title": "Technical Mentoring",
+        "description": "I mentor 2-3 junior developers, review their code, and provide technical guidance to help them solve project challenges effectively."
       },
       {
-        "icon": "🔐",
-        "title": "I Build Secure by Default",
-        "description": "Security isn't a feature—it's the foundation. From audits to threat detection, I make sure systems can be trusted."
+        "icon": "🤝",
+        "title": "Client Collaboration",
+        "description": "I work with international clients to understand requirements, discuss technical solutions, and keep project communication clear throughout development."
       },
       {
         "icon": "🧠",
-        "title": "I Never Stop Learning",
-        "description": "The best code I'll write is tomorrow's. Staying curious keeps my solutions ahead of the curve."
+        "title": "Continuous Learning",
+        "description": "I continuously improve my technical skills and explore modern technologies to build maintainable and scalable solutions."
       }
-    ],
-    "cta": {
-      "title": "Let's Build Something That Matters",
-      "description": "Whether you're scaling a startup or modernizing enterprise systems, I bring 4+ years of battle-tested experience to make it happen.",
-      "buttons": [
-        {
-          "text": "Start a Conversation",
-          "href": "#contact",
-          "type": "primary"
-        },
-        {
-          "text": "View My Work",
-          "href": "#projects",
-          "type": "secondary"
-        }
-      ]
-    }
+    ]
   },
   "skills": {
     "title": "My Technical Expertise",
@@ -163,16 +129,18 @@
       {
         "title": "Frontend Development",
         "icon": "🎨",
-        "description": "Building responsive, user-friendly interfaces with modern frameworks",
+        "description": "Building responsive and maintainable web interfaces with modern frontend technologies",
         "skills": [
-          "Vue.js",
           "React.js",
+          "Next.js",
+          "TypeScript",
+          "JavaScript",
+          "Vue.js",
           "Nuxt.js",
-          "Livewire",
           "Tailwind CSS",
           "Bootstrap",
-          "TypeScript",
-          "Quasar"
+          "Livewire",
+          "Lovable AI"
         ],
         "gradient": "from-blue-500 to-cyan-500",
         "delay": 0
@@ -180,15 +148,15 @@
       {
         "title": "Backend Development",
         "icon": "⚙️",
-        "description": "Creating secure and performant server-side applications and APIs",
+        "description": "Developing secure and maintainable backend systems, APIs, and business logic",
         "skills": [
-          "PHP",
           "Laravel",
-          "Laravel Nova",
-          "Backpack",
+          "PHP",
+          "Node.js",
+          "Express.js",
+          "REST APIs",
           "CodeIgniter",
           "Symfony",
-          "RESTful APIs",
           "GraphQL"
         ],
         "gradient": "from-green-500 to-emerald-500",
@@ -197,15 +165,13 @@
       {
         "title": "Database & Storage",
         "icon": "🗄️",
-        "description": "Managing structured and unstructured data efficiently",
+        "description": "Designing and working with relational, NoSQL, and caching systems",
         "skills": [
-          "PostgreSQL",
           "MySQL",
+          "PostgreSQL",
           "MongoDB",
-          "Firebase",
           "Redis",
-          "MSSQL",
-          "SQLite"
+          "Firebase"
         ],
         "gradient": "from-purple-500 to-pink-500",
         "delay": 0.2
@@ -213,13 +179,14 @@
       {
         "title": "DevOps & Cloud",
         "icon": "☁️",
-        "description": "Deploying and scaling apps with CI/CD and cloud infrastructure",
+        "description": "Deploying and maintaining applications using containers, cloud services, and CI/CD",
         "skills": [
-          "Azure DevOps",
-          "Bitbucket",
-          "GitLab CI/CD",
+          "Docker",
+          "AWS",
           "GitHub Actions",
-          "Docker"
+          "GitLab CI/CD",
+          "Azure DevOps",
+          "Bitbucket"
         ],
         "gradient": "from-orange-500 to-red-500",
         "delay": 0.3
@@ -227,16 +194,13 @@
       {
         "title": "Tools & Workflow",
         "icon": "🛠️",
-        "description": "Productivity tools and collaboration platforms for efficient development",
+        "description": "Development, API testing, version control, and team collaboration",
         "skills": [
           "Git",
-          "VS Code",
+          "GitHub",
           "Postman",
           "Jira",
-          "Trello",
-          "Slack",
-          "Asana",
-          "Monday.com"
+          "VS Code"
         ],
         "gradient": "from-indigo-500 to-blue-500",
         "delay": 0.4
@@ -244,366 +208,306 @@
       {
         "title": "Testing & Quality",
         "icon": "🧪",
-        "description": "Ensuring performance, security, and usability across applications",
+        "description": "Improving application reliability through testing, debugging, and code quality practices",
         "skills": [
-          "Manual Testing",
-          "Automated Testing",
-          "Security Testing",
-          "Performance Testing",
-          "Usability Testing"
+          "Unit Testing",
+          "API Testing",
+          "Integration Testing",
+          "Code Review",
+          "Debugging",
+          "Quality Assurance"
         ],
         "gradient": "from-yellow-500 to-orange-500",
         "delay": 0.5
       }
     ],
-    "proficiencyLevels": [
-      {
-        "name": "Expert",
-        "percentage": 95,
-        "color": "from-green-400 to-emerald-600",
-        "count": 6
-      },
-      {
-        "name": "Advanced",
-        "percentage": 85,
-        "color": "from-blue-400 to-cyan-600",
-        "count": 10
-      },
-      {
-        "name": "Intermediate",
-        "percentage": 70,
-        "color": "from-yellow-400 to-orange-600",
-        "count": 7
-      },
-      {
-        "name": "Learning",
-        "percentage": 40,
-        "color": "from-purple-400 to-pink-600",
-        "count": 4
-      }
-    ],
     "currentlyLearning": [
-      "AI/ML Integration",
-      "Web3 Security",
-      "Serverless Architecture",
-      "Advanced Laravel Packages",
+      "AI Integration",
       "Multi-tenant Architecture",
+      "Serverless Architecture",
       "DevSecOps"
-    ],
-    "cta": {
-      "title": "Let's Build Future-Ready Solutions",
-      "description": "If you're looking to work with someone who combines experience with modern tools to create impactful digital products—I'm your developer.",
-      "buttons": [
-        {
-          "text": "View My Projects",
-          "href": "#projects",
-          "type": "primary"
-        },
-        {
-          "text": "Let's Collaborate",
-          "href": "#contact",
-          "type": "secondary"
-        }
-      ]
-    }
+    ]
   },
   "projects": {
     "title": "Projects That Solve Real Problems",
-    "subtitle": "From concept to deployment—here's how I've helped businesses ship better software faster.",
+    "subtitle": "A selection of SaaS platforms, enterprise applications, APIs, and web solutions I've contributed to across different industries.",
     "projects": [
       {
         "id": "01",
-        "title": "Meal Vista - A Modern Recipe Search App",
-        "category": "Full Stack Development",
-        "description": "**Challenge:** Customers needed a platform to browse and search for recipes online. **Solution:** Built a full-stack platform with Laravel and Vue.js, featuring recipe catalog, search functionality, and comprehensive admin dashboard for inventory, coupons, and user management. **Impact:** Delivered a scalable solution with 10+ core features, enabling customers to search for recipes efficiently.",
-        "image": "🍜",
-        "color": "from-purple-500 to-pink-500",
+        "title": "GrowVia - Marketing Campaign SaaS Platform",
+        "category": "SaaS / Full Stack Development",
+        "domain": "Marketing & Customer Engagement",
+        "role": "Full-Stack Developer",
+        "description": "Developed a full-stack marketing and customer engagement SaaS platform that helps businesses manage campaigns, social media publishing, Google reviews, customer engagement, loyalty, and automated marketing workflows.",
         "technologies": [
           "React.js",
+          "Laravel",
+          "PHP 8+",
+          "MySQL",
+          "REST APIs",
+          "Redis",
+          "Laravel Queues",
+          "Webhooks",
           "Tailwind CSS",
-          "Restful APIs",
-          "API Integration",
-          "Database Design",
-          "User Experience"
+          "OpenAI API",
+          "WhatsApp Meta API",
+          "Facebook/Instagram APIs",
+          "Google Business API",
+          "Stripe"
+        ],
+        "keyContributions": [
+          "Built and integrated frontend interfaces with Laravel REST APIs.",
+          "Implemented asynchronous campaign processing using Laravel Queues.",
+          "Integrated OpenAI for AI-generated social content, review replies, and reports.",
+          "Integrated WhatsApp Meta, Facebook/Instagram, and Google Business APIs for multi-channel marketing and review management.",
+          "Contributed across requirements, development, API integration, testing, debugging, and production deployment."
         ],
         "metrics": [
           {
             "label": "Role",
-            "value": "Frontend Developer"
+            "value": "Full-Stack Developer"
           },
           {
-            "label": "Published",
-            "value": "October 2025"
-          },
-          {
-            "label": "Features",
-            "value": "10+"
+            "label": "Domain",
+            "value": "Marketing & Customer Engagement SaaS"
           }
         ],
-        "images": [
-          "/meal-vista/image1.png",
-          "/meal-vista/image2.png",
-          "/meal-vista/image3.png",
-          "/meal-vista/image4.png"
-        ],
-        "liveUrl": "https://meal-vista.vercel.app/",
-        "githubUrl": "https://github.com/samir-randeriya/file-management",
-        "upworkUrl": "https://www.upwork.com/freelancers/~014e94a19f6e639b39?p=1895717466452103168",
+        "images": [],
+        "liveUrl": "https://growvia.social/",
+        "githubUrl": "",
+        "upworkUrl": "",
         "featured": true
       },
       {
         "id": "02",
-        "title": "Asset Management",
-        "category": "Full Stack Development",
-        "description": "**Challenge:** Customers needed a platform to track their assets and inventory. **Solution:** Built a full-stack platform with Laravel and Vue.js, featuring asset catalog, search functionality, and comprehensive admin dashboard for inventory, coupons, and user management. **Impact:** Delivered a scalable solution with 10+ core features, enabling customers to track their assets efficiently.",
-        "image": "💼",
-        "color": "from-green-500 to-emerald-500",
+        "title": "Voyajur - Property Booking Engine",
+        "category": "Travel / Full Stack Development",
+        "domain": "Travel",
+        "role": "Full-Stack Developer",
+        "description": "Developed a full-stack hotel booking platform covering property search, filtering, real-time availability, booking workflows, guest messaging, and administration.",
         "technologies": [
-          "Laravel",
-          "Bootstrap",
-          "JQuery",
-          "MySQL"
+          "Next.js",
+          "React.js",
+          "TypeScript",
+          "Tailwind CSS",
+          "Node.js",
+          "Express.js",
+          "GraphQL",
+          "MongoDB",
+          "JWT",
+          "2FA",
+          "WebSocket",
+          "AWS EC2",
+          "Docker",
+          "CI/CD",
+          "Stripe"
+        ],
+        "keyContributions": [
+          "Implemented property search, filtering, booking workflows, guest messaging, and administration features.",
+          "Implemented real-time availability and double-booking conflict validation.",
+          "Implemented JWT authentication, 2FA, and identity-document verification.",
+          "Used Next.js SSR, code splitting, and lazy loading for frontend performance and SEO.",
+          "Deployed the application using Docker on AWS EC2 with CI/CD integration."
         ],
         "metrics": [
           {
             "label": "Role",
-            "value": "Backend Developer"
+            "value": "Full-Stack Developer"
           },
           {
-            "label": "Published",
-            "value": "January 2025"
-          },
-          {
-            "label": "Features",
-            "value": "10+"
+            "label": "Domain",
+            "value": "Travel"
           }
         ],
-        "images": [
-          "/asset-management/image1.png",
-          "/asset-management/image2.png",
-          "/asset-management/image3.png"
-        ],
-        "liveUrl": "",
-        "githubUrl": "https://github.com/samir-randeriya/laravel-asset-management",
-        "upworkUrl": "https://www.upwork.com/freelancers/~014e94a19f6e639b39?p=1822539884965969920",
+        "images": [],
+        "liveUrl": "https://voyajur.com/",
+        "githubUrl": "",
+        "upworkUrl": "",
         "featured": true
       },
       {
         "id": "03",
-        "title": "Hyper Mart - A Modern E-commerce Platform",
-        "category": "Full Stack Development",
-        "description": "**Challenge:** Customers needed a platform to browse and purchase products online. **Solution:** Built a full-stack platform with Laravel and Vue.js, featuring product catalog, cart system, secure checkout, order tracking, and comprehensive admin dashboard for inventory, coupons, and user management. **Impact:** Delivered a scalable solution with 10+ core features, enabling customers to purchase products efficiently.",
-        "image": "🛒",
-        "color": "from-blue-500 to-cyan-500",
+        "title": "Heroic - Cybersecurity SaaS Platform",
+        "category": "Cybersecurity SaaS / Full Stack Development",
+        "domain": "Cybersecurity SaaS (B2B)",
+        "role": "Full-Stack Developer (Laravel / Livewire)",
+        "description": "Worked on a production B2B cybersecurity SaaS platform focused on breach monitoring, compromised-data detection, security notifications, identity protection, subscriptions, and enterprise role management.",
         "technologies": [
-          "PHP",
-          "Laravel",
+          "Laravel 12",
+          "PHP 8+",
+          "Livewire 3",
+          "Alpine.js",
+          "Laravel Nova 4",
           "Bootstrap",
-          "Restful APIs",
-          "Database Design",
-          "User Experience",
-          "Payment Integration"
+          "Metronic v8",
+          "MySQL",
+          "Redis",
+          "Queue Jobs",
+          "Scheduled Tasks",
+          "Laradoc",
+          "AWS",
+          "Stripe"
+        ],
+        "keyContributions": [
+          "Modernized legacy HTML, AJAX, and JavaScript modules by migrating them to Livewire 3 and Alpine.js.",
+          "Developed breach notification and compromised-data alert workflows.",
+          "Implemented Redis-backed caching for administrative operations.",
+          "Worked on Stripe subscription and payment functionality.",
+          "Contributed to breach monitoring, identity protection, security score, referral tracking, real-time alerts, DNS-level security, and enterprise role management.",
+          "Worked across feature development, debugging, optimization, testing, deployment, and production support."
         ],
         "metrics": [
           {
-            "label": "Published",
-            "value": "March 2017"
-          },
-          {
             "label": "Role",
-            "value": "Backend Developer"
+            "value": "Full-Stack Developer"
           },
           {
-            "label": "Features",
-            "value": "10+"
+            "label": "Domain",
+            "value": "Cybersecurity SaaS (B2B)"
           }
         ],
-        "images": [
-          "/hyper-mart/image1.png",
-          "/hyper-mart/image2.png",
-          "/hyper-mart/image3.png",
-          "/hyper-mart/image4.png"
-        ],
-        "liveUrl": "",
-        "githubUrl": "https://github.com/samir-randeriya/laravel-ecommerce",
-        "upworkUrl": "https://www.upwork.com/freelancers/~014e94a19f6e639b39?p=1797308307686379520",
-        "featured": false
+        "images": [],
+        "liveUrl": "https://heroic.com/",
+        "githubUrl": "",
+        "upworkUrl": "",
+        "featured": true
       },
       {
         "id": "04",
-        "title": "Textile Market - A Modern Textile Shopping Platform",
-        "category": "Full Stack Development",
-        "description": "**Challenge:** Customers needed a platform to browse and purchase textiles online. **Solution:** Built a full-stack platform with ASP.NET and SQL Server, featuring product catalog, cart system, secure checkout, order tracking, and comprehensive admin dashboard for inventory, coupons, and user management. **Impact:** Delivered a scalable solution with 10+ core features, enabling customers to purchase textiles efficiently.",
-        "image": "🧵",
-        "color": "from-green-500 to-emerald-500",
+        "title": "U.S. Will Registry - Legal-Tech Platform",
+        "category": "Legal Tech / Full Stack Development",
+        "domain": "Legal Tech",
+        "role": "Full-Stack Developer",
+        "description": "Developed a secure legal-tech platform supporting multiple modules for will registration and registry workflows, with a focus on secure APIs, role-based access, database reliability, and frontend workflow management.",
         "technologies": [
-          "ASP.NET",
-          "SQL Server",
-          "ASP.NET C#",
-          "Web API"
+          "Laravel",
+          "PHP 8+",
+          "React.js",
+          "JavaScript",
+          "TypeScript",
+          "PostgreSQL",
+          "REST APIs",
+          "JWT",
+          "RBAC",
+          "Authorized.net"
+        ],
+        "keyContributions": [
+          "Designed and developed RESTful APIs using Laravel and PHP.",
+          "Implemented JWT authentication and role-based access control.",
+          "Worked with PostgreSQL for reliable data management and audit-friendly logging.",
+          "Developed frontend workflows using React.js and Angular.",
+          "Implemented dynamic forms, validation, loading states, and error handling.",
+          "Focused on secure API communication, database optimization, modular architecture, and reliable handling of sensitive legal data."
         ],
         "metrics": [
           {
             "label": "Role",
-            "value": "Backend Developer"
+            "value": "Full-Stack Developer"
           },
           {
-            "label": "Published",
-            "value": "June 2018"
-          },
-          {
-            "label": "Features",
-            "value": "5+"
+            "label": "Domain",
+            "value": "Legal Tech"
           }
         ],
-        "images": [
-          "/textile-market/online_textile.gif"
-        ],
-        "liveUrl": "",
+        "images": [],
+        "liveUrl": "https://www.theuswillregistry.org/",
         "githubUrl": "",
-        "upworkUrl": "https://www.upwork.com/freelancers/~014e94a19f6e639b39?p=1739313697803608064",
-        "featured": false
+        "upworkUrl": "",
+        "featured": true
       },
       {
         "id": "05",
-        "title": "Online Outfit Shopping Platform",
-        "category": "Full Stack Development",
-        "description": "**Challenge:** Customers needed a platform to browse and purchase clothing and accessories online. **Solution:** Built a full-stack platform with PHP and MySQL, featuring product catalog, cart system, secure checkout, order tracking, and comprehensive admin dashboard for inventory, coupons, and user management. **Impact:** Delivered a scalable solution with 10+ core features, enabling customers to purchase clothing and accessories efficiently.",
-        "image": "👕",
-        "color": "from-purple-500 to-pink-500",
+        "title": "Hotel Booking - REST API & Laravel Admin Panel",
+        "category": "Travel / Backend Development",
+        "domain": "Travel & Hospitality",
+        "role": "Backend Developer",
+        "description": "Worked on a hotel booking application with a Laravel backend and administrative panel, supporting mobile application integration through REST APIs.",
         "technologies": [
+          "Laravel",
           "PHP",
-          "MySQL",
-          "Bootstrap",
-          "JQuery",
-          "Git"
-        ],
-        "metrics": [
-          {
-            "label": "Role",
-            "value": "Full Stack Developer"
-          },
-          {
-            "label": "Published",
-            "value": "October 2017"
-          },
-          {
-            "label": "Features",
-            "value": "5+"
-          }
-        ],
-        "images": [
-          "/ecommerce/image1.png",
-          "/ecommerce/image2.png",
-          "/ecommerce/image3.png",
-          "/ecommerce/image4.png",
-          "/ecommerce/image5.png"
-        ],
-        "liveUrl": "",
-        "githubUrl": "https://github.com/samir-randeriya/php-ecommerce",
-        "upworkUrl": "https://www.upwork.com/freelancers/~014e94a19f6e639b39?p=1797346588377567232",
-        "featured": false
-      },
-      {
-        "id": "06",
-        "title": "Online Footwear Shopping Platform",
-        "category": "Full Stack Development",
-        "description": "**Challenge:** Customers needed a platform to browse and purchase footwear online. **Solution:** Built a full-stack platform with PHP and MySQL, featuring product catalog, cart system, secure checkout, order tracking, and comprehensive admin dashboard for inventory, coupons, and user management. **Impact:** Delivered a scalable solution with 10+ core features, enabling customers to purchase footwear efficiently.",
-        "image": "👟",
-        "color": "from-blue-500 to-cyan-500",
-        "technologies": [
-          "PHP",
+          "REST APIs",
           "MySQL",
           "HTML",
           "CSS",
           "JavaScript",
-          "Bootstrap",
-          "JQuery",
-          "Git"
+          "AJAX"
+        ],
+        "keyContributions": [
+          "Developed and maintained RESTful APIs consumed by the mobile application.",
+          "Implemented backend business functionality using Laravel.",
+          "Worked on API request and response handling.",
+          "Managed data validation and backend data operations.",
+          "Debugged issues and supported integration between the mobile application and backend administration system."
         ],
         "metrics": [
           {
             "label": "Role",
-            "value": "Full Stack Developer"
+            "value": "Backend Developer"
           },
           {
-            "label": "Published",
-            "value": "December 2017"
-          },
-          {
-            "label": "Features",
-            "value": "5+"
+            "label": "Domain",
+            "value": "Travel & Hospitality"
           }
         ],
-        "images": [
-          "/ecommerce/image1.png",
-          "/ecommerce/image2.png",
-          "/ecommerce/image3.png",
-          "/ecommerce/image4.png",
-          "/ecommerce/image5.png"
-        ],
-        "liveUrl": "",
+        "images": [],
+        "liveUrl": "https://enjoyhotelshub.nwideas.com/login",
         "githubUrl": "",
-        "upworkUrl": "https://www.upwork.com/freelancers/~014e94a19f6e639b39?p=1739308298229641216",
+        "upworkUrl": "",
+        "featured": false
+      },
+      {
+        "id": "06",
+        "title": "Wife Planet - Online Dating Web Application",
+        "category": "Social / Full Stack Development",
+        "domain": "Social / Dating",
+        "role": "Full-Stack Developer (Nuxt.js + Prisma)",
+        "description": "Worked on an online dating web application using Nuxt.js for frontend development and Prisma ORM for backend and database operations.",
+        "technologies": [
+          "Nuxt.js",
+          "JavaScript",
+          "Prisma ORM",
+          "Backend Development"
+        ],
+        "keyContributions": [
+          "Developed user-facing web functionality using Nuxt.js.",
+          "Integrated frontend workflows with backend services.",
+          "Worked on application business logic and database interactions.",
+          "Contributed to both frontend and backend development within the Nuxt.js and Prisma ecosystem."
+        ],
+        "metrics": [
+          {
+            "label": "Role",
+            "value": "Full-Stack Developer"
+          },
+          {
+            "label": "Domain",
+            "value": "Social / Dating"
+          }
+        ],
+        "images": [],
+        "liveUrl": "https://wifeplanet.com/",
+        "githubUrl": "",
+        "upworkUrl": "",
         "featured": false
       },
       {
         "id": "07",
-        "title": "Dynamic File Management System",
-        "category": "Full Stack Web Development",
-        "description": "**Challenge:** Customers needed a platform to manage their files online. **Solution:** Built a full-stack platform with Laravel and React.js, featuring file catalog, search functionality, and comprehensive admin dashboard for file management. **Impact:** Delivered a scalable solution with 5+ core features, enabling customers to manage their files efficiently.",
-        "image": "📂",
-        "color": "from-green-500 to-emerald-500",
+        "title": "Hungry Democracy - Web Application UI",
+        "category": "Frontend Development",
+        "domain": "Web Application",
+        "role": "Frontend Developer",
+        "description": "Worked specifically on the frontend and UI portion of the Hungry Democracy web application using Nuxt.js, focusing on responsive interfaces, layouts, interactions, and UI issue resolution.",
         "technologies": [
-          "Laravel",
-          "React.js",
-          "JWT Authentication",
-          "MySQL",
-          "Tailwind CSS",
-          "Restful APIs",
-          "User Experience"
+          "Nuxt.js",
+          "JavaScript",
+          "HTML",
+          "CSS"
         ],
-        "metrics": [
-          {
-            "label": "Role",
-            "value": "Full Stack Web Developer"
-          },
-          {
-            "label": "Published",
-            "value": "March 2025"
-          },
-          {
-            "label": "Features",
-            "value": "10+"
-          }
-        ],
-        "images": [
-          "/file-management/image1.png",
-          "/file-management/image2.png",
-          "/file-management/image3.png"
-        ],
-        "liveUrl": "",
-        "githubUrl": "https://github.com/samir-randeriya/file-management",
-        "upworkUrl": "https://www.upwork.com/freelancers/~014e94a19f6e639b39?p=1883049878694350848",
-        "featured": false
-      },
-      {
-        "id": "08",
-        "title": "Google Authentication Application",
-        "category": "Frontend Developer",
-        "description": "**Challenge:** Customers needed a platform to manage their files online. **Solution:** Built a platform with Vue.js, featuring Google Authentication, JWT Authentication, and comprehensive admin dashboard for file management. **Impact:** Delivered a scalable solution with 5+ core features, enabling customers to manage their files efficiently.",
-        "image": "🔒",
-        "color": "from-blue-500 to-cyan-500",
-        "technologies": [
-          "Vue.js",
-          "Vuex",
-          "Vue Router",
-          "Google OAuth",
-          "JWT Authentication",
-          "PostgreSQL",
-          "Tailwind CSS",
-          "RESTful APIs",
-          "User Experience"
+        "keyContributions": [
+          "Converted UI requirements into responsive web interfaces.",
+          "Developed frontend components and layouts using Nuxt.js.",
+          "Implemented frontend interactions.",
+          "Fixed UI and responsive issues during development."
         ],
         "metrics": [
           {
@@ -611,36 +515,248 @@
             "value": "Frontend Developer"
           },
           {
-            "label": "Published",
-            "value": "July 2024"
-          },
-          {
-            "label": "Features",
-            "value": "5+"
+            "label": "Contribution",
+            "value": "Approximately 1 month"
           }
         ],
-        "images": [
-          "/google-authentication/image1.png",
-          "/google-authentication/image2.png",
-          "/google-authentication/image3.png"
+        "images": [],
+        "liveUrl": "https://hungrydemocracy.com/",
+        "githubUrl": "",
+        "upworkUrl": "",
+        "featured": false
+      },
+      {
+        "id": "08",
+        "title": "Prison Outreach National Database (POND)",
+        "category": "Web Application / PHP Development",
+        "domain": "Non-Profit / Data Management",
+        "role": "PHP Developer",
+        "description": "Worked on a web-based Prison Outreach National Database containing modules for volunteers, residents, facilities, and reports.",
+        "technologies": [
+          "Core PHP",
+          "HTML",
+          "CSS",
+          "jQuery",
+          "AJAX",
+          "DataTables"
         ],
+        "keyContributions": [
+          "Developed and maintained functionality using Core PHP.",
+          "Worked on dynamic client-server interactions.",
+          "Implemented forms and CRUD functionality.",
+          "Debugged and maintained existing modules.",
+          "Delivered feature enhancements across volunteers, residents, facilities, and reporting workflows."
+        ],
+        "metrics": [
+          {
+            "label": "Role",
+            "value": "PHP Developer"
+          },
+          {
+            "label": "Focus",
+            "value": "Maintenance & Enhancements"
+          }
+        ],
+        "images": [],
+        "liveUrl": "https://pond.dcphp.com/",
+        "githubUrl": "",
+        "upworkUrl": "",
+        "featured": false
+      },
+      {
+        "id": "09",
+        "title": "MealVista - Recipe Search App",
+        "category": "Frontend Development",
+        "domain": "Food / Consumer Web App",
+        "role": "Frontend Developer",
+        "description": "Developed a responsive recipe search application that allows users to search for meals, explore ingredients and cooking steps, and watch cooking videos through a modern Vue.js interface.",
+        "technologies": [
+          "Vue.js",
+          "Tailwind CSS",
+          "REST API"
+        ],
+        "keyContributions": [
+          "Built a responsive frontend interface for recipe discovery.",
+          "Implemented search by meal name, category, and ingredients.",
+          "Developed detailed meal information views with ingredients, steps, and nutrition details.",
+          "Integrated cooking video experiences.",
+          "Implemented dynamic popups and responsive user interactions."
+        ],
+        "metrics": [
+          {
+            "label": "Role",
+            "value": "Frontend Developer"
+          },
+          {
+            "label": "Domain",
+            "value": "Food / Consumer Web App"
+          }
+        ],
+        "images": [],
+        "liveUrl": "https://samir-frontend-developer.vercel.app/",
+        "githubUrl": "",
+        "upworkUrl": "",
+        "featured": false
+      },
+      {
+        "id": "10",
+        "title": "Dynamic File Management System",
+        "category": "Full Stack Development",
+        "domain": "Productivity / Document Management",
+        "role": "Full-Stack Developer",
+        "description": "Developed a file management platform using ReactJS and Laravel with support for file uploads, previews, search, deletion, authentication, and responsive performance across devices.",
+        "technologies": [
+          "ReactJS 18.3.1",
+          "Laravel 10",
+          "MySQL"
+        ],
+        "keyContributions": [
+          "Implemented secure user authentication and role-based access control.",
+          "Built file upload, preview, search, and deletion workflows.",
+          "Implemented in-app file previews without downloading.",
+          "Added search by file name and type.",
+          "Implemented multi-file deletion and pagination.",
+          "Optimized the application for responsive and fast user experiences."
+        ],
+        "metrics": [
+          {
+            "label": "Role",
+            "value": "Full-Stack Developer"
+          },
+          {
+            "label": "Domain",
+            "value": "Productivity / Document Management"
+          }
+        ],
+        "images": [],
         "liveUrl": "",
-        "githubUrl": "https://github.com/samir-randeriya/VueJs-sso-login",
-        "upworkUrl": "https://www.upwork.com/freelancers/~014e94a19f6e639b39?p=1812896626883903488",
+        "githubUrl": "",
+        "upworkUrl": "",
+        "featured": false
+      },
+      {
+        "id": "11",
+        "title": "Inventory Management System",
+        "category": "Business Application",
+        "domain": "Inventory Management",
+        "role": "Full-Stack Developer",
+        "description": "Designed an inventory management system to help businesses track stock, monitor assets, and manage inventory operations in real time.",
+        "technologies": [
+          "Laravel",
+          "Bootstrap",
+          "MySQL"
+        ],
+        "keyContributions": [
+          "Implemented real-time stock updates.",
+          "Built multi-user role access and permission management.",
+          "Implemented reporting and analytics for inventory and sales data.",
+          "Worked on inventory and asset management workflows."
+        ],
+        "metrics": [
+          {
+            "label": "Role",
+            "value": "Full-Stack Developer"
+          },
+          {
+            "label": "Domain",
+            "value": "Inventory Management"
+          }
+        ],
+        "images": [],
+        "liveUrl": "",
+        "githubUrl": "",
+        "upworkUrl": "",
+        "featured": false
+      },
+      {
+        "id": "12",
+        "title": "E-Commerce Platform",
+        "category": "E-Commerce / Full Stack Development",
+        "domain": "E-Commerce",
+        "role": "Full-Stack Developer",
+        "description": "Built a feature-rich e-commerce platform with separate user and admin interfaces, covering product management, shopping, checkout, authentication, orders, reporting, notifications, and role-based access.",
+        "technologies": [
+          "Laravel",
+          "Livewire",
+          "Tailwind CSS",
+          "PostgreSQL"
+        ],
+        "keyContributions": [
+          "Built product catalog and detailed product pages.",
+          "Implemented shopping cart and checkout workflows.",
+          "Implemented secure user authentication and account management.",
+          "Built an admin dashboard for products, categories, orders, and users.",
+          "Implemented coupon management, reports, and analytics.",
+          "Integrated SMS and email notifications.",
+          "Implemented role-based access control and responsive layouts."
+        ],
+        "metrics": [
+          {
+            "label": "Role",
+            "value": "Full-Stack Developer"
+          },
+          {
+            "label": "Domain",
+            "value": "E-Commerce"
+          }
+        ],
+        "images": [],
+        "liveUrl": "",
+        "githubUrl": "",
+        "upworkUrl": "",
+        "featured": false
+      },
+      {
+        "id": "13",
+        "title": "Product Management API",
+        "category": "Backend Development / REST API",
+        "domain": "API & Product Management",
+        "role": "Backend Developer",
+        "description": "Developed a Laravel REST API for managing users, products, and customer inquiries with authentication, CRUD operations, search, filtering, caching, and database migrations.",
+        "technologies": [
+          "Laravel",
+          "REST APIs",
+          "Authentication",
+          "OTP Verification",
+          "Caching",
+          "Database Migrations"
+        ],
+        "keyContributions": [
+          "Implemented user registration, login, password management, and OTP verification.",
+          "Developed product CRUD operations.",
+          "Implemented product filtering, sorting, and search.",
+          "Built inquiry management workflows.",
+          "Implemented advanced search and filtering for users and products.",
+          "Used caching and database migrations to improve API operations."
+        ],
+        "metrics": [
+          {
+            "label": "Role",
+            "value": "Backend Developer"
+          },
+          {
+            "label": "Focus",
+            "value": "Laravel REST API"
+          }
+        ],
+        "images": [],
+        "liveUrl": "",
+        "githubUrl": "",
+        "upworkUrl": "",
         "featured": false
       }
     ],
     "cta": {
-      "title": "Ready to Turn Your Idea Into Reality?",
-      "description": "Whether you need a Laravel backend, a full-stack solution, or help scaling your existing platform—let's talk.",
+      "title": "Let's Build Something Great",
+      "description": "Have a SaaS product, web application, or backend system to build or improve? Let's connect and discuss your requirements.",
       "buttons": [
         {
-          "text": "Start a Project",
+          "text": "Start a Conversation",
           "action": "scrollToContact",
           "type": "primary"
         },
         {
-          "text": "View All Work",
+          "text": "View GitHub",
           "action": "openGithub",
           "type": "secondary"
         }
@@ -649,7 +765,7 @@
   },
   "experience": {
     "title": "Professional Experience",
-    "subtitle": "Real-world impact delivering secure, scalable, and user-centric software solutions across industries.",
+    "subtitle": "Hands-on experience building web applications, SaaS products, APIs, and production-ready solutions across frontend and backend technologies.",
     "experiences": [
       {
         "id": 1,
@@ -659,20 +775,26 @@
         "location": "Surat, Gujarat, India",
         "type": "Full-time",
         "icon": "💼",
-        "description": "Leading frontend development for enterprise-level applications with React.js and TypeScript. Spearheading UI/UX improvements and mentoring junior developers. ",
+        "description": "Working as a Senior Lead Software Engineer with hands-on responsibility across full-stack development, project delivery, client communication, and technical mentoring.",
         "achievements": [
-          "Resolved complex technical issues, improving system stability and reducing bug-related delays across multiple development cycles.",
-          "Optimized codebase, resulting in a 40% improvement in application performance and supporting a 3x increase in user traffic without degradation.",
-          "Mentored 5 junior developers, leading to a 30% improvement in their code quality and faster onboarding into production-level tasks.",
-          "Led the delivery of 5+ high-impact projects, aligning cross-functional teams and maintaining 100% adherence to deadlines and quality benchmarks"
+          "Handle projects end-to-end, from requirement gathering and technical planning through development, testing, deployment, and ongoing support.",
+          "Develop and maintain web applications using React.js, TypeScript, Laravel, PHP, Node.js, and REST APIs.",
+          "Work on frontend interfaces, backend services, database operations, API integrations, debugging, and application improvements.",
+          "Communicate with international clients through calls and chat to understand requirements, discuss solutions, and provide project updates.",
+          "Mentor and guide 2-3 junior developers through technical discussions, code reviews, debugging, and day-to-day development tasks.",
+          "Participate in code reviews and contribute to maintainable, secure, and scalable application development.",
+          "Work with databases including MySQL and PostgreSQL and contribute to deployment and production support."
         ],
         "technologies": [
+          "React.js",
+          "TypeScript",
           "Laravel",
-          "Laravel Nova",
-          "Livewire",
-          "Alpine.js",
-          "RESTful APIs",
+          "PHP",
+          "Node.js",
+          "REST APIs",
+          "MySQL",
           "PostgreSQL",
+          "Redis",
           "Docker",
           "AWS",
           "CI/CD"
@@ -687,22 +809,23 @@
         "location": "Remote",
         "type": "Internship",
         "icon": "🌱",
-        "description": "Developed and maintained web applications using MERN stack. Collaborated with product team to implement new features and optimize existing functionality.",
+        "description": "Worked on web development tasks and contributed to frontend and backend implementation as part of an internship.",
         "achievements": [
-          "Developed 10+ responsive landing pages for client projects",
-          "Contributed to company's component library documentation",
-          "Participated in daily standups and sprint planning sessions"
+          "Worked on assigned web development modules and implemented requested functionality.",
+          "Developed and maintained frontend interfaces using HTML, CSS, JavaScript, Bootstrap, and jQuery.",
+          "Worked with PHP, Laravel, and MySQL for backend and database-related tasks.",
+          "Used Git for source control and collaborated with the development team during implementation and debugging."
         ],
         "technologies": [
           "PHP",
+          "Laravel",
           "MySQL",
           "HTML",
           "CSS",
           "JavaScript",
           "Bootstrap",
-          "JQuery",
-          "Git",
-          "Laravel"
+          "jQuery",
+          "Git"
         ],
         "gradient": "from-green-500 to-emerald-500"
       },
@@ -714,40 +837,33 @@
         "location": "Remote",
         "type": "Internship",
         "icon": "🚀",
-        "description": "Developed and maintained web applications using MERN stack. Collaborated with product team to implement new features and optimize existing functionality. ",
+        "description": "Worked on web development tasks, debugging, and UI-related improvements during an internship.",
         "achievements": [
-          "Collaborated with 4+ cross-functional teams to integrate APIs and services across multiple components, improving overall system interoperability by 30%.",
-          "Reviewed and resolved 100+ customer-reported bugs, improving system stability and customer satisfaction by 20%.",
-          "Participated in 50+ code reviews, identifying critical issues and contributing to a 15% reduction in post-deployment defects."
+          "Worked on small modules, debugged the existing website, and resolved bugs assigned by the Team Lead.",
+          "Fixed UI, CSS, booking, and cart-related issues while coordinating with the testing team to verify fixes.",
+          "Worked with HTML, CSS, JavaScript, Bootstrap, jQuery, and Git during development and maintenance."
         ],
         "technologies": [
-          "PHP",
-          "MySQL",
           "HTML",
           "CSS",
           "JavaScript",
           "Bootstrap",
-          "JQuery",
+          "jQuery",
           "Git"
         ],
         "gradient": "from-purple-500 to-pink-500"
       }
-    ],
-    "cta": {
-      "title": "Ready for the Next Chapter?",
-      "description": "Let’s collaborate to build secure, scalable apps that solve real problems. I bring code quality, experience, and ownership to the table.",
-      "buttonText": "Let's Connect"
-    }
+    ]
   },
   "education": {
     "title": "Education",
-    "subtitle": "My educational journey in computer science and continuous learning",
+    "subtitle": "Academic background in computer applications and software development",
     "education": [
       {
         "degree": "Master of Computer Applications",
-        "institution": "Dr.Vishwanath Karad MIT WORLD PEACE UNIVERSITY`",
+        "institution": "Dr. Vishwanath Karad MIT World Peace University",
         "period": "2019 - 2022",
-        "gpa": "9.0/10",
+        "gpa": "9.6/10",
         "achievements": [],
         "coursework": [
           "Data Structures",
@@ -761,12 +877,7 @@
           "Data Science",
           "Cloud Computing",
           "DevOps",
-          "Cybersecurity",
-          "Web3",
-          "Web3 Security",
-          "Serverless Architecture",
-          "Advanced Laravel Packages",
-          "DevSecOps"
+          "Cybersecurity"
         ]
       },
       {
@@ -806,18 +917,18 @@
         "year": "January 2021"
       },
       {
-        "name": "The complete ReactJs Course - Basic to Advanced",
+        "name": "The Complete ReactJs Course - Basic to Advanced",
         "issuer": "Udemy",
         "year": "March 2021"
       }
     ]
   },
   "contact": {
-    "title": "Get In Touch",
-    "subtitle": "Have a project in mind or want to collaborate? I'd love to hear from you. Let's discuss how we can work together to bring your ideas to life.",
+    "title": "Let's Connect",
+    "subtitle": "I'm open to senior full-stack opportunities, technical collaborations, and interesting projects. Feel free to reach out and let's discuss how I can contribute.",
     "availability": {
-      "status": "Available for Projects",
-      "description": "Open for freelance and full-time projects. Let's collaborate to build something impactful!"
+      "status": "Open to Opportunities",
+      "description": "Currently open to Senior Full Stack Developer and Senior Software Engineer opportunities."
     },
     "contactInfo": [
       {
@@ -854,8 +965,8 @@
       }
     ],
     "form": {
-      "title": "Send Message",
-      "successMessage": "Message sent successfully! I'll get back to you soon.",
+      "title": "Send Me a Message",
+      "successMessage": "Thanks for reaching out! I'll get back to you as soon as possible.",
       "fields": [
         {
           "name": "name",
@@ -888,26 +999,9 @@
     }
   },
   "reviews": {
-    "title": "Client Reviews & Testimonials",
-    "subtitle": "Here's what my clients say about working with me",
-    "stats": [
-      {
-        "number": "30+",
-        "label": "Projects Completed"
-      },
-      {
-        "number": "100%",
-        "label": "Client Satisfaction"
-      },
-      {
-        "number": "5.0/5",
-        "label": "Average Rating"
-      },
-      {
-        "number": "24 Hours",
-        "label": "Average Response Time"
-      }
-    ],
+    "title": "Testimonials",
+    "subtitle": "Feedback from clients and people I've worked with.",
+    "stats": [],
     "reviews": [
       {
         "name": "Oliver May",
@@ -921,16 +1015,16 @@
       }
     ],
     "cta": {
-      "title": "Ready to Start Your Project?",
-      "description": "Join the growing list of satisfied clients. Let's discuss your project requirements and create something amazing together.",
+      "title": "Let's Work Together",
+      "description": "Interested in working together? Get in touch to discuss an opportunity or project.",
       "buttons": [
         {
-          "text": "Get Started",
+          "text": "Contact Me",
           "action": "scrollToContact",
           "type": "primary"
         },
         {
-          "text": "View Portfolio",
+          "text": "View My Work",
           "href": "#projects",
           "type": "secondary"
         }
@@ -941,7 +1035,7 @@
     "brand": {
       "initials": "SR",
       "name": "Samir Randeriya",
-      "title": "Senior Lead Software Engineer"
+      "title": "Senior Full Stack Developer"
     },
     "menuItems": [
       {
@@ -965,10 +1059,6 @@
         "href": "#experience"
       },
       {
-        "name": "AI Chat",
-        "href": "#chat"
-      },
-      {
         "name": "Contact",
         "href": "#contact"
       }
@@ -981,7 +1071,7 @@
   "footer": {
     "brand": {
       "name": "Samir Randeriya",
-      "description": "Passionate Senior Lead Software Engineer creating beautiful, functional, and user-friendly applications using modern technologies and best practices."
+      "description": "Senior Full Stack Developer building scalable SaaS, enterprise, and web applications with modern frontend and backend technologies."
     },
     "socialLinks": [
       {
@@ -992,12 +1082,7 @@
       {
         "name": "LinkedIn",
         "icon": "💼",
-        "url": "https://www.linkedin.com/in/samir-randeriya-578a17185/"
-      },
-      {
-        "name": "Twitter",
-        "icon": "🐦",
-        "url": "https://x.com/s_randeriya"
+        "url": "https://www.linkedin.com/in/samir-randeriya/"
       },
       {
         "name": "Email",
@@ -1015,8 +1100,16 @@
         "href": "#about"
       },
       {
+        "name": "Skills",
+        "href": "#skills"
+      },
+      {
         "name": "Projects",
         "href": "#projects"
+      },
+      {
+        "name": "Experience",
+        "href": "#experience"
       },
       {
         "name": "Contact",
@@ -1029,10 +1122,6 @@
         "value": "sam.randeriya121@gmail.com"
       },
       {
-        "icon": "📱",
-        "value": "+91 909 9940 0550"
-      },
-      {
         "icon": "📍",
         "value": "Surat, Gujarat, India"
       }
@@ -1043,6 +1132,6 @@
         "href": "/privacy"
       }
     ],
-    "copyright": "Samir Randeriya. All rights reserved."
+    "copyright": "© 2026 Samir Randeriya. All rights reserved."
   }
 }

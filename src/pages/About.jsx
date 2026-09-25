@@ -5,6 +5,7 @@ import { parseBold } from '../utils/parseBold';
 import { SECTION_IDS, BACKGROUND_DARK } from '../constants';
 import { COLOR_MAP, QUALITY_ACCENTS } from '../constants/themes';
 import { QUALITY_ICON_MAP } from '../constants/icons';
+import { StatCard, STAT_META } from '../components/StatsCounter';
 
 function ProgressBar({ skill, index, animate }) {
   const colors = COLOR_MAP[skill.color] || COLOR_MAP.blue;
@@ -36,9 +37,9 @@ function ProgressBar({ skill, index, animate }) {
 const DESCRIPTION_LIMIT = 120;
 
 function QualityCard({ quality, index, inView }) {
-  const icon   = QUALITY_ICON_MAP[quality.icon];
+  const icon = QUALITY_ICON_MAP[quality.icon];
   const accent = QUALITY_ACCENTS[index % QUALITY_ACCENTS.length];
-  const desc   = quality.description || '';
+  const desc = quality.description || '';
   const needsToggle = desc.length > DESCRIPTION_LIMIT;
   const [expanded, setExpanded] = useState(false);
 
@@ -113,7 +114,7 @@ function QualityCard({ quality, index, inView }) {
                 Show less
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2.5}
                   style={{ width: '11px', height: '11px' }}>
-                  <path strokeLinecap="round" strokeLinejoin="round" d="M4.5 15.75l7.5-7.5 7.5 7.5"/>
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M4.5 15.75l7.5-7.5 7.5 7.5" />
                 </svg>
               </>
             ) : (
@@ -121,7 +122,7 @@ function QualityCard({ quality, index, inView }) {
                 Read more
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2.5}
                   style={{ width: '11px', height: '11px' }}>
-                  <path strokeLinecap="round" strokeLinejoin="round" d="M19.5 8.25l-7.5 7.5-7.5-7.5"/>
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M19.5 8.25l-7.5 7.5-7.5-7.5" />
                 </svg>
               </>
             )}
@@ -143,17 +144,16 @@ export default function About() {
   const { about, personal } = portfolioData;
 
   const [headerRef, headerInView] = useInView(0.2);
-  const [leftRef,   leftInView]   = useInView(0.2);
-  const [rightRef,  rightInView]  = useInView(0.2);
-  const [statsRef,  statsInView]  = useInView(0.15);
-  const [qualRef,   qualInView]   = useInView(0.15);
-  const [ctaRef,    ctaInView]    = useInView(0.2);
+  const [leftRef, leftInView] = useInView(0.2);
+  const [rightRef, rightInView] = useInView(0.2);
+  const [statsRef, statsInView] = useInView(0.15);
+  const [qualRef, qualInView] = useInView(0.15);
 
   return (
     <>
       <section
         id={SECTION_IDS.ABOUT}
-        className="relative py-28 overflow-hidden"
+        className="relative py-4 overflow-hidden"
         style={{ background: BACKGROUND_DARK }}
       >
         {/* Background */}
@@ -242,38 +242,15 @@ export default function About() {
           </div>
 
           {/* ── Stats row — full width, 4 columns desktop / 2×2 tablet / 1 col mobile ── */}
-          <div ref={statsRef} className="stats-grid mb-24">
+          <div ref={statsRef} className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5 mb-24">
             {about.personalStats.map((stat, i) => (
-              <div
+              <StatCard
                 key={stat.label}
-                className="stat-card rounded-xl border border-white/8 bg-white/3 px-6 py-5"
-                style={{
-                  opacity: statsInView ? 1 : 0,
-                  transform: statsInView ? 'translateY(0)' : 'translateY(20px)',
-                  transition: `opacity 0.55s ease ${0.1 + i * 0.09}s, transform 0.55s cubic-bezier(.22,1,.36,1) ${0.1 + i * 0.09}s`,
-                }}
-              >
-                {/* Subtle top accent */}
-                <div style={{
-                  height: '2px',
-                  width: '32px',
-                  borderRadius: '2px',
-                  marginBottom: '14px',
-                  background: `linear-gradient(to right, ${QUALITY_ACCENTS[i % 4]}, ${QUALITY_ACCENTS[(i + 1) % 4]})`,
-                }} />
-                <div
-                  className="text-3xl font-black leading-none mb-2"
-                  style={{
-                    background: `linear-gradient(135deg, ${QUALITY_ACCENTS[i % 4]}, ${QUALITY_ACCENTS[(i + 1) % 4]})`,
-                    WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', backgroundClip: 'text',
-                  }}
-                >
-                  {stat.number}
-                </div>
-                <div className="text-slate-500 text-xs font-medium uppercase tracking-wider">
-                  {stat.label}
-                </div>
-              </div>
+                stat={stat}
+                meta={STAT_META.find((m) => m.key === stat.key) || STAT_META[i] || STAT_META[0]}
+                index={i}
+                isVisible={statsInView}
+              />
             ))}
           </div>
 
@@ -307,46 +284,6 @@ export default function About() {
               ))}
             </div>
           </div>
-
-          {/* ── CTA Banner ── */}
-          <div
-            ref={ctaRef}
-            className="mt-16 relative rounded-3xl overflow-hidden p-10 sm:p-14 text-center"
-            style={{
-              background: 'linear-gradient(135deg, #1e3a5f 0%, #2d1b69 50%, #1e3a5f 100%)',
-              border: '1px solid rgba(255,255,255,0.1)',
-              opacity: ctaInView ? 1 : 0,
-              transform: ctaInView ? 'translateY(0)' : 'translateY(24px)',
-              transition: 'opacity 0.7s ease 0.1s, transform 0.7s cubic-bezier(.22,1,.36,1) 0.1s',
-            }}
-          >
-            <div className="absolute inset-0 pointer-events-none"
-              style={{ background: 'linear-gradient(135deg, rgba(56,189,248,0.12) 0%, rgba(129,140,248,0.18) 50%, rgba(244,114,182,0.1) 100%)' }} />
-            <div className="absolute top-0 left-1/2 -translate-x-1/2 w-64 h-64 rounded-full pointer-events-none"
-              style={{ background: 'radial-gradient(circle, rgba(129,140,248,0.3), transparent 70%)', filter: 'blur(40px)' }} />
-            <div className="relative z-10">
-              <h3 className="font-display text-2xl sm:text-3xl font-black text-white mb-3">
-                {about.cta.title}
-              </h3>
-              <p className="text-slate-300 mb-8 max-w-xl mx-auto text-base leading-relaxed">
-                {about.cta.description}
-              </p>
-              <div className="flex flex-col sm:flex-row gap-4 justify-center">
-                {about.cta.buttons.map((btn, i) => (
-                  <a
-                    key={i}
-                    href={btn.href}
-                    className={`inline-flex items-center justify-center px-8 py-3.5 rounded-full font-semibold text-sm ${
-                      btn.type === 'primary' ? 'cta-btn-primary' : 'cta-btn-secondary'
-                    }`}
-                  >
-                    {btn.text}
-                  </a>
-                ))}
-              </div>
-            </div>
-          </div>
-
         </div>
 
         <div className="absolute bottom-0 left-0 right-0 h-32 pointer-events-none"

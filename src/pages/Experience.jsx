@@ -34,14 +34,17 @@ function TimelineDot({ theme, active, icon }) {
 
       {/* Main dot */}
       <div
-        className="relative z-10 w-14 h-14 rounded-2xl flex items-center justify-center text-xl font-bold text-white shadow-xl transition-all duration-500"
+        className="absolute left-1/2 -translate-x-1/2 z-10 w-14 h-14 rounded-2xl flex items-center justify-center text-xl font-bold text-white shadow-xl transition-all duration-500"
         style={{
           background: `linear-gradient(135deg, ${theme.from}, ${theme.to})`,
           boxShadow: active
             ? `0 0 0 3px ${theme.from}55, 0 8px 32px ${theme.from}66`
             : `0 4px 16px ${theme.from}33`,
-          transform: active ? 'scale(1.12)' : 'scale(1)',
-          border: `2px solid ${active ? theme.from : 'rgba(255,255,255,0.1)'}`,
+          transform: active
+            ? 'translateX(-50%) scale(1.12)'
+            : 'translateX(-50%) scale(1)',
+          border: `2px solid ${active ? theme.from : 'rgba(255,255,255,0.1)'
+            }`,
         }}
       >
         {icon}
@@ -191,15 +194,14 @@ export default function Experience() {
   const experiences = experience.experiences;
 
   const [lineProgress, setLineProgress] = useState(0);   // 0–100 %
-  const [activeIndex,  setActiveIndex]  = useState(-1);
+  const [activeIndex, setActiveIndex] = useState(-1);
 
-  const sectionRef    = useRef(null);
-  const timelineRef   = useRef(null);
-  const dotRefs       = useRef([]);                       // one ref per experience
+  const sectionRef = useRef(null);
+  const timelineRef = useRef(null);
+  const dotRefs = useRef([]);                       // one ref per experience
 
   const [headerRef, headerInView] = useInView(0.2);
-  const [cardsRef,  cardsInView]  = useInView(0.05);
-  const [ctaRef,    ctaInView]    = useInView(0.2);
+  const [cardsRef, cardsInView] = useInView(0.05);
 
   // ── Scroll handler ──────────────────────────────────────────────────────────
   const handleScroll = useCallback(() => {
@@ -211,7 +213,7 @@ export default function Experience() {
 
     // progress: 0 when top of timeline hits bottom of viewport,
     //           1 when bottom of timeline hits top of viewport
-    const raw    = (vh - top) / (height + vh);
+    const raw = (vh - top) / (height + vh);
     const clamped = Math.min(1, Math.max(0, raw));
     setLineProgress(clamped * 100);
 
@@ -246,7 +248,7 @@ export default function Experience() {
       <section
         id={SECTION_IDS.EXPERIENCE}
         ref={sectionRef}
-        className="relative py-28 overflow-hidden"
+        className="relative py-24 overflow-hidden"
         style={{ background: BACKGROUND_DARK }}
       >
         {/* Background */}
@@ -354,17 +356,18 @@ export default function Experience() {
             <div ref={cardsRef} className="space-y-20 lg:space-y-24">
               {experiences.map((exp, index) => {
                 const isRight = index % 2 === 1;
-                const theme   = getTheme(index);
-                const active  = activeIndex === index;
+                const theme = getTheme(index);
+                const active = activeIndex === index;
 
                 return (
                   <div key={exp.id} className="relative flex items-center min-h-[80px]">
 
                     {/* ── Desktop layout: zig-zag ── */}
-                    <div className="hidden lg:flex w-full items-center">
+                    {/* ── Desktop layout: zig-zag ── */}
+                    <div className="hidden lg:grid w-full grid-cols-[5fr_2fr_5fr] items-center">
 
                       {/* Left card slot */}
-                      <div className="w-5/12">
+                      <div className="min-w-0">
                         {!isRight && (
                           <ExperienceCard
                             exp={exp}
@@ -376,12 +379,13 @@ export default function Experience() {
                         )}
                       </div>
 
-                      {/* Center dot */}
-                      <div className="w-2/12 flex justify-center relative z-10">
-                        {/* Connector left → dot */}
+                      {/* Center timeline column */}
+                      <div className="relative flex items-center justify-center h-full min-w-0">
+
+                        {/* Connector: left → center */}
                         {!isRight && (
                           <div
-                            className="connector right-1/2"
+                            className="connector absolute right-1/2"
                             style={{
                               background: `linear-gradient(to left, ${theme.from}88, transparent)`,
                               opacity: active ? 1 : 0.35,
@@ -390,14 +394,24 @@ export default function Experience() {
                           />
                         )}
 
-                        <div ref={el => dotRefs.current[index] = el}>
-                          <TimelineDot theme={theme} active={active} icon={exp.icon} />
+                        {/* Timeline dot */}
+                        <div
+                          ref={el => {
+                            dotRefs.current[index] = el;
+                          }}
+                          className="relative z-20 flex items-center justify-center"
+                        >
+                          <TimelineDot
+                            theme={theme}
+                            active={active}
+                            icon={exp.icon}
+                          />
                         </div>
 
-                        {/* Connector dot → right */}
+                        {/* Connector: center → right */}
                         {isRight && (
                           <div
-                            className="connector left-1/2"
+                            className="connector absolute left-1/2"
                             style={{
                               background: `linear-gradient(to right, ${theme.from}88, transparent)`,
                               opacity: active ? 1 : 0.35,
@@ -408,7 +422,7 @@ export default function Experience() {
                       </div>
 
                       {/* Right card slot */}
-                      <div className="w-5/12">
+                      <div className="min-w-0">
                         {isRight && (
                           <ExperienceCard
                             exp={exp}
@@ -419,6 +433,7 @@ export default function Experience() {
                           />
                         )}
                       </div>
+
                     </div>
 
                     {/* ── Mobile layout: left-line + full-width card ── */}
@@ -448,43 +463,6 @@ export default function Experience() {
               })}
             </div>
           </div>
-
-          {/* ── CTA ── */}
-          <div
-            ref={ctaRef}
-            className="mt-24 relative rounded-3xl overflow-hidden p-10 sm:p-14 text-center"
-            style={{
-              background: 'linear-gradient(135deg, #1a2744 0%, #0d3321 50%, #1a2744 100%)',
-              border: '1px solid rgba(255,255,255,0.1)',
-              opacity: ctaInView ? 1 : 0,
-              transform: ctaInView ? 'translateY(0)' : 'translateY(24px)',
-              transition: 'opacity 0.7s ease 0.1s, transform 0.7s cubic-bezier(.22,1,.36,1) 0.1s',
-            }}
-          >
-            <div
-              className="absolute inset-0 pointer-events-none"
-              style={{ background: 'linear-gradient(135deg, rgba(52,211,153,0.1), rgba(56,189,248,0.12), rgba(129,140,248,0.08))' }}
-            />
-            <div
-              className="absolute top-0 left-1/2 -translate-x-1/2 w-72 h-72 rounded-full pointer-events-none"
-              style={{ background: 'radial-gradient(circle, rgba(52,211,153,0.2), transparent 70%)', filter: 'blur(40px)' }}
-            />
-            <div className="relative z-10">
-              <h3 className="font-display text-2xl sm:text-3xl font-black text-white mb-3">
-                {experience.cta.title}
-              </h3>
-              <p className="text-slate-300 mb-8 max-w-xl mx-auto text-base leading-relaxed">
-                {experience.cta.description}
-              </p>
-              <button
-                onClick={() => document.getElementById(SECTION_IDS.CONTACT)?.scrollIntoView({ behavior: 'smooth' })}
-                className="cta-btn-primary inline-flex items-center justify-center px-8 py-3.5 rounded-full font-semibold text-sm"
-              >
-                <span>{experience.cta.buttonText}</span>
-              </button>
-            </div>
-          </div>
-
         </div>
 
         {/* Edge fade */}
