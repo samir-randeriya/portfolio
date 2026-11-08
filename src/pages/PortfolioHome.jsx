@@ -1,85 +1,48 @@
 import React, { lazy, Suspense } from 'react';
-
-// Critical components - loaded immediately
 import Navbar from '../components/Navbar';
 import Home from './Home';
 import ErrorBoundary from '../components/ErrorBoundary';
-import { BACKGROUND_DARK } from '../constants';
 
-// Non-critical components - lazy loaded
 const Footer = lazy(() => import('../components/Footer'));
-const SocialSidebar = lazy(() => import('../components/SocialSidebar'));
-const StatsCounter = lazy(() => import('../components/StatsCounter'));
-const Testimonials = lazy(() => import('../components/Testimonials'));
 const About = lazy(() => import('./About'));
-const Skills = lazy(() => import('./Skills'));
-const Projects = lazy(() => import('./Projects'));
-const Process = lazy(() => import('./Process'));
+const Services = lazy(() => import('./Services'));
 const Experience = lazy(() => import('./Experience'));
+const Projects = lazy(() => import('./Projects'));
+const Skills = lazy(() => import('./Skills'));
+const Process = lazy(() => import('./Process'));
+const Testimonials = lazy(() => import('./Testimonials'));
 const Contact = lazy(() => import('./Contact'));
 
-// Section loading fallback - matches portfolio dark theme (seamless, no breakdown)
 const SectionFallback = () => (
-  <div className="py-20 relative" style={{ background: BACKGROUND_DARK }}>
-    <div
-      className="absolute inset-0 pointer-events-none opacity-30"
-      style={{
-        backgroundImage: `
-          linear-gradient(rgba(255,255,255,0.03) 1px, transparent 1px),
-          linear-gradient(90deg, rgba(255,255,255,0.03) 1px, transparent 1px)
-        `,
-        backgroundSize: '60px 60px',
-      }}
-    />
-    <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-      <div className="animate-pulse space-y-8">
-        <div className="h-8 bg-white/10 rounded w-1/4 mx-auto" />
-        <div className="h-4 bg-white/5 rounded w-1/2 mx-auto" />
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mt-8">
-          {[...Array(3)].map((_, i) => (
-            <div key={i} className="h-48 bg-white/5 rounded-xl" />
-          ))}
-        </div>
+  <div className="section-block section-rule">
+    <div className="page-shell animate-pulse space-y-4">
+      <div className="h-3 w-24 bg-surface-2 rounded-sm" />
+      <div className="h-8 w-2/3 max-w-md bg-surface-2 rounded-sm" />
+      <div className="h-4 w-full max-w-xl bg-surface-2/60 rounded-sm" />
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 pt-4">
+        <div className="h-32 bg-surface rounded-lg border border-border" />
+        <div className="h-32 bg-surface rounded-lg border border-border" />
       </div>
     </div>
   </div>
 );
 
-/**
- * PortfolioHome - Main portfolio page with all sections
- * This is the homepage that shows all your portfolio content
- */
 const PortfolioHome = () => {
   return (
-    <div className="bg-white dark:bg-gray-900 text-gray-800 dark:text-white transition-all duration-300">
-      {/* Skip to Content Link */}
+    <div className="min-h-screen bg-bg text-ink relative">
+      <div className="fixed inset-0 dot-grid pointer-events-none opacity-40" aria-hidden />
+
       <a
         href="#main-content"
-        className="sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-4 focus:z-[100] focus:px-6 focus:py-3 focus:bg-blue-600 focus:text-white focus:rounded-lg focus:font-semibold focus:shadow-lg focus:outline-none focus:ring-4 focus:ring-blue-300 dark:focus:ring-blue-800 transition-all"
+        className="sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-4 focus:z-[100] focus:px-4 focus:py-2 focus:bg-accent focus:text-on-accent focus:rounded-md focus:font-mono focus:text-sm"
       >
         Skip to main content
       </a>
 
-      {/* Social Sidebar */}
-      <ErrorBoundary>
-        <Suspense fallback={null}>
-          <SocialSidebar />
-        </Suspense>
-      </ErrorBoundary>
-
-      {/* Navbar */}
       <Navbar />
 
-      <main id="main-content" role="main">
-        {/* Hero Section */}
+      <main id="main-content" role="main" className="relative z-10">
         <Home />
-
-        {/* All Portfolio Sections */}
-        <ErrorBoundary>
-          <Suspense fallback={<SectionFallback />}>
-            <StatsCounter />
-          </Suspense>
-        </ErrorBoundary>
 
         <ErrorBoundary>
           <Suspense fallback={<SectionFallback />}>
@@ -89,13 +52,25 @@ const PortfolioHome = () => {
 
         <ErrorBoundary>
           <Suspense fallback={<SectionFallback />}>
-            <Skills />
+            <Services />
+          </Suspense>
+        </ErrorBoundary>
+
+        <ErrorBoundary>
+          <Suspense fallback={<SectionFallback />}>
+            <Experience />
           </Suspense>
         </ErrorBoundary>
 
         <ErrorBoundary>
           <Suspense fallback={<SectionFallback />}>
             <Projects />
+          </Suspense>
+        </ErrorBoundary>
+
+        <ErrorBoundary>
+          <Suspense fallback={<SectionFallback />}>
+            <Skills />
           </Suspense>
         </ErrorBoundary>
 
@@ -113,21 +88,16 @@ const PortfolioHome = () => {
 
         <ErrorBoundary>
           <Suspense fallback={<SectionFallback />}>
-            <Experience />
-          </Suspense>
-        </ErrorBoundary>
-
-        <ErrorBoundary>
-          <Suspense fallback={<SectionFallback />}>
             <Contact />
           </Suspense>
         </ErrorBoundary>
       </main>
 
-      {/* Footer */}
       <ErrorBoundary>
         <Suspense fallback={null}>
-          <Footer />
+          <div className="relative z-10">
+            <Footer />
+          </div>
         </Suspense>
       </ErrorBoundary>
     </div>
@@ -135,4 +105,3 @@ const PortfolioHome = () => {
 };
 
 export default PortfolioHome;
-

@@ -1,554 +1,136 @@
-@import url('https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300&display=swap');
-
-.grid-subtle {
-  background-image:
-    linear-gradient(rgba(255, 255, 255, 0.02) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(255, 255, 255, 0.02) 1px, transparent 1px);
-  background-size: 60px 60px;
-}
-
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
-/* Smooth scroll behavior */
+:root {
+  --bg: #0a0a0a;
+  --surface: #111111;
+  --surface-2: #161616;
+  --border: #2e2e2e;
+  --border-strong: #2a2a2a;
+  --accent: #00ff88;
+  --accent-dim: rgba(0, 255, 136, 0.15);
+  --on-accent: #001a0e;
+  --text: #e5e5e5;
+  --text-bright: #ffffff;
+  --text-dim: #7a7a7a;
+  --text-faint: #555555;
+  --gutter: clamp(16px, 4vw, 40px);
+  --content-max: 72rem;
+  --font-sans: "Geist", "Inter", -apple-system, BlinkMacSystemFont, sans-serif;
+  --font-mono: "JetBrains Mono", ui-monospace, "SF Mono", Menlo, monospace;
+  --dot-base: rgba(255, 255, 255, 0.06);
+}
+
+html.light {
+  --bg: #fafaf7;
+  --surface: #ffffff;
+  --surface-2: #f4f4f0;
+  --border: #e5e3dd;
+  --border-strong: #d4d2cc;
+  --accent: #00a85a;
+  --accent-dim: rgba(0, 168, 90, 0.12);
+  --on-accent: #001a0e;
+  --text: #1a1a1a;
+  --text-bright: #000000;
+  --text-dim: #6b6b6b;
+  --text-faint: #b5b5b5;
+  --dot-base: rgba(0, 0, 0, 0.08);
+}
+
 html {
   scroll-behavior: smooth;
 }
 
-/* Base background - prevents white flash during route transitions */
 html,
 body,
 #root {
-  background-color: #060811;
+  background-color: var(--bg);
+  color: var(--text);
   min-height: 100%;
+  font-family: var(--font-sans);
 }
 
-/* Single seamless grid for entire portfolio - no section boundaries */
-.portfolio-grid {
-  background-image:
-    linear-gradient(rgba(255, 255, 255, 0.03) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
-  background-size: 60px 60px;
-}
-
-/* Reset cursor globally - ensure default cursor everywhere */
-*,
-*::before,
-*::after {
-  cursor: auto !important;
-}
-
-/* Override specific cursor styles for interactive elements */
-a,
-button,
-[role="button"],
-input[type="submit"],
-input[type="button"] {
-  cursor: pointer !important;
-}
-
-input,
-textarea,
-select {
-  cursor: text !important;
-}
-
-input[type="checkbox"],
-input[type="radio"] {
-  cursor: pointer !important;
-}
-
-/* Custom animations */
-@keyframes blob {
-  0% {
-    transform: translate(0px, 0px) scale(1);
-  }
-
-  33% {
-    transform: translate(30px, -50px) scale(1.1);
-  }
-
-  66% {
-    transform: translate(-20px, 20px) scale(0.9);
-  }
-
-  100% {
-    transform: translate(0px, 0px) scale(1);
-  }
-}
-
-@keyframes float {
-
-  0%,
-  100% {
-    transform: translateY(0px);
-  }
-
-  50% {
-    transform: translateY(-20px);
-  }
-}
-
-@keyframes fadeInUp {
-  from {
-    opacity: 0;
-    transform: translateY(30px);
-  }
-
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-@keyframes shimmer {
-  0% {
-    background-position: -200% 0;
-  }
-
-  100% {
-    background-position: 200% 0;
-  }
-}
-
-@keyframes glow {
-
-  0%,
-  100% {
-    box-shadow: 0 0 5px rgba(59, 130, 246, 0.5);
-  }
-
-  50% {
-    box-shadow: 0 0 20px rgba(59, 130, 246, 0.8);
-  }
-}
-
-/* Modern background utilities */
-.backdrop-blur-xs {
-  backdrop-filter: blur(2px);
-}
-
-.backdrop-blur-soft {
-  backdrop-filter: blur(4px);
-}
-
-/* Animation utility classes */
-.animate-blob {
-  animation: blob 7s infinite;
-}
-
-.animation-delay-2000 {
-  animation-delay: 2s;
-}
-
-.animation-delay-4000 {
-  animation-delay: 4s;
-}
-
-.animate-float {
-  animation: float 3s ease-in-out infinite;
-}
-
-.animate-fadeInUp {
-  animation: fadeInUp 0.6s ease-out forwards;
-}
-
-.animate-shimmer {
-  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.4), transparent);
-  background-size: 200% 100%;
-  animation: shimmer 2s infinite;
-}
-
-.animate-glow {
-  animation: glow 2s ease-in-out infinite alternate;
-}
-
-/* GPU acceleration and performance optimizations */
-.gpu-accelerated {
-  transform: translateZ(0);
-  will-change: transform;
-}
-
-/* Optimize scroll animations */
-@media (prefers-reduced-motion: reduce) {
-  * {
-    animation-duration: 0.01ms !important;
-    animation-iteration-count: 1 !important;
-    transition-duration: 0.01ms !important;
-  }
-
-  html {
-    scroll-behavior: auto;
-  }
-}
-
-/* Enhanced scroll performance */
 body {
-  -webkit-overflow-scrolling: touch;
-  scroll-behavior: smooth;
+  margin: 0;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  overflow-x: hidden;
 }
 
-/* Enhanced button styles */
-.btn-enhanced {
-  position: relative;
-  overflow: hidden;
-  transform: translateZ(0);
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-}
-
-.btn-enhanced:hover {
-  transform: translateY(-2px) scale(1.02);
-  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
-}
-
-.btn-enhanced:active {
-  transform: translateY(0) scale(0.98);
-}
-
-/* Card hover effects */
-.card-hover {
-  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-}
-
-.card-hover:hover {
-  transform: translateY(-8px) scale(1.02);
-  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
-}
-
-/* Custom scrollbar */
-::-webkit-scrollbar {
-  width: 8px;
-}
-
-::-webkit-scrollbar-track {
-  @apply bg-gray-100 dark:bg-gray-800;
-}
-
-::-webkit-scrollbar-thumb {
-  @apply bg-gray-400 dark:bg-gray-600 rounded-full;
-}
-
-::-webkit-scrollbar-thumb:hover {
-  @apply bg-gray-500 dark:bg-gray-500;
-}
-
-/* Selection styles */
 ::selection {
-  @apply bg-blue-100 text-blue-900;
+  background: var(--accent-dim);
+  color: var(--text-bright);
 }
 
-::-moz-selection {
-  @apply bg-blue-100 text-blue-900;
+/* Dot grid atmosphere, full bleed */
+.dot-grid {
+  background-image: radial-gradient(circle, var(--dot-base) 1px, transparent 1px);
+  background-size: 24px 24px;
 }
 
-/* Enhanced Focus Styles for Accessibility (WCAG 2.1 AA Compliant) */
-.focus-visible\:ring-custom:focus-visible {
-  @apply ring-2 ring-blue-500 ring-offset-2 ring-offset-white dark:ring-offset-gray-900;
+@layer components {
+  .page-shell {
+    @apply mx-auto w-full max-w-content;
+    padding-left: var(--gutter);
+    padding-right: var(--gutter);
+  }
+
+  .section-block {
+    @apply relative py-16 sm:py-20;
+  }
+
+  .section-rule {
+    @apply border-t border-border;
+  }
 }
 
-/* Smooth transitions for dark mode and bi-directional animations */
-* {
-  transition: background-color 0.3s ease, border-color 0.3s ease, color 0.3s ease;
-}
-
-/* Remove default browser focus outline only for mouse users */
-:focus:not(:focus-visible) {
-  outline: none;
-}
-
-/* Enhanced focus visibility for keyboard navigation - WCAG 2.1 Level AA */
-:focus-visible {
-  outline: 3px solid #3B82F6;
+/* Focus: links/buttons get a ring; fields use border (no double outline) */
+a:focus-visible,
+button:focus-visible {
+  outline: 2px solid var(--accent);
   outline-offset: 2px;
 }
 
-/* Dark mode focus styles */
-.dark :focus-visible {
-  outline-color: #60A5FA;
+input:focus,
+textarea:focus {
+  outline: none;
 }
 
-/* Skip to content link - only visible on focus */
-.sr-only {
-  position: absolute;
-  width: 1px;
-  height: 1px;
-  padding: 0;
-  margin: -1px;
-  overflow: hidden;
-  clip: rect(0, 0, 0, 0);
-  white-space: nowrap;
-  border-width: 0;
+input:focus-visible,
+textarea:focus-visible {
+  outline: none;
+  border-color: var(--accent);
+  box-shadow: 0 0 0 1px var(--accent);
 }
 
-/* Remove sr-only on focus */
-.focus\:not-sr-only:focus {
-  position: static;
-  width: auto;
-  height: auto;
-  padding: inherit;
-  margin: inherit;
-  overflow: visible;
-  clip: auto;
-  white-space: normal;
+/* Chat / borderless fields: ring the parent form instead */
+.field-shell:focus-within {
+  border-color: var(--accent);
+  box-shadow: 0 0 0 1px var(--accent);
 }
 
-/* High contrast mode support */
-@media (prefers-contrast: high) {
-  :focus-visible {
-    outline-width: 4px;
-  }
+.field-shell input:focus,
+.field-shell input:focus-visible,
+.field-shell textarea:focus,
+.field-shell textarea:focus-visible {
+  outline: none;
+  border-color: transparent;
+  box-shadow: none;
 }
 
-/* Mobile scroll optimization */
-@media (max-width: 768px) {
-  body {
-    -webkit-overflow-scrolling: touch;
-    overscroll-behavior: none;
-  }
+/* Scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
 }
-
-/* Intersection observer optimization */
-.scroll-animation-root {
-  contain: layout style paint;
+::-webkit-scrollbar-track {
+  background: var(--bg);
 }
-
-/* Enhanced Header Animations */
-@keyframes gradient-x {
-
-  0%,
-  100% {
-    background-size: 200% 200%;
-    background-position: left center;
-  }
-
-  50% {
-    background-size: 200% 200%;
-    background-position: right center;
-  }
+::-webkit-scrollbar-thumb {
+  background: var(--border);
+  border-radius: 4px;
 }
-
-@keyframes blink {
-
-  0%,
-  50% {
-    opacity: 1;
-  }
-
-  51%,
-  100% {
-    opacity: 0;
-  }
-}
-
-@keyframes fade-in {
-  from {
-    opacity: 0;
-    transform: translateY(20px);
-  }
-
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-@keyframes scroll-pointer {
-  0% {
-    transform: translate(-50%, 0);
-    opacity: 0;
-  }
-
-  10% {
-    opacity: 1;
-  }
-
-  90% {
-    opacity: 1;
-  }
-
-  100% {
-    transform: translate(-50%, 40px);
-    opacity: 0;
-  }
-}
-
-@keyframes scroll-pointer-smooth {
-  0% {
-    transform: translate(-50%, 0) scale(0.8);
-    opacity: 0;
-  }
-
-  15% {
-    opacity: 1;
-    transform: translate(-50%, 0) scale(1);
-  }
-
-  85% {
-    opacity: 1;
-    transform: translate(-50%, 56px) scale(1);
-  }
-
-  100% {
-    transform: translate(-50%, 64px) scale(0.8);
-    opacity: 0;
-  }
-}
-
-@keyframes scroll-pointer-trail {
-  0% {
-    transform: translate(-50%, 0) scale(0.6);
-    opacity: 0;
-  }
-
-  20% {
-    opacity: 0.6;
-    transform: translate(-50%, 4px) scale(0.8);
-  }
-
-  80% {
-    opacity: 0.4;
-    transform: translate(-50%, 52px) scale(0.8);
-  }
-
-  100% {
-    transform: translate(-50%, 60px) scale(0.6);
-    opacity: 0;
-  }
-}
-
-@keyframes scroll-dot-1 {
-
-  0%,
-  20% {
-    opacity: 0.3;
-    transform: translate(-50%, 0) scale(1);
-  }
-
-  10% {
-    opacity: 1;
-    transform: translate(-50%, 0) scale(1.5);
-  }
-
-  100% {
-    opacity: 0.3;
-    transform: translate(-50%, 0) scale(1);
-  }
-}
-
-@keyframes scroll-dot-2 {
-
-  0%,
-  30% {
-    opacity: 0.3;
-    transform: translate(-50%, 0) scale(1);
-  }
-
-  20% {
-    opacity: 1;
-    transform: translate(-50%, 0) scale(1.5);
-  }
-
-  100% {
-    opacity: 0.3;
-    transform: translate(-50%, 0) scale(1);
-  }
-}
-
-@keyframes scroll-dot-3 {
-
-  0%,
-  40% {
-    opacity: 0.3;
-    transform: translate(-50%, 0) scale(1);
-  }
-
-  30% {
-    opacity: 1;
-    transform: translate(-50%, 0) scale(1.5);
-  }
-
-  100% {
-    opacity: 0.3;
-    transform: translate(-50%, 0) scale(1);
-  }
-}
-
-@keyframes scroll-dot-4 {
-
-  0%,
-  50% {
-    opacity: 0.3;
-    transform: translate(-50%, 0) scale(1);
-  }
-
-  40% {
-    opacity: 1;
-    transform: translate(-50%, 0) scale(1.5);
-  }
-
-  100% {
-    opacity: 0.3;
-    transform: translate(-50%, 0) scale(1);
-  }
-}
-
-@keyframes bounce-slow {
-
-  0%,
-  100% {
-    transform: translate(-50%, 0);
-  }
-
-  50% {
-    transform: translate(-50%, -4px);
-  }
-}
-
-.animate-gradient-x {
-  animation: gradient-x 3s ease infinite;
-}
-
-.animate-blink {
-  animation: blink 1s infinite;
-}
-
-.animate-fade-in {
-  animation: fade-in 1s ease-out;
-}
-
-.animate-scroll-pointer {
-  animation: scroll-pointer 2s ease-in-out infinite;
-}
-
-.animate-scroll-pointer-smooth {
-  animation: scroll-pointer-smooth 3s ease-in-out infinite;
-}
-
-.animate-scroll-pointer-trail {
-  animation: scroll-pointer-trail 3s ease-in-out infinite 0.2s;
-}
-
-.animate-scroll-dot-1 {
-  animation: scroll-dot-1 3s ease-in-out infinite;
-}
-
-.animate-scroll-dot-2 {
-  animation: scroll-dot-2 3s ease-in-out infinite;
-}
-
-.animate-scroll-dot-3 {
-  animation: scroll-dot-3 3s ease-in-out infinite;
-}
-
-.animate-scroll-dot-4 {
-  animation: scroll-dot-4 3s ease-in-out infinite;
-}
-
-.animate-bounce-slow {
-  animation: bounce-slow 2s ease-in-out infinite;
-}
-
-.bg-300 {
-  background-size: 300% 300%;
+::-webkit-scrollbar-thumb:hover {
+  background: var(--text-dim);
 }

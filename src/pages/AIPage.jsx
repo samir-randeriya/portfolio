@@ -1,239 +1,151 @@
-import { useState, useEffect, useRef, useCallback } from 'react';
-import MessageList from '../components/ai/MessageList';
-import InputBar    from '../components/ai/InputBar';
-import {
-  getInitialMessage,
-  getAIResponse,
-  resetConversationState,
-} from '../data/aiResponses';
+import React, { useEffect, useRef, useState } from 'react';
+import { Link } from 'react-router-dom';
+import { getAIResponse, getInitialMessage, resetConversationState } from '../data/aiResponses';
+import { parseBold } from '../utils/parseBold';
 import portfolioData from '../data/portfolioContent.json';
-import '../styles/ai.css';
+import { Button, PageShell } from '../components/ui';
+import DarkModeToggle from '../components/DarkModeToggle';
 
-const { personal, navigation } = portfolioData;
+export default function AIPage() {
+  const { personal, navigation, hero } = portfolioData;
+  const [messages, setMessages] = useState([]);
+  const [input, setInput] = useState('');
+  const [busy, setBusy] = useState(false);
+  const listRef = useRef(null);
 
-// ─── Background — pixel-perfect copy of Home.jsx layers ───────────────────────
-// Same grid, same orbs (top-left cyan, bottom-right violet, mid-right pink)
-function AIBackground() {
-  return (
-    <div className="ai-bg-layer">
-      <div className="ai-bg-grid" />
-      <div className="ai-bg-noise" />
-      <div className="ai-bg-orb ai-bg-orb-1" />
-      <div className="ai-bg-orb ai-bg-orb-2" />
-      <div className="ai-bg-orb ai-bg-orb-3" />
-    </div>
-  );
-}
+  useEffect(() => {
+    resetConversationState();
+    setMessages([getInitialMessage()]);
+  }, []);
 
-// ─── Navbar — mirrors Navbar.jsx exactly ──────────────────────────────────────
-function AINavbar() {
-  const navigate = (href) => {
-    if (href === '#chat') return;
-    sessionStorage.setItem('ai_scrollTo', href.replace('#', ''));
-    window.location.href = '/';
+  useEffect(() => {
+    listRef.current?.scrollTo({ top: listRef.current.scrollHeight, behavior: 'smooth' });
+  }, [messages, busy]);
+
+  const send = async (text) => {
+    const trimmed = (text || '').trim();
+    if (!trimmed || busy) return;
+    const userMsg = { id: `u_${Date.now()}`, type: 'user', content: trimmed };
+    setMessages((prev) => [...prev, userMsg]);
+    setInput('');
+    setBusy(true);
+    try {
+      const reply = await getAIResponse(trimmed);
+      setMessages((prev) => [...prev, reply]);
+    } catch {
+      setMessages((prev) => [
+        ...prev,
+        {
+          id: `e_${Date.now()}`,
+          type: 'assistant',
+          content: `Couldn’t answer that. Email ${personal.email} instead.`,
+        },
+      ]);
+    } finally {
+      setBusy(false);
+    }
   };
 
   return (
-    <div className="ai-navbar-slot">
-      <div className="ai-navbar-inner">
+    <div className="min-h-screen bg-bg text-ink relative">
+      <div className="fixed inset-0 dot-grid opacity-40 pointer-events-none" aria-hidden />
 
-        {/* Brand */}
-        <button className="ai-navbar-brand" onClick={() => (window.location.href = '/')}>
-          <div className="ai-navbar-avatar">{personal.initials}</div>
-          <div className="ai-navbar-brand-text">
-            <div className="ai-navbar-name">{personal.name}</div>
-            <div className="ai-navbar-subtitle">{personal.title}</div>
+      <header className="sticky top-0 z-20 border-b border-border bg-bg/90 backdrop-blur-md">
+        <PageShell className="flex items-center justify-between h-14 sm:h-16">
+          <Link
+            to="/"
+            className="font-mono text-[15px] font-semibold text-ink-bright inline-flex items-center gap-2"
+          >
+            <span className="w-1.5 h-1.5 rounded-full bg-accent" aria-hidden />
+            {navigation.brand.name}
+            <span className="text-ink-dim">{navigation.brand.tld || '.dev'}</span>
+          </Link>
+          <div className="flex items-center gap-2">
+            <DarkModeToggle />
+            <Button as={Link} to="/" variant="secondary" className="min-h-[36px] text-xs py-2">
+              $ cd ~
+            </Button>
           </div>
-        </button>
+        </PageShell>
+      </header>
 
-        {/* Nav items */}
-        <nav className="ai-navbar-nav">
-          {navigation.menuItems.map((item) => (
-            <button
-              key={item.name}
-              className={`ai-nav-btn${item.name === 'AI Chat' ? ' active' : ''}`}
-              onClick={() => navigate(item.href)}
-            >
-              {item.name}
-            </button>
-          ))}
-        </nav>
+      <PageShell className="relative z-10 py-8 sm:py-12">
+        <div className="mx-auto max-w-3xl">
+          <p className="font-mono text-xs text-ink-dim mb-2">~/ask-me.sh</p>
+          <h1 className="text-title font-semibold text-ink-bright mb-2">
+            Ask about the work
+          </h1>
+          <p className="text-sm text-ink-dim mb-8 max-w-xl">
+            Quick answers from the portfolio: stack, projects, experience, and contact.
+          </p>
 
-      </div>
-    </div>
-  );
-}
-
-// ─── Chat header ──────────────────────────────────────────────────────────────
-function ChatHeader({ msgCount }) {
-  return (
-    <div className="ai-chat-header">
-      <div className="ai-chat-header-left">
-        <div className="ai-bot-avatar">
-          🤖
-          <span className="ai-bot-avatar-dot" />
-        </div>
-        <div>
-          <div className="ai-bot-name">Samir's AI Assistant</div>
-          <div className="ai-bot-status">● Online · Powered by Claude AI</div>
-        </div>
-      </div>
-
-      <div className="ai-chat-header-right">
-        <div className="ai-header-badge">
-          <svg viewBox="0 0 20 20" fill="currentColor" style={{ width: 11, height: 11 }}>
-            <path d="M2 5a2 2 0 012-2h7a2 2 0 012 2v4a2 2 0 01-2 2H9l-3 3v-3H4a2 2 0 01-2-2V5z" />
-            <path d="M15 7v2a4 4 0 01-4 4H9.828l-1.766 1.767c.28.149.599.233.938.233h2l3 3v-3h2a2 2 0 002-2V9a2 2 0 00-2-2h-1z" />
-          </svg>
-          {msgCount} messages
-        </div>
-        <div className="ai-header-badge">
-          <span style={{
-            width: 7, height: 7, borderRadius: '50%',
-            background: '#34d399', display: 'inline-block',
-            boxShadow: '0 0 6px #34d399',
-          }} />
-          Available for hire
-        </div>
-      </div>
-    </div>
-  );
-}
-
-// ─── Main AIPage ──────────────────────────────────────────────────────────────
-export default function AIPage() {
-  const [messages,   setMessages]   = useState(() => [getInitialMessage()]);
-  const [isTyping,   setIsTyping]   = useState(false);
-  const [isFarewell, setIsFarewell] = useState(false);
-  const [error,      setError]      = useState(null);
-
-  const historyRef = useRef([]);
-
-  // Lock body scroll while AI page is open
-  useEffect(() => {
-    const prev = {
-      overflow: document.body.style.overflow,
-      position: document.body.style.position,
-      width:    document.body.style.width,
-    };
-    document.body.style.overflow = 'hidden';
-    document.body.style.position = 'fixed';
-    document.body.style.width    = '100%';
-
-    return () => {
-      document.body.style.overflow = prev.overflow;
-      document.body.style.position = prev.position;
-      document.body.style.width    = prev.width;
-      resetConversationState();
-    };
-  }, []);
-
-  // Scroll-to-section after navigating back to home
-  useEffect(() => {
-    const target = sessionStorage.getItem('ai_scrollTo');
-    if (target) {
-      sessionStorage.removeItem('ai_scrollTo');
-      setTimeout(() => {
-        document.getElementById(target)?.scrollIntoView({ behavior: 'smooth' });
-      }, 400);
-    }
-  }, []);
-
-  const handleSend = useCallback(async (content) => {
-    if (isFarewell || isTyping) return;
-    setError(null);
-
-    const userMsg = {
-      id: `u_${Date.now()}`,
-      type: 'user',
-      content,
-      timestamp: new Date(),
-    };
-    setMessages(prev => [...prev, userMsg]);
-
-    const historySnapshot = [...historyRef.current];
-    historyRef.current    = [...historyRef.current, { type: 'user', content }];
-    setIsTyping(true);
-
-    try {
-      const reply = await getAIResponse(content, historySnapshot);
-      historyRef.current = [...historyRef.current, { type: 'assistant', content: reply.content }];
-      setMessages(prev => [...prev, reply]);
-      if (reply.isFarewell) setIsFarewell(true);
-    } catch (err) {
-      console.error('[AIPage]', err);
-      const fallback = {
-        id:            `err_${Date.now()}`,
-        type:          'assistant',
-        content:       `Something went wrong. Reach Samir directly:\n\n• **Email:** ${personal.email}\n• **LinkedIn:** ${personal.linkedin}`,
-        timestamp:     new Date(),
-        infoCollected: null,
-        isFarewell:    false,
-      };
-      setMessages(prev => [...prev, fallback]);
-      setError('Could not fetch response — try again.');
-      historyRef.current = historyRef.current.slice(0, -1);
-    } finally {
-      setIsTyping(false);
-    }
-  }, [isFarewell, isTyping]);
-
-  const showSuggestions = messages.length <= 1 && !isTyping;
-
-  return (
-    <div className="ai-page-shell">
-
-      {/* Background — identical to Home */}
-      <AIBackground />
-
-      {/* Navbar */}
-      <AINavbar />
-
-      {/* Chat */}
-      <div className="ai-main-content">
-        <div className="ai-chat-surface">
-
-          <ChatHeader msgCount={messages.length} />
-
-          <MessageList
-            messages={messages}
-            isTyping={isTyping}
-            resumeUrl={personal.resumeUrl}
-          />
-
-          {error && (
-            <div className="ai-error-banner">⚠️ {error}</div>
-          )}
-
-          {isFarewell && (
-            <div className="ai-farewell-banner">
-              👋 Conversation ended.{' '}
-              <a href={`mailto:${personal.email}`}>Email Samir</a>
-              {' '}or{' '}
-              <button
-                onClick={() => window.location.reload()}
-                style={{
-                  background: 'none', border: 'none', padding: 0,
-                  color: 'var(--ai-cyan)', cursor: 'pointer',
-                  font: 'inherit', textDecoration: 'underline',
-                }}
-              >
-                start a new chat
-              </button>.
+          <div className="bg-surface border border-border rounded-lg p-4 sm:p-5 flex flex-col min-h-[60vh]">
+            <div className="flex items-center justify-between mb-4 pb-3 border-b border-border">
+              <span className="font-mono text-xs text-ink-dim">session</span>
+              <span className="font-mono text-[11px] text-accent flex items-center gap-1.5">
+                <span className="w-1.5 h-1.5 rounded-full bg-accent" aria-hidden />
+                ready
+              </span>
             </div>
-          )}
 
-          {!isFarewell && (
-            <InputBar
-              onSend={handleSend}
-              disabled={isTyping}
-              showSuggestions={showSuggestions}
-            />
-          )}
+            <div ref={listRef} className="flex-1 overflow-y-auto space-y-4 mb-4 pr-1">
+              {messages.map((m) => (
+                <div
+                  key={m.id}
+                  className={`text-sm leading-relaxed ${
+                    m.type === 'user' ? 'text-ink-bright' : 'text-ink-dim'
+                  }`}
+                >
+                  <span className="font-mono text-[11px] text-ink-faint mr-2">
+                    {m.type === 'user' ? '>' : '//'}
+                  </span>
+                  <span className="whitespace-pre-wrap">{parseBold(m.content)}</span>
+                </div>
+              ))}
+              {busy && <p className="font-mono text-xs text-ink-faint">…</p>}
+            </div>
 
+            {(hero.chatPrompts || []).length > 0 && messages.length < 3 && (
+              <div className="flex flex-wrap gap-2 mb-3">
+                {hero.chatPrompts.map((p) => (
+                  <button
+                    key={p}
+                    type="button"
+                    disabled={busy}
+                    onClick={() => send(p)}
+                    className="font-mono text-[11px] px-2.5 py-1.5 rounded-sm border border-border text-ink-dim hover:text-accent hover:border-accent/40 min-h-[36px]"
+                  >
+                    {p}
+                  </button>
+                ))}
+              </div>
+            )}
+
+            <form
+              className="field-shell flex items-center gap-2 border border-border-strong rounded-md bg-bg px-3 py-2 transition-[border-color,box-shadow]"
+              onSubmit={(e) => {
+                e.preventDefault();
+                send(input);
+              }}
+            >
+              <input
+                value={input}
+                onChange={(e) => setInput(e.target.value)}
+                placeholder="ask about stack, projects, contact…"
+                className="flex-1 min-w-0 bg-transparent border-0 shadow-none outline-none text-sm text-ink-bright placeholder:text-ink-faint"
+                disabled={busy}
+              />
+              <button
+                type="submit"
+                disabled={busy || !input.trim()}
+                className="font-mono text-xs text-accent disabled:text-ink-faint min-h-[36px] px-2"
+              >
+                send ↵
+              </button>
+            </form>
+          </div>
         </div>
-      </div>
-
+      </PageShell>
     </div>
   );
 }
