@@ -1,4 +1,4 @@
-# Samir Randeriya — Portfolio
+# Samir Randeriya Portfolio
 
 Personal portfolio website built with React.js and Tailwind CSS.
 
@@ -6,7 +6,7 @@ Personal portfolio website built with React.js and Tailwind CSS.
 
 - React.js (Create React App)
 - Tailwind CSS
-- Framer Motion
+- React Router
 - EmailJS
 
 ## Getting Started
@@ -39,6 +39,6 @@ Deployed on Netlify/Vercel. Build command: `npm run build`, publish directory: `
 
 ## Contact
 
-**Email** — sam.randeriya121@gmail.com  
-**LinkedIn** — [samir-randeriya](https://linkedin.com/in/samir-randeriya-578a17185/)  
-**GitHub** — [@samir-randeriya](https://github.com/samir-randeriya)
+**Email:** sam.randeriya121@gmail.com  
+**LinkedIn:** [samir-randeriya](https://linkedin.com/in/samir-randeriya/)  
+**GitHub:** [@samir-randeriya](https://github.com/samir-randeriya)

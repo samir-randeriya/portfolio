@@ -1,83 +1,46 @@
-import { useState, useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 
-export default function DarkModeToggle() {
-  const [isDark, setIsDark] = useState(false);
-  const [isAnimating, setIsAnimating] = useState(false);
+export default function DarkModeToggle({ className = '' }) {
+  const [dark, setDark] = useState(true);
 
   useEffect(() => {
-    // Check for saved theme preference or default to light mode
-    const savedTheme = localStorage.getItem('theme');
-    const systemPrefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-    
-    if (savedTheme === 'dark' || (!savedTheme && systemPrefersDark)) {
-      setIsDark(true);
-      document.documentElement.classList.add('dark');
-    } else {
-      setIsDark(false);
-      document.documentElement.classList.remove('dark');
-    }
+    const stored = localStorage.getItem('theme');
+    const isDark = stored !== 'light';
+    setDark(isDark);
+    document.documentElement.classList.toggle('dark', isDark);
+    document.documentElement.classList.toggle('light', !isDark);
   }, []);
 
-  const toggleDark = () => {
-    setIsAnimating(true);
-    const newDarkState = !isDark;
-    setIsDark(newDarkState);
-    
-    if (newDarkState) {
-      document.documentElement.classList.add('dark');
-      localStorage.setItem('theme', 'dark');
-    } else {
-      document.documentElement.classList.remove('dark');
-      localStorage.setItem('theme', 'light');
-    }
-
-    // Reset animation state
-    setTimeout(() => setIsAnimating(false), 600);
+  const toggle = () => {
+    const next = !dark;
+    setDark(next);
+    document.documentElement.classList.toggle('dark', next);
+    document.documentElement.classList.toggle('light', !next);
+    localStorage.setItem('theme', next ? 'dark' : 'light');
   };
 
   return (
     <button
-      onClick={toggleDark}
-      className="group relative p-3 rounded-full bg-gray-200 dark:bg-gray-700 hover:bg-gray-300 dark:hover:bg-gray-600 transition-all duration-300 transform hover:scale-110 active:scale-95 shadow-lg hover:shadow-xl"
-      aria-label="Toggle Dark Mode"
+      type="button"
+      onClick={toggle}
+      aria-label={dark ? 'Switch to light theme' : 'Switch to dark theme'}
+      className={`
+        flex items-center justify-center w-9 h-9 p-0
+        border border-border rounded-md
+        text-ink-dim hover:text-ink-bright hover:bg-surface-2
+        transition-colors
+        ${className}
+      `.trim()}
     >
-      {/* Background glow effect */}
-      <div className="absolute inset-0 rounded-full bg-gradient-to-r from-yellow-400 to-orange-500 dark:from-blue-400 dark:to-purple-500 opacity-0 group-hover:opacity-20 transition-opacity duration-300"></div>
-      
-      {/* Icon container with rotation */}
-      <div className={`relative transition-transform duration-500 ${isAnimating ? 'animate-spin' : ''}`}>
-        {isDark ? (
-          <svg 
-            className="w-5 h-5 text-yellow-400 transition-all duration-300 transform group-hover:scale-110" 
-            fill="currentColor" 
-            viewBox="0 0 20 20"
-          >
-            <path 
-              fillRule="evenodd" 
-              d="M10 2a1 1 0 011 1v1a1 1 0 11-2 0V3a1 1 0 011-1zm4 8a4 4 0 11-8 0 4 4 0 018 0zm-.464 4.95l.707.707a1 1 0 001.414-1.414l-.707-.707a1 1 0 00-1.414 1.414zm2.12-10.607a1 1 0 010 1.414l-.706.707a1 1 0 11-1.414-1.414l.707-.707a1 1 0 011.414 0zM17 11a1 1 0 100-2h-1a1 1 0 100 2h1zm-7 4a1 1 0 011 1v1a1 1 0 11-2 0v-1a1 1 0 011-1zM5.05 6.464A1 1 0 106.465 5.05l-.708-.707a1 1 0 00-1.414 1.414l.707.707zm1.414 8.486l-.707.707a1 1 0 01-1.414-1.414l.707-.707a1 1 0 011.414 1.414zM4 11a1 1 0 100-2H3a1 1 0 000 2h1z" 
-              clipRule="evenodd" 
-            />
-            {/* Sun rays animation */}
-            <g className="animate-pulse">
-              <circle cx="10" cy="10" r="2" fill="currentColor" opacity="0.6"/>
-            </g>
-          </svg>
-        ) : (
-          <svg 
-            className="w-5 h-5 text-gray-700 dark:text-gray-300 transition-all duration-300 transform group-hover:scale-110" 
-            fill="currentColor" 
-            viewBox="0 0 20 20"
-          >
-            <path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z" />
-            {/* Moon phases animation */}
-            <circle cx="13" cy="7" r="1" fill="currentColor" opacity="0.4" className="animate-ping"/>
-          </svg>
-        )}
-      </div>
-
-      {/* Ripple effect on click */}
-      {isAnimating && (
-        <div className="absolute inset-0 rounded-full border-2 border-blue-400 animate-ping"></div>
+      {dark ? (
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden>
+          <circle cx="12" cy="12" r="4" />
+          <path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41" />
+        </svg>
+      ) : (
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden>
+          <path d="M21 14.5A8.5 8.5 0 1 1 9.5 3a7 7 0 0 0 11.5 11.5z" />
+        </svg>
       )}
     </button>
   );
